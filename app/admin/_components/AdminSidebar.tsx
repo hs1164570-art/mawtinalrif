@@ -18,6 +18,7 @@ import {
   LogOut,
   DollarSign,
   BarChart3,
+  Bell,
 } from "lucide-react";
 
 const NAV_ITEMS = [
@@ -26,6 +27,8 @@ const NAV_ITEMS = [
   { href: "/admin/categories", label: "الفئات", icon: FolderTree },
   { href: "/admin/orders", label: "الطلبات", icon: ShoppingBag },
   { href: "/admin/users", label: "المستخدمون", icon: Users },
+  { href: "/admin/announcement-bar", label: "الاشعارات والعروض ", icon: Bell },
+
   {
     label: "الإحصائيات",
     icon: BarChart3,
@@ -34,12 +37,12 @@ const NAV_ITEMS = [
       { href: "/admin/statistics/finance", label: "المالية", icon: DollarSign },
       {
         href: "/admin/statistics/orders",
-        label: "طلبات الإحصائيات",
+        label: "الطلبات ",
         icon: ShoppingBag,
       },
       {
         href: "/admin/statistics/products",
-        label: "إحصائيات المنتجات",
+        label: "المنتجات",
         icon: Package,
       },
     ],

@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Search, Bell, Menu } from "lucide-react";
+import { Search, Menu } from "lucide-react";
 
 const ROUTE_LABELS: Record<string, string> = {
   "/admin": "الرئيسية",
@@ -58,14 +58,6 @@ export function AdminHeader() {
       </button>
 
       {/* ─── Notifications ────────────────────────────────────── */}
-      <button
-        className="w-10 h-10 rounded-[10px] border-[1.5px] border-[#EDE5D8] bg-[#FAF7F2] cursor-pointer flex items-center justify-center relative text-[#6B4C3B] transition-all duration-150 hover:border-[#B89A5A] hover:bg-[#FBF6EC]"
-        aria-label="الإشعارات"
-      >
-        <Bell size={17} />
-        {/* Notification dot */}
-        <span className="absolute top-2 right-2 w-[7px] h-[7px] rounded-full bg-[#C4614A] border-2 border-[#FAF7F2]" />
-      </button>
 
       {/* ─── Admin avatar ─────────────────────────────────────── */}
       <div

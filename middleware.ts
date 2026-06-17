@@ -50,9 +50,15 @@ export default async function middleware(
   }
 
   // --- 🔑 جلب والتحقق من التوكن (Next-Auth) ---
+  // ملاحظة مهمة: لازم نمرر secureCookie صريح لأن الـ auto-detection
+  // بتاعة next-auth بتفشل أحياناً في edge runtime على فيرسل وتدور على
+  // اسم كوكي غلط (authjs.session-token بدل __Secure-authjs.session-token)
+  const isProduction = process.env.NODE_ENV === "production";
+
   const token = await getToken({
     req,
     secret: process.env.AUTH_SECRET,
+    secureCookie: isProduction,
   });
 
   const isLoggedIn = !!token;
