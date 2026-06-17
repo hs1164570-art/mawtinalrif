@@ -1,0 +1,367 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  // runtime  = "vercel-edge"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+// enums
+enum Role { 
+  USER
+  ADMIN
+}
+enum UserStatus {
+ACTIVE
+BANNED
+}
+enum typeSender {
+  USER
+  BOT
+}
+
+enum OrderStatus {
+PENDING_PAYMENT
+PROCESSING
+SHIPPED
+DELIVERED
+CANCELLED
+REFUNDED
+}
+
+enum PaymentMethod {
+  PAYPAL
+
+}
+
+enum AnalyticType {
+  USERS
+  ORDERS
+  REVENUE
+  NET_PROFIT
+  VIEWS
+  
+}
+
+enum AnalyticsType {
+  CART
+  PURCHASE
+  VIEW
+}
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String  @map("user_id")
+  type               String
+  provider           String
+  providerAccountId  String  @map("provider_account_id")
+  refresh_token      String? @db.Text
+  access_token       String? @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String? @db.Text
+  session_state      String?
+  role        Role @default(USER)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+ 
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+ 
+
+model User {
+  id            String    @id @default(cuid())
+  name          String? @unique
+  email         String?   @unique
+  emailVerified DateTime? @map("email_verified")
+  password      String?
+  role        Role @default(USER)
+  image         String?
+  country  String @default("unKnown")
+  status UserStatus @default(ACTIVE)
+  accounts      Account[]
+  favorite Favorite[]
+  cart Cart[]
+  order Order[]
+  usedCoupons UserCoupon[] 
+  chatBotMessage chatBotMessage[]
+  comments      Comment[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  mediatorAT  DateTime @default(now())
+  @@map("users")
+  @@index([status])
+}
+
+
+model verificationToken {
+  id String @id @default(cuid())
+  email String
+  token String @unique
+  expires DateTime
+
+  @@unique([email,token])
+}
+
+model forgetPassword {
+  id String @id @default(cuid())
+  email String
+  token String @unique
+  expires DateTime
+
+  @@unique([email,token])
+  @@index([token])
+}
+
+model chatBotMessage {
+  id          String   @id @default(cuid())
+  message String
+  userId String
+  user User @relation(fields: [userId],references: [id],onDelete: Cascade)
+  sender typeSender 
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  @@index([userId,createdAt])
+}
+
+model Announcement {
+  id              String   @id @default(cuid())
+  title           String
+  url             String?
+  backgroundColor String   @default("#c9ba89")
+  textColor       String   @default("rgba(27, 26, 26, 1)")  
+  isActive        Boolean  @default(true)                   
+  showCount       Int      @default(1)                       // ← fix missing default
+  priority        Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([priority(sort: Desc), createdAt(sort: Desc)])
+  @@index([isActive(sort: Desc), createdAt(sort: Desc)])
+}
+
+// لازم اي منتج اعملو لازم اكتب هو يندرج تحت اي قسم 
+
+// catagory & subCategory
+// شوف الفهرسه هنا ضروري لان هنا علاقه ذاتيه
+model Category {
+  id        String     @id @default(cuid())
+  name      String
+  slug         String      @unique
+  image String?
+  parentId  String?
+  parent    Category?  @relation(name: "SubCategory", fields: [parentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  children  Category[] @relation(name: "SubCategory")
+  products  Product[]
+  
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  @@index([parentId])
+  @@index([name])
+}
+
+model Product {
+  id           String      @id @default(cuid())
+  name         String
+  description  String?
+  price        Int
+  costPrice   Int               // to clac  NEt profit
+  image        String
+  gallery      String[]
+  rating       Int         @default(5)
+  inStock      Boolean     @default(true)
+  countStock   Int
+  discount     Int?        @default(0)
+  slug         String      @unique
+  subCategoryId   String
+  category     Category    @relation(fields: [subCategoryId], references: [id],onDelete: Cascade, onUpdate: Cascade)
+  // العلاقات الأخرى
+  comments      Comment[]
+  favorite     Favorite[]
+  cart         Cart[]
+  orderItem    OrderItem[]
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  @@index([subCategoryId, createdAt(sort: Desc)])
+}
+model Comment {
+  id        String   @id @default(cuid())
+  content   String
+  rating    Int
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([productId,createdAt(sort: Desc)])
+  @@index([id,userId])
+  @@index([rating,createdAt(sort: Desc)])
+}
+model Order {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  orderItems OrderItem[] 
+  // totalAmount Int
+  totalPrice Int
+  totalCostPrice Int
+  phoneNumber   String
+  country String
+  region String
+  street String?
+  paymentMethod PaymentMethod @default(PAYPAL)
+    paypalOrderId  String?        
+  coupon String?     
+  status      OrderStatus @default(PENDING_PAYMENT) 
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  @@index([userId]) 
+  @@index([status])
+  @@index([status,createdAt(sort: Desc)])
+}
+
+model OrderItem {
+  id        String   @id @default(cuid())
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  
+  quantity  Int      // الكمية من المنتج ده في الطلب ده
+  price     Int      // السعر وقت الشراء (عشان لو السعر اتغير في جدول المنتج ميتغيرش هنا)
+
+  @@index([orderId])
+  @@index([productId])
+}
+
+model Coupon {
+  id            String      @id @default(cuid())
+  code          String      @unique
+  discount      Int         // قيمة الخصم (سواء رقم ثابت أو نسبة)
+  isPercentage  Boolean     @default(true)
+  expiryDate    DateTime
+  usageLimit    Int         @default(1000) // أقصى عدد مرات استخدام للكود ككل
+  usedCount     Int         @default(0)
+  active        Boolean     @default(true)
+  // العلاقة مع الجدول الوسيط
+  usedBy        UserCoupon[] 
+@@index([code])
+}
+
+model UserCoupon {
+  id            String      @id @default(cuid())
+  userId String
+  user User @relation(fields: [userId], references: [id])
+  couponCode String
+  coupon Coupon @relation(fields: [couponCode], references: [code])
+  @@unique([userId,couponCode])
+}
+
+
+
+model Favorite {
+  id          String   @id @default(cuid())
+  user User @relation(fields: [userId],references: [id],onDelete: Cascade)
+  userId String
+  
+  product Product @relation(fields: [productId],references: [id],onDelete: Cascade)
+  productId String
+ createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+@@unique([userId,productId])
+@@index([userId])
+@@index([productId])
+}
+
+model Cart {
+  id          String   @id @default(cuid())
+  quantity  Int
+  user User @relation(fields: [userId],references: [id],onDelete: Cascade)
+  userId String
+
+  product Product @relation(fields: [productId],references: [id],onDelete: Cascade)
+//  لما اعمل انكلود الاي ده يخليني اجيب كل تفاصيل المنتج 
+  productId String
+  @@index([userId])
+  @@index([productId])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Analytics {
+  id                Int      @id @default(1) 
+  homapageVisits    Int      @default(0)
+  productPageVisits Int      @default(0)
+  aboutPageVisits   Int      @default(0)
+  updatedAt         DateTime @updatedAt
+}
+
+
+model AnalyticsVisits {
+  id                Int      @id @default(1) 
+  homapageVisits    Int      @default(0)
+  productPageVisits Int      @default(0)
+  aboutPageVisits   Int      @default(0)
+  updatedAt         DateTime @updatedAt
+}
+
+model ProductAnalyticsByDay {
+  id          Int      @id @default(autoincrement())
+  productSlug String
+  type        AnalyticsType
+  count       Int      @default(0) // العدد اللي انضاف "في اليوم ده"
+  createdAt        DateTime 
+  updatedAt   DateTime @updatedAt
+
+  @@unique([productSlug, type, createdAt]) 
+  @@index([createdAt]) 
+}
+
+
+model ChartAnalytics {
+  id          String   @id @default(cuid())
+  nameAnalytics AnalyticType  @unique
+  chartAnalyticsByMonth ChartAnalyticsByMonth[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+model ChartAnalyticsByMonth {
+  id          String   @id @default(cuid())
+  totalAnalytics Float           
+
+  chartAnalyticsId String
+  chartAnalytics ChartAnalytics @relation(fields: [chartAnalyticsId],references: [id],onDelete: Cascade,onUpdate: Cascade)
+  ChartAnalyticsByday ChartAnalyticsByday[]
+  createdAt   DateTime // هنبعتو في لاريكويست
+  updatedAt   DateTime @updatedAt
+@@index([chartAnalyticsId, createdAt]) 
+@@unique([chartAnalyticsId, createdAt])
+
+}
+model ChartAnalyticsByday {
+  id          String   @id @default(cuid())
+  totalAnalytics Float
+  chartAnalyticsByMonthId String
+  chartAnalyticsByMonth ChartAnalyticsByMonth @relation(fields: [chartAnalyticsByMonthId],references: [id],onDelete: Cascade,onUpdate: Cascade)
+  createdAt   DateTime
+  updatedAt   DateTime @updatedAt
+@@index([chartAnalyticsByMonthId, createdAt])
+@@unique([chartAnalyticsByMonthId, createdAt])
+}
+
+
+
+
+

@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  overflow-anchor: none;
+  overflow-x: hidden;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* حل مشكلة الـ Fill في الـ Charts */
+@layer base {
+  .tremor-base .recharts-cartesian-grid-horizontal line,
+  .tremor-base .recharts-cartesian-grid-vertical line {
+    stroke: var(--color-tremor-border-default);
+  }
+
+  /* إجبار الألوان تظهر في الـ SVG */
+  svg.tremor-donut-chart {
+    fill: var(--color-tremor-brand-default);
+  }
+}
+/* Smooth scrolling */
+
+button,
+.btn,
+input[type="button"],
+input[type="submit"] {
+  cursor: pointer;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #867f46;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* animation */
+
+@keyframes show-arrow {
+  from {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px) scale(0.5);
+  }
+  to {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+  }
+}
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.scroll-container {
+  overflow-y: auto;
+  position: relative;
+}
