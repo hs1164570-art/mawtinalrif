@@ -4,30 +4,27 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
-import {
-  User,
-  Package,
-  ShoppingBag,
-  LogOut,
-  LogIn,
-} from "lucide-react";
+import { User, Package, ShoppingBag, LogOut, LogIn } from "lucide-react";
 import type { NavUserData } from "../navbar";
 
 // ── Static menu items ─────────────────────────────────────────────────────────
 const MENU_ITEMS = [
-  { href: "/profile", label: "الملف الشخصي", icon: User    },
-  { href: "/orders",  label: "طلباتي",        icon: Package  },
-  { href: "/cart",    label: "السلة",          icon: ShoppingBag },
+  { href: "/profile", label: "الملف الشخصي", icon: User },
+  { href: "/orders", label: "طلباتي", icon: Package },
+  { href: "/cart", label: "السلة", icon: ShoppingBag },
 ] as const;
 
 // ── Component ─────────────────────────────────────────────────────────────────
 export default function ProfileBtn({ user }: { user: NavUserData | null }) {
-  const [open, setOpen]  = useState(false);
-  const containerRef     = useRef<HTMLDivElement>(null);
+  const [open, setOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   // Close on outside click / touch
   const handleOutside = useCallback((e: MouseEvent | TouchEvent) => {
-    if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+    if (
+      containerRef.current &&
+      !containerRef.current.contains(e.target as Node)
+    ) {
       setOpen(false);
     }
   }, []);
@@ -38,13 +35,13 @@ export default function ProfileBtn({ user }: { user: NavUserData | null }) {
   }, []);
 
   useEffect(() => {
-    document.addEventListener("mousedown",  handleOutside);
+    document.addEventListener("mousedown", handleOutside);
     document.addEventListener("touchstart", handleOutside);
-    document.addEventListener("keydown",    handleKey);
+    document.addEventListener("keydown", handleKey);
     return () => {
-      document.removeEventListener("mousedown",  handleOutside);
+      document.removeEventListener("mousedown", handleOutside);
       document.removeEventListener("touchstart", handleOutside);
-      document.removeEventListener("keydown",    handleKey);
+      document.removeEventListener("keydown", handleKey);
     };
   }, [handleOutside, handleKey]);
 
@@ -60,7 +57,7 @@ export default function ProfileBtn({ user }: { user: NavUserData | null }) {
           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c8a460]"
       >
         <LogIn className="w-4 h-4" aria-hidden="true" />
-        <span className="hidden sm:inline">دخول</span>
+        <span className="hidden sm:inline">تسجيل الدخول </span>
       </Link>
     );
   }
@@ -68,7 +65,6 @@ export default function ProfileBtn({ user }: { user: NavUserData | null }) {
   // ── Logged in ──────────────────────────────────────────────────────────────
   return (
     <div ref={containerRef} className="relative">
-
       {/* Avatar / Icon trigger */}
       <button
         onClick={() => setOpen((o) => !o)}
@@ -87,7 +83,7 @@ export default function ProfileBtn({ user }: { user: NavUserData | null }) {
             ring-2 ring-[rgba(200,164,96,0.35)] bg-[rgba(200,164,96,0.10)]
             flex items-center justify-center"
         >
-          {user.image ? (
+          {user.image ?
             <Image
               src={user.image}
               alt={user.name ?? "المستخدم"}
@@ -95,9 +91,7 @@ export default function ProfileBtn({ user }: { user: NavUserData | null }) {
               height={32}
               className="w-full h-full object-cover"
             />
-          ) : (
-            <User className="w-4 h-4 text-[#c8a460]" aria-hidden="true" />
-          )}
+          : <User className="w-4 h-4 text-[#c8a460]" aria-hidden="true" />}
         </div>
       </button>
 
@@ -112,9 +106,9 @@ export default function ProfileBtn({ user }: { user: NavUserData | null }) {
           "shadow-[0_8px_32px_rgba(60,38,10,0.12)]",
           "overflow-hidden",
           "transition-all duration-200 origin-top-end",
-          open
-            ? "opacity-100 scale-100 translate-y-0 pointer-events-auto"
-            : "opacity-0 scale-95 -translate-y-1 pointer-events-none",
+          open ?
+            "opacity-100 scale-100 translate-y-0 pointer-events-auto"
+          : "opacity-0 scale-95 -translate-y-1 pointer-events-none",
         ].join(" ")}
       >
         {/* User info header */}
@@ -141,7 +135,10 @@ export default function ProfileBtn({ user }: { user: NavUserData | null }) {
                 text-[#2c1c08] hover:bg-[rgba(90,60,20,0.05)] transition-colors
                 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c8a460]"
             >
-              <Icon className="w-4 h-4 text-[#7a6040] flex-shrink-0" aria-hidden="true" />
+              <Icon
+                className="w-4 h-4 text-[#7a6040] flex-shrink-0"
+                aria-hidden="true"
+              />
               {label}
             </Link>
           ))}

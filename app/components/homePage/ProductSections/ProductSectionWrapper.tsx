@@ -324,7 +324,7 @@ function SectionSlash({
                          transform 0.5s ${E_SMOOTH} ${0.84}s`,
           }}
         >
-          <CTA href={`/categories/${section.categorySlug}`} />
+          <CTA href={`products/collections/${section.categorySlug}`} />
         </div>
       </div>
     </div>
@@ -542,7 +542,7 @@ function SectionStage({
           {/* CTA — سهم مع نص */}
           <div style={{ overflow: "hidden" }}>
             <Link
-              href={`/categories/${section.categorySlug}`}
+              href={`products/collections/${section.categorySlug}`}
               onMouseEnter={() => setHCTA(true)}
               onMouseLeave={() => setHCTA(false)}
               style={{
@@ -629,86 +629,6 @@ export function StageStyles() {
 /* ══════════════════════════════════════════════════
    CTAUnderline — للـ Stage: نص مع خط يُرسم تحته
 ══════════════════════════════════════════════════ */
-function CTAUnderline({
-  href,
-  v,
-  delay,
-}: {
-  href: string;
-  v: boolean;
-  delay: number;
-}) {
-  const [h, setH] = useState(false);
-  return (
-    <Link
-      href={href}
-      onMouseEnter={() => setH(true)}
-      onMouseLeave={() => setH(false)}
-      style={{
-        ...sans,
-        textDecoration: "none",
-        display: "inline-flex",
-        flexDirection: "column",
-        gap: 6,
-        opacity: v ? 1 : 0,
-        transform: v ? "translateY(0)" : "translateY(10px)",
-        transition: `opacity 0.5s ease ${delay}s, transform 0.5s ${E_SMOOTH} ${delay}s`,
-      }}
-    >
-      <span
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 10,
-          fontSize: "0.74rem",
-          fontWeight: 700,
-          letterSpacing: "0.16em",
-          color: h ? C.goldBright : "rgba(255,255,255,0.85)",
-          transition: "color 0.25s ease",
-          whiteSpace: "nowrap",
-        }}
-      >
-        استعرض التشكيلة
-        <svg
-          width="14"
-          height="14"
-          viewBox="0 0 14 14"
-          fill="none"
-          aria-hidden
-          style={{
-            transform: h ? "translateX(-3px)" : "translateX(0)",
-            transition: `transform 0.28s ${E_SMOOTH}`,
-          }}
-        >
-          <path
-            d="M8 2.5L3 7L8 11.5"
-            stroke={h ? C.goldBright : "rgba(255,255,255,0.7)"}
-            strokeWidth="1.4"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            style={{ transition: "stroke 0.25s ease" }}
-          />
-        </svg>
-      </span>
-      {/* الخط الذي يُرسم */}
-      <div
-        style={{
-          height: 1,
-          background:
-            h ?
-              `linear-gradient(90deg, ${C.goldBright}, ${C.gold})`
-            : "rgba(255,255,255,0.28)",
-          transformOrigin: "right center",
-          transform: v ? "scaleX(1)" : "scaleX(0)",
-          transition:
-            h ?
-              `background 0.25s ease, transform 0.4s ${E_EXPO} 0s`
-            : `background 0.25s ease, transform 0.5s ${E_EXPO} ${delay + 0.1}s`,
-        }}
-      />
-    </Link>
-  );
-}
 
 function CTA({ href, inverted = false }: { href: string; inverted?: boolean }) {
   const [h, setH] = useState(false);

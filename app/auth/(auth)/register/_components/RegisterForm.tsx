@@ -38,7 +38,7 @@ export function RegisterForm() {
     const result = await registerAction(data, lang);
 
     if (result.success) {
-      router.push("/verify");
+      router.push("auth/verify");
     } else {
       setServerMsg({ type: "error", text: result.message });
     }

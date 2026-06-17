@@ -7,7 +7,7 @@ export const sendVerificationToken = async (
   token: string,
   lang?: string,
 ) => {
-  const link = `${DOMAIN}/${lang || "en"}/verify?token=${token}`;
+  const link = `${DOMAIN}/auth/verify?token=${token}`;
   await resend.emails.send({
     from: "onboarding@resend.dev",
     to: email,

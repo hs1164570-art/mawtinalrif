@@ -502,7 +502,10 @@ export default function HeroSection({
           <p className="subtitle">{subtitle}</p>
 
           {/* CTA يوصّل لصفحة الكاتيجوري الحالية */}
-          <Link href={`/categories/${currentItem.slug}`} className="cta-btn">
+          <Link
+            href={`products/collections/${currentItem.slug}`}
+            className="cta-btn"
+          >
             {ctaLabel}
             <svg
               width="18"

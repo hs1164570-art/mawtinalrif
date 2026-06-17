@@ -359,7 +359,7 @@ export default function AboutPage() {
           aria-labelledby="hero-heading"
           className="relative overflow-hidden min-h-[75vh] flex items-end"
         >
-          <div className="absolute inset-0">
+          {/* <div className="absolute inset-0">
             <Image
               src="/images/about/hero-showroom.jpg"
               alt="معرض موطن الريف للأثاث الفاخر في حي الجزيرة بالرياض"
@@ -369,7 +369,7 @@ export default function AboutPage() {
               sizes="100vw"
               quality={85}
             />
-          </div>
+          </div> */}
 
           <div
             aria-hidden="true"
@@ -451,11 +451,6 @@ export default function AboutPage() {
 
               <div className="space-y-5 text-[var(--text-2)] text-[1.0rem] leading-[1.9]">
                 <p>
-                  منذ عام{" "}
-                  <strong className="text-[var(--gold)] font-semibold">
-                    {/* TODO: استبدل بالسنة الحقيقية */}
-                    XXXX
-                  </strong>
                   ، تسعى{" "}
                   <strong className="text-[var(--text-1)]">
                     مؤسسة موطن الريف للتجارة
@@ -469,7 +464,7 @@ export default function AboutPage() {
                   لذا نختار بعناية بالغة أجود أنواع الأخشاب الطبيعية المستدامة
                   لتصنيع{" "}
                   <Link
-                    href="/categories/bedroom"
+                    href="products/collections/bedroom"
                     className="text-[var(--gold)] hover:text-[var(--gold-bright)] underline underline-offset-4 decoration-[var(--border-md)] hover:decoration-[var(--gold)] transition-colors"
                   >
                     غرف نوم فاخرة توفر لك راحة لا مثيل لها
@@ -479,7 +474,7 @@ export default function AboutPage() {
                 <p>
                   ولأن طاولة العشاء هي قلب المنزل، نبتكر{" "}
                   <Link
-                    href="/categories/dining-room"
+                    href="products/collections/dining-room"
                     className="text-[var(--gold)] hover:text-[var(--gold-bright)] underline underline-offset-4 decoration-[var(--border-md)] hover:decoration-[var(--gold)] transition-colors"
                   >
                     غرف طعام فاخرة تعكس ذوقك الرفيع
@@ -498,7 +493,7 @@ export default function AboutPage() {
             </div>
 
             <div className="flex flex-col gap-6">
-              <div className="grid grid-cols-2 gap-4">
+              {/* <div className="grid grid-cols-2 gap-4">
                 {(
                   [
                     { value: "+XXXX", label: "عميل راضٍ", icon: "👥" },
@@ -522,9 +517,9 @@ export default function AboutPage() {
                     </p>
                   </div>
                 ))}
-              </div>
+              </div> */}
 
-              <div className="relative h-56 md:h-64 rounded-2xl overflow-hidden">
+              {/* <div className="relative h-56 md:h-64 rounded-2xl overflow-hidden">
                 <Image
                   src="/images/about/workshop.jpg"
                   alt="ورشة تصنيع الأثاث الفاخر في موطن الريف الرياض بأيدي حرفيين متخصصين"
@@ -540,7 +535,7 @@ export default function AboutPage() {
                 <p className="absolute bottom-4 right-4 text-sm text-[var(--text-2)] font-medium">
                   الحرفية الأصيلة في كل تفصيل
                 </p>
-              </div>
+              </div> */}
 
               <div className="flex flex-wrap gap-3">
                 {[
@@ -604,26 +599,6 @@ export default function AboutPage() {
                   </p>
                 </div>
               ))}
-            </div>
-
-            <div className="mt-14 relative h-64 md:h-80 rounded-2xl overflow-hidden">
-              <Image
-                src="/images/about/ksa-delivery-map.jpg"
-                alt="خريطة تغطية توصيل موطن الريف لجميع مناطق المملكة العربية السعودية"
-                fill
-                loading="lazy"
-                className="object-cover object-center"
-                sizes="(max-width: 768px) 100vw, 90vw"
-              />
-              <div
-                aria-hidden="true"
-                className="absolute inset-0 bg-[var(--bg)]/50"
-              />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <p className="text-[var(--text-inv)] text-xl md:text-2xl font-bold text-center px-4">
-                  نوصل لجميع مناطق المملكة العربية السعودية 🇸🇦
-                </p>
-              </div>
             </div>
           </div>
         </section>
