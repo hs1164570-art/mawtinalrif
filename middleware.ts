@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse, NextFetchEvent } from "next/server";
 import { getToken } from "next-auth/jwt"; // 👈 استورد دي بديل لـ auth() في الميدل وير
-import redisClient from "./lib/redisClient";
+import { Redis } from "@upstash/redis";
+
+const redis = Redis.fromEnv();
 
 export default async function middleware(
   req: NextRequest,
@@ -40,7 +42,7 @@ export default async function middleware(
       (async () => {
         try {
           // استخدام الاسم النظيف المعقم جوه الريديس
-          await redisClient.zIncrBy("KSA:leaderBord", 1, city);
+          await redis.zincrby("KSA:leaderBord", 1, city);
         } catch (err) {
           console.error("Redis Leaderboard Error:", err);
         }
