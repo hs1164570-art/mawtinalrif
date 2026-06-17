@@ -1,47 +1,46 @@
 import { NextRequest, NextResponse, NextFetchEvent } from "next/server";
-import { getToken } from "next-auth/jwt"; // 👈 استورد دي بديل لـ auth() في الميدل وير
+import { getToken } from "next-auth/jwt";
 import { Redis } from "@upstash/redis";
 
-const redis = Redis.fromEnv();
+// المبادرة بإنشاء اتصال Redis إذا كانت المتغيرات متوفرة
+const redis = process.env.UPSTASH_REDIS_REST_URL ? Redis.fromEnv() : null;
 
 export default async function middleware(
   req: NextRequest,
   event: NextFetchEvent,
 ) {
   const { nextUrl } = req;
-  const path = nextUrl.pathname.toLowerCase().replace(/\/$/, "");
 
+  // 1. معالجة المسار وتوحيده (لو المسار فارغ بعد حذف السلاش يرجع "/")
+  let path = nextUrl.pathname.toLowerCase().replace(/\/$/, "") || "/";
+
+  // 2. استثناء الملفات الثابتة والـ Sitemap والـ Robots فوراً لتوفير الأداء
   if (path === "/sitemap.xml" || path === "/robots.txt" || path.includes(".")) {
     return NextResponse.next();
   }
 
-  // تسجيل الإحصائيات في الخلفية
-
+  // --- 📊 تسجيل الإحصائيات في الخلفية (Redis) ---
   const country = req.headers.get("x-vercel-ip-country") || "unknown";
 
-  if (country === "SA") {
+  if (country === "SA" && redis) {
     let city = req.headers.get("x-vercel-ip-city") || "Unknown City";
 
-    // 1. فك تشفير أي رموز غريبة (لو المدينة فيها مساحات مشفرة مثل %20)
-    // 2. إزالة المسافات الزائدة من البداية والنهاية (.trim)
     try {
       city = decodeURIComponent(city).trim();
     } catch (e) {
-      city = city.trim(); // Fallback لو التشفير فيه مشكلة
+      city = city.trim();
     }
 
-    // 3. تأمين حالة الأحرف (حاول تثبتها إما Capitalize أو تسييها زي ما هي بس متأمنة)
-    // يفضل تخلي أول حرف كابتل والباقي سمول أو ترفعها كلها عشان الـ Matching في الـ Redis
     if (city.length > 0) {
       city = city.charAt(0).toUpperCase() + city.slice(1).toLowerCase();
     } else {
       city = "Unknown City";
     }
 
+    // تشغيل الإدخال للخلفية دون تعطيل استجابة المستخدم الرئيسي
     event.waitUntil(
       (async () => {
         try {
-          // استخدام الاسم النظيف المعقم جوه الريديس
           await redis.zincrby("KSA:leaderBord", 1, city);
         } catch (err) {
           console.error("Redis Leaderboard Error:", err);
@@ -50,18 +49,18 @@ export default async function middleware(
     );
   }
 
-  // 👈 الحل هنا: بنقرا التوكن المشفر مباشرة من الكوكيز
-  // ده شغال 100% في الـ Edge Runtime وهيطبع لك الـ Role زي الـ Layout بالملي
+  // --- 🔑 جلب والتحقق من التوكن (Next-Auth) ---
   const token = await getToken({
     req,
     secret: process.env.AUTH_SECRET,
   });
 
   const isLoggedIn = !!token;
-  const userRole = token?.role; // هنا الـ role هيقرأ "ADMIN" بنجاح
+  const userRole = token?.role;
 
-  // --- 🔒 نظام الحماية والتوجيه ---
+  // --- 🔒 نظام الحماية والتوجيه (Auth Rules) ---
 
+  // منع المستخدم المسجل من دخول صفحات الـ Auth (مثل Login / Register)
   if (path.startsWith("/auth")) {
     if (isLoggedIn) {
       return NextResponse.redirect(new URL("/", req.url));
@@ -69,14 +68,18 @@ export default async function middleware(
     return NextResponse.next();
   }
 
+  // تفعيل حماية مسارات المستخدمين (Order & Profile)
   const isProtectedUserRoute =
     path.startsWith("/order") || path.startsWith("/profile");
+
   if (isProtectedUserRoute && !isLoggedIn) {
     const loginUrl = new URL("/auth/login", req.url);
+    // نمرر الـ pathname الأصلي شامل السلاش لضمان توجيه الـ callbackUrl بدقة
     loginUrl.searchParams.set("callbackUrl", nextUrl.pathname);
     return NextResponse.redirect(loginUrl);
   }
 
+  // حماية الـ API الخاصة بالـ Admin
   if (path.startsWith("/api/admin")) {
     if (!isLoggedIn || userRole !== "ADMIN") {
       return new NextResponse(
@@ -86,6 +89,7 @@ export default async function middleware(
     }
   }
 
+  // حماية صفحات الـ Admin (عرض صفحة 404 بدلاً من التوجيه الصريح لتمويه المتسللين)
   if (path.startsWith("/admin")) {
     if (!isLoggedIn || userRole !== "ADMIN") {
       return NextResponse.rewrite(new URL("/404", req.url));
@@ -95,8 +99,10 @@ export default async function middleware(
   return NextResponse.next();
 }
 
+// الـ Matcher لتحديد المسارات التي يطبق عليها الـ Middleware
 export const config = {
   matcher: [
+    // يطبق على كل المسارات عدا الملفات الداخلية والصور الثابتة والـ APIs العادية (غير الأدمن)
     "/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|api/(?!admin)).*)",
   ],
 };
