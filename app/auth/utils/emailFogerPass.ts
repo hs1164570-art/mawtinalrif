@@ -13,7 +13,7 @@ export const sendForget_passwordToken = async (
   const link = `${DOMAIN}/reset-password?token=${token}`;
 
   await resend.emails.send({
-    from: "shadatucme@gmail.com",
+    from: "onboarding@resend.dev",
     to: email,
     subject: "إعادة تعيين كلمة المرور | موطن الريف",
     html: `

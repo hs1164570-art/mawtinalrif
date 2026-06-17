@@ -88,7 +88,7 @@ export function LoginForm() {
               كلمة المرور
             </label>
             <Link
-              href="/forget-password"
+              href="auth/forget-password"
               className="text-xs text-amber-700 hover:text-yellow-600 transition-colors duration-150 underline-offset-2 hover:underline"
             >
               نسيت كلمة المرور؟

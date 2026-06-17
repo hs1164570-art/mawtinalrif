@@ -82,7 +82,7 @@ export function ResetPasswordForm() {
           بريدك.
         </p>
         <Link
-          href="/forget-password"
+          href="auth/forget-password"
           className="text-sm text-amber-700 font-medium hover:text-yellow-600 transition-colors duration-150"
         >
           طلب رابط جديد
