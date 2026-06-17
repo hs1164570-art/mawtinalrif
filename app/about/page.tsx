@@ -98,8 +98,8 @@ export const metadata: Metadata = {
  * ✅ FIX 1 — @id مغيّر من /#organization إلى /#business
  *
  * layout.tsx يعرّف:
- *   /#organization = Organization (المؤسسة القانونية)
- *   /#business     = FurnitureStore + LocalBusiness
+ * /#organization = Organization (المؤسسة القانونية)
+ * /#business     = FurnitureStore + LocalBusiness
  *
  * وضع FurnitureStore بـ @id = /#organization كان يتعارض مع layout ويخلي Google
  * تحصل على تعريفين مختلفين لنفس الـ @id → Google تتجاهل أحدهما أو تخطئ.
@@ -320,7 +320,7 @@ export default function AboutPage() {
   return (
     <>
       {/* ── Structured Data ───────────────────────────────────────────────
-          ✅ FIX 4: serializeJsonLd بدل JSON.stringify — XSS-safe escaping
+         ✅ FIX 4: serializeJsonLd بدل JSON.stringify — XSS-safe escaping
        ─────────────────────────────────────────────────────────────────── */}
       <script
         type="application/ld+json"
@@ -349,7 +349,7 @@ export default function AboutPage() {
       <div
         dir="rtl"
         lang="ar"
-        className="min-h-screen bg-neutral-900 text-neutral-100"
+        className="min-h-screen bg-[var(--bg)] text-[var(--text-1)]"
       >
         {/* ════════════════════════════════════════════════════════════════
             SECTION 1 — HERO
@@ -373,44 +373,44 @@ export default function AboutPage() {
 
           <div
             aria-hidden="true"
-            className="absolute inset-0 bg-gradient-to-t from-neutral-900 via-neutral-900/65 to-neutral-900/10"
+            className="absolute inset-0 bg-gradient-to-t from-[var(--bg)] via-[var(--bg)]/65 to-[var(--bg)]/10"
           />
 
           <nav
             aria-label="مسار التنقل"
-            className="absolute top-6 right-4 z-20 text-sm text-neutral-400"
+            className="absolute top-6 right-4 z-20 text-sm text-[var(--text-3)]"
           >
             <ol className="flex items-center gap-2" dir="rtl">
               <li>
                 <Link
                   href="/"
-                  className="hover:text-[#c5a880] transition-colors"
+                  className="hover:text-[var(--gold)] transition-colors"
                 >
                   الرئيسية
                 </Link>
               </li>
-              <li aria-hidden="true" className="text-neutral-600">
+              <li aria-hidden="true" className="text-[var(--text-3)]">
                 /
               </li>
-              <li aria-current="page" className="text-[#c5a880]">
+              <li aria-current="page" className="text-[var(--gold)]">
                 من نحن
               </li>
             </ol>
           </nav>
 
           <div className="relative z-10 container mx-auto px-4 sm:px-6 pb-16 pt-32">
-            <p className="text-[#c5a880] text-xs tracking-[0.2em] uppercase mb-4 font-medium">
+            <p className="text-[var(--gold)] text-xs tracking-[0.2em] uppercase mb-4 font-medium">
               مؤسسة موطن الريف للتجارة — الرياض، المملكة العربية السعودية
             </p>
 
             <h1
               id="hero-heading"
-              className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.25] mb-6 max-w-3xl"
+              className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[var(--text-1)] leading-[1.25] mb-6 max-w-3xl"
             >
               أفضل شركة أثاث فاخر في الرياض
             </h1>
 
-            <p className="text-neutral-300 text-lg md:text-xl max-w-2xl leading-relaxed mb-10">
+            <p className="text-[var(--text-2)] text-lg md:text-xl max-w-2xl leading-relaxed mb-10">
               نُجسّد فلسفة الرقي والحرفية الأصيلة في كل قطعة أثاث، لنمنح منزلك
               روحاً من الفخامة والدفء الذي تستحقه.
             </p>
@@ -418,13 +418,13 @@ export default function AboutPage() {
             <div className="flex flex-wrap gap-4">
               <a
                 href="#contact"
-                className="inline-flex items-center gap-2 bg-[#c5a880] hover:bg-[#b8976e] text-neutral-900 font-bold px-7 py-3 rounded-xl transition-colors text-base"
+                className="inline-flex items-center gap-2 bg-[var(--gold)] hover:bg-[var(--gold-mid)] text-[var(--text-inv)] font-bold px-7 py-3 rounded-xl transition-colors text-base"
               >
                 تواصل معنا
               </a>
               <a
                 href="#faq"
-                className="inline-flex items-center gap-2 border border-[#c5a880]/50 hover:border-[#c5a880] text-[#c5a880] font-semibold px-7 py-3 rounded-xl transition-colors text-base"
+                className="inline-flex items-center gap-2 border border-[var(--border-strong)] hover:border-[var(--gold)] text-[var(--gold)] font-semibold px-7 py-3 rounded-xl transition-colors text-base"
               >
                 الأسئلة الشائعة
               </a>
@@ -441,23 +441,23 @@ export default function AboutPage() {
         >
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 xl:gap-24 items-center">
             <div>
-              <p className="text-[#c5a880] text-xs tracking-widest uppercase mb-3">
+              <p className="text-[var(--gold)] text-xs tracking-widest uppercase mb-3">
                 قصتنا
               </p>
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
+              <h2 className="text-3xl md:text-4xl font-bold text-[var(--text-1)] mb-3">
                 رؤيتنا ومسيرة التميز
               </h2>
-              <div className="w-14 h-[3px] bg-[#c5a880] rounded-full mb-8" />
+              <div className="w-14 h-[3px] bg-[var(--gold)] rounded-full mb-8" />
 
-              <div className="space-y-5 text-neutral-300 text-[1.0rem] leading-[1.9]">
+              <div className="space-y-5 text-[var(--text-2)] text-[1.0rem] leading-[1.9]">
                 <p>
                   منذ عام{" "}
-                  <strong className="text-[#c5a880] font-semibold">
+                  <strong className="text-[var(--gold)] font-semibold">
                     {/* TODO: استبدل بالسنة الحقيقية */}
                     XXXX
                   </strong>
                   ، تسعى{" "}
-                  <strong className="text-white">
+                  <strong className="text-[var(--text-1)]">
                     مؤسسة موطن الريف للتجارة
                   </strong>{" "}
                   إلى تقديم تجربة أثاث لا مثيل لها في قلب الرياض؛ تجمع بين أناقة
@@ -470,7 +470,7 @@ export default function AboutPage() {
                   لتصنيع{" "}
                   <Link
                     href="/categories/bedroom"
-                    className="text-[#c5a880] hover:text-[#d4b98a] underline underline-offset-4 decoration-[#c5a880]/40 hover:decoration-[#c5a880] transition-colors"
+                    className="text-[var(--gold)] hover:text-[var(--gold-bright)] underline underline-offset-4 decoration-[var(--border-md)] hover:decoration-[var(--gold)] transition-colors"
                   >
                     غرف نوم فاخرة توفر لك راحة لا مثيل لها
                   </Link>{" "}
@@ -480,7 +480,7 @@ export default function AboutPage() {
                   ولأن طاولة العشاء هي قلب المنزل، نبتكر{" "}
                   <Link
                     href="/categories/dining-room"
-                    className="text-[#c5a880] hover:text-[#d4b98a] underline underline-offset-4 decoration-[#c5a880]/40 hover:decoration-[#c5a880] transition-colors"
+                    className="text-[var(--gold)] hover:text-[var(--gold-bright)] underline underline-offset-4 decoration-[var(--border-md)] hover:decoration-[var(--gold)] transition-colors"
                   >
                     غرف طعام فاخرة تعكس ذوقك الرفيع
                   </Link>
@@ -488,7 +488,7 @@ export default function AboutPage() {
                 </p>
                 <p>
                   تتخصص موطن الريف في تصميم وتصنيع وتوريد{" "}
-                  <strong className="text-white">
+                  <strong className="text-[var(--text-1)]">
                     غرف النوم، وغرف الطعام، والمجالس، وقطع الديكور الداخلي
                     الراقي
                   </strong>
@@ -509,15 +509,17 @@ export default function AboutPage() {
                 ).map((badge) => (
                   <div
                     key={badge.label}
-                    className="bg-neutral-800 border border-neutral-700 rounded-2xl p-5 text-center hover:border-[#c5a880]/40 transition-colors"
+                    className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-5 text-center hover:border-[var(--border-strong)] transition-colors"
                   >
                     <span className="text-3xl mb-2 block" aria-hidden="true">
                       {badge.icon}
                     </span>
-                    <p className="text-2xl md:text-3xl font-bold text-[#c5a880] mb-1">
+                    <p className="text-2xl md:text-3xl font-bold text-[var(--gold)] mb-1">
                       {badge.value}
                     </p>
-                    <p className="text-neutral-400 text-sm">{badge.label}</p>
+                    <p className="text-[var(--text-3)] text-sm">
+                      {badge.label}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -533,9 +535,9 @@ export default function AboutPage() {
                 />
                 <div
                   aria-hidden="true"
-                  className="absolute inset-0 bg-gradient-to-t from-neutral-900/70 via-transparent to-transparent"
+                  className="absolute inset-0 bg-gradient-to-t from-[var(--bg)]/70 via-transparent to-transparent"
                 />
-                <p className="absolute bottom-4 right-4 text-sm text-neutral-300 font-medium">
+                <p className="absolute bottom-4 right-4 text-sm text-[var(--text-2)] font-medium">
                   الحرفية الأصيلة في كل تفصيل
                 </p>
               </div>
@@ -549,7 +551,7 @@ export default function AboutPage() {
                 ].map((badge) => (
                   <span
                     key={badge}
-                    className="px-4 py-2 bg-neutral-800 border border-neutral-700 text-neutral-300 text-xs rounded-full"
+                    className="px-4 py-2 bg-[var(--surface)] border border-[var(--border)] text-[var(--text-2)] text-xs rounded-full"
                   >
                     {badge}
                   </span>
@@ -565,18 +567,18 @@ export default function AboutPage() {
         <section
           id="shipping"
           aria-label="الشحن والتوصيل"
-          className="bg-neutral-800 py-20 md:py-28"
+          className="bg-[var(--surface)] py-20 md:py-28"
         >
           <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
             <div className="text-center mb-14">
-              <p className="text-[#c5a880] text-xs tracking-widest uppercase mb-3">
+              <p className="text-[var(--gold)] text-xs tracking-widest uppercase mb-3">
                 التوصيل والتركيب
               </p>
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
+              <h2 className="text-3xl md:text-4xl font-bold text-[var(--text-1)] mb-3">
                 نوصل أثاثك أينما كنت في المملكة
               </h2>
-              <div className="w-14 h-[3px] bg-[#c5a880] rounded-full mx-auto mb-5" />
-              <p className="text-neutral-400 max-w-xl mx-auto leading-relaxed">
+              <div className="w-14 h-[3px] bg-[var(--gold)] rounded-full mx-auto mb-5" />
+              <p className="text-[var(--text-3)] max-w-xl mx-auto leading-relaxed">
                 خدمة توصيل وتركيب احترافية تصلك حيثما كنت، مع ضمان سلامة الأثاث
                 من معرضنا حتى باب منزلك.
               </p>
@@ -586,18 +588,18 @@ export default function AboutPage() {
               {shippingFeatures.map((feature) => (
                 <div
                   key={feature.title}
-                  className="bg-neutral-900 rounded-2xl p-7 border border-neutral-700 hover:border-[#c5a880]/40 transition-all hover:-translate-y-1 text-center group"
+                  className="bg-[var(--bg)] rounded-2xl p-7 border border-[var(--border)] hover:border-[var(--border-strong)] transition-all hover:-translate-y-1 text-center group"
                 >
                   <div
-                    className="w-14 h-14 rounded-full bg-[#c5a880]/10 group-hover:bg-[#c5a880]/20 flex items-center justify-center mx-auto mb-5 transition-colors"
+                    className="w-14 h-14 rounded-full bg-[var(--gold-bg)] group-hover:bg-[var(--gold-bg)] flex items-center justify-center mx-auto mb-5 transition-colors"
                     aria-hidden="true"
                   >
                     <span className="text-2xl">{feature.icon}</span>
                   </div>
-                  <h3 className="text-base font-semibold text-white mb-3">
+                  <h3 className="text-base font-semibold text-[var(--text-1)] mb-3">
                     {feature.title}
                   </h3>
-                  <p className="text-neutral-400 text-sm leading-7">
+                  <p className="text-[var(--text-3)] text-sm leading-7">
                     {feature.description}
                   </p>
                 </div>
@@ -615,10 +617,10 @@ export default function AboutPage() {
               />
               <div
                 aria-hidden="true"
-                className="absolute inset-0 bg-neutral-900/50"
+                className="absolute inset-0 bg-[var(--bg)]/50"
               />
               <div className="absolute inset-0 flex items-center justify-center">
-                <p className="text-white text-xl md:text-2xl font-bold text-center px-4">
+                <p className="text-[var(--text-inv)] text-xl md:text-2xl font-bold text-center px-4">
                   نوصل لجميع مناطق المملكة العربية السعودية 🇸🇦
                 </p>
               </div>
@@ -635,14 +637,14 @@ export default function AboutPage() {
           className="py-20 md:py-28 container mx-auto px-4 sm:px-6 max-w-4xl"
         >
           <div className="text-center mb-14">
-            <p className="text-[#c5a880] text-xs tracking-widest uppercase mb-3">
+            <p className="text-[var(--gold)] text-xs tracking-widest uppercase mb-3">
               كل ما تريد معرفته
             </p>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
+            <h2 className="text-3xl md:text-4xl font-bold text-[var(--text-1)] mb-3">
               الأسئلة الشائعة
             </h2>
-            <div className="w-14 h-[3px] bg-[#c5a880] rounded-full mx-auto mb-5" />
-            <p className="text-neutral-400 max-w-xl mx-auto leading-relaxed">
+            <div className="w-14 h-[3px] bg-[var(--gold)] rounded-full mx-auto mb-5" />
+            <p className="text-[var(--text-3)] max-w-xl mx-auto leading-relaxed">
               إجابات واضحة وشاملة على أكثر الأسئلة التي يطرحها عملاؤنا الكرام
               حول منتجاتنا وخدماتنا.
             </p>
@@ -650,17 +652,17 @@ export default function AboutPage() {
 
           <FAQAccordion items={faqItems} />
 
-          <div className="mt-12 text-center bg-neutral-800 rounded-2xl p-8 border border-neutral-700">
-            <p className="text-white font-semibold text-lg mb-2">
+          <div className="mt-12 text-center bg-[var(--surface)] rounded-2xl p-8 border border-[var(--border)]">
+            <p className="text-[var(--text-1)] font-semibold text-lg mb-2">
               لم تجد إجابة لسؤالك؟
             </p>
-            <p className="text-neutral-400 text-sm mb-6">
+            <p className="text-[var(--text-3)] text-sm mb-6">
               فريق خدمة العملاء لدينا جاهز للمساعدة على مدار ساعات العمل
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <a
                 href="tel:+966532055715"
-                className="inline-flex items-center gap-2 bg-[#c5a880] hover:bg-[#b8976e] text-neutral-900 font-bold px-6 py-3 rounded-xl transition-colors text-sm"
+                className="inline-flex items-center gap-2 bg-[var(--gold)] hover:bg-[var(--gold-mid)] text-[var(--text-inv)] font-bold px-6 py-3 rounded-xl transition-colors text-sm"
               >
                 📞 اتصل بنا الآن
               </a>
@@ -668,7 +670,7 @@ export default function AboutPage() {
                 href="https://wa.me/966501655033"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 border border-[#c5a880]/50 hover:border-[#c5a880] text-[#c5a880] font-semibold px-6 py-3 rounded-xl transition-colors text-sm"
+                className="inline-flex items-center gap-2 border border-[var(--border-strong)] hover:border-[var(--gold)] text-[var(--gold)] font-semibold px-6 py-3 rounded-xl transition-colors text-sm"
               >
                 💬 راسلنا على واتساب
               </a>
@@ -683,19 +685,19 @@ export default function AboutPage() {
         <section
           id="contact"
           aria-label="معلومات التواصل"
-          className="bg-neutral-800 py-20 md:py-28"
+          className="bg-[var(--surface)] py-20 md:py-28"
           itemScope
           itemType="https://schema.org/FurnitureStore"
         >
           <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
             <div className="text-center mb-14">
-              <p className="text-[#c5a880] text-xs tracking-widest uppercase mb-3">
+              <p className="text-[var(--gold)] text-xs tracking-widest uppercase mb-3">
                 نحن هنا من أجلك
               </p>
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
+              <h2 className="text-3xl md:text-4xl font-bold text-[var(--text-1)] mb-3">
                 تواصل مع موطن الريف
               </h2>
-              <div className="w-14 h-[3px] bg-[#c5a880] rounded-full mx-auto" />
+              <div className="w-14 h-[3px] bg-[var(--gold)] rounded-full mx-auto" />
             </div>
 
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-12">
@@ -705,15 +707,15 @@ export default function AboutPage() {
                   href={item.href}
                   target={item.external ? "_blank" : undefined}
                   rel={item.external ? "noopener noreferrer" : undefined}
-                  className="bg-neutral-900 rounded-2xl p-6 border border-neutral-700 hover:border-[#c5a880]/60 transition-all hover:-translate-y-1 group text-center block"
+                  className="bg-[var(--bg)] rounded-2xl p-6 border border-[var(--border)] hover:border-[var(--border-strong)] transition-all hover:-translate-y-1 group text-center block"
                 >
                   <span className="text-3xl mb-4 block" aria-hidden="true">
                     {item.icon}
                   </span>
-                  <p className="text-xs text-neutral-500 uppercase tracking-wider mb-2">
+                  <p className="text-xs text-[var(--text-3)] uppercase tracking-wider mb-2">
                     {item.label}
                   </p>
-                  <p className="text-[#c5a880] font-semibold group-hover:text-[#d4b98a] transition-colors text-sm break-all">
+                  <p className="text-[var(--gold)] font-semibold group-hover:text-[var(--gold-bright)] transition-colors text-sm break-all">
                     {item.value}
                   </p>
                 </a>
@@ -721,7 +723,7 @@ export default function AboutPage() {
             </div>
 
             <address
-              className="not-italic bg-neutral-900 rounded-2xl p-8 border border-neutral-700 text-center max-w-2xl mx-auto"
+              className="not-italic bg-[var(--bg)] rounded-2xl p-8 border border-[var(--border)] text-center max-w-2xl mx-auto"
               itemProp="address"
               itemScope
               itemType="https://schema.org/PostalAddress"
@@ -738,13 +740,13 @@ export default function AboutPage() {
               </div>
 
               <strong
-                className="text-white block text-lg mb-4 font-bold"
+                className="text-[var(--text-1)] block text-lg mb-4 font-bold"
                 itemProp="name"
               >
                 مؤسسة موطن الريف للتجارة
               </strong>
 
-              <div className="text-neutral-400 text-sm leading-8 space-y-1">
+              <div className="text-[var(--text-3)] text-sm leading-8 space-y-1">
                 <p>
                   <span itemProp="streetAddress">
                     حي الجزيرة، على الطريق الدائري الشرقي الفرعي
@@ -764,7 +766,7 @@ export default function AboutPage() {
                     الأحد – الخميس، 9:00 صباحاً – 5:00 مساءً
                   </time>
                   <br />
-                  <span className="text-neutral-600 text-xs">
+                  <span className="text-[var(--text-3)] text-xs">
                     (الجمعة والسبت: مغلق)
                   </span>
                 </p>
@@ -772,7 +774,7 @@ export default function AboutPage() {
                   البريد:{" "}
                   <a
                     href="mailto:info@mawtinalriyf.com"
-                    className="text-[#c5a880] hover:text-[#d4b98a] transition-colors"
+                    className="text-[var(--gold)] hover:text-[var(--gold-bright)] transition-colors"
                     itemProp="email"
                   >
                     info@mawtinalriyf.com
@@ -785,7 +787,7 @@ export default function AboutPage() {
                 href="https://maps.app.goo.gl/ZtJBNuCLczyKCDSo6"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 mt-6 border border-neutral-700 hover:border-[#c5a880]/60 text-neutral-300 hover:text-[#c5a880] text-sm px-5 py-2.5 rounded-xl transition-colors"
+                className="inline-flex items-center gap-2 mt-6 border border-[var(--border)] hover:border-[var(--border-strong)] text-[var(--text-2)] hover:text-[var(--gold)] text-sm px-5 py-2.5 rounded-xl transition-colors"
               >
                 📍 عرض الموقع على الخريطة
               </a>
@@ -804,13 +806,13 @@ export default function AboutPage() {
                 ] as const
               ).map(({ day, open }) => (
                 <div key={day} className="flex flex-col items-center gap-2">
-                  <span className="text-xs text-neutral-500">{day}</span>
+                  <span className="text-xs text-[var(--text-3)]">{day}</span>
                   <div
                     className={[
                       "w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold",
                       open ?
-                        "bg-[#c5a880]/20 text-[#c5a880] border border-[#c5a880]/40"
-                      : "bg-neutral-800 text-neutral-600 border border-neutral-700",
+                        "bg-[var(--gold-bg)] text-[var(--gold)] border border-[var(--border-strong)]"
+                      : "bg-[var(--surface)] text-[var(--text-3)] border border-[var(--border)]",
                     ].join(" ")}
                     aria-label={open ? `${day}: مفتوح` : `${day}: مغلق`}
                   >
@@ -819,7 +821,7 @@ export default function AboutPage() {
                 </div>
               ))}
             </div>
-            <p className="text-center text-neutral-500 text-xs mt-3">
+            <p className="text-center text-[var(--text-3)] text-xs mt-3">
               ساعات العمل 9:00 ص – 5:00 م
             </p>
           </div>

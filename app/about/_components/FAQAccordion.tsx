@@ -51,11 +51,7 @@ export default function FAQAccordion({ items }: FAQAccordionProps) {
   );
 
   return (
-    <div
-      role="region"
-      aria-label="الأسئلة الشائعة"
-      className="space-y-3"
-    >
+    <div role="region" aria-label="الأسئلة الشائعة" className="space-y-3">
       {items.map((item, index) => {
         const isOpen = openIndex === index;
         const panelId = `faq-panel-${index}`;
@@ -66,9 +62,9 @@ export default function FAQAccordion({ items }: FAQAccordionProps) {
             key={item.question}
             className={[
               "rounded-2xl border transition-colors duration-200 overflow-hidden",
-              isOpen
-                ? "border-[#c5a880]/60 bg-neutral-800"
-                : "border-neutral-700 bg-neutral-800/50 hover:border-neutral-600",
+              isOpen ?
+                "border-[#c5a880]/60 bg-neutral-800"
+              : "border-neutral-700 bg-neutral-800/50 hover:border-neutral-600",
             ].join(" ")}
           >
             {/* ── Trigger ─────────────────────────────────────────────────── */}
@@ -87,9 +83,9 @@ export default function FAQAccordion({ items }: FAQAccordionProps) {
                 <span
                   className={[
                     "text-base md:text-[1.05rem] font-semibold leading-relaxed transition-colors duration-150",
-                    isOpen
-                      ? "text-[#c5a880]"
-                      : "text-neutral-100 group-hover:text-[#c5a880]",
+                    isOpen ? "text-[#c5a880]" : (
+                      "text-neutral-100 group-hover:text-[#c5a880]"
+                    ),
                   ].join(" ")}
                 >
                   {item.question}
@@ -102,9 +98,9 @@ export default function FAQAccordion({ items }: FAQAccordionProps) {
                   aria-hidden="true"
                   className={[
                     "shrink-0 w-8 h-8 rounded-full border flex items-center justify-center text-xl leading-none select-none transition-colors duration-150",
-                    isOpen
-                      ? "border-[#c5a880] text-[#c5a880]"
-                      : "border-neutral-600 text-neutral-400 group-hover:border-[#c5a880]/60 group-hover:text-[#c5a880]",
+                    isOpen ?
+                      "border-[#c5a880] text-[#c5a880]"
+                    : "border-neutral-600 text-neutral-400 group-hover:border-[#c5a880]/60 group-hover:text-[#c5a880]",
                   ].join(" ")}
                 >
                   +

@@ -3,6 +3,23 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --bg: #f8f4ec;
+  --bg-deep: #ede8dc;
+  --surface: #ffffff;
+  --surface-2: #fffdf8;
+  --surface-3: #fffef8;
+  --border: rgba(90, 60, 20, 0.1);
+  --border-md: rgba(90, 60, 20, 0.18);
+  --border-strong: rgba(90, 60, 20, 0.32);
+  --gold: #a07830;
+  --gold-mid: #b89040;
+  --gold-bright: #d0a820;
+  --gold-bg: rgba(160, 120, 48, 0.07);
+  --text-1: #181008;
+  --text-2: #483820;
+  --text-3: #806840;
+  --text-inv: #ffffff;
+  --red: #b91c1c;
 }
 
 @media (prefers-color-scheme: dark) {
