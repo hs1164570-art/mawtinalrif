@@ -375,15 +375,6 @@ function getOrganizationJsonLd() {
 }
 
 // ─── Redis visit counter ──────────────────────────────────────────────────────
-if (process.env.NEXT_PHASE !== "phase-production-build") {
-  try {
-    redisClient
-      .hIncrBy("stats:total:allStats", "totalVisits", 1)
-      .catch((err) => console.error("Redis Incr Error:", err));
-  } catch (e) {
-    console.error("Redis incre totalvisits err Error:", e);
-  }
-}
 
 // ─── Root Layout ──────────────────────────────────────────────────────────────
 export default async function RootLayout({
@@ -391,6 +382,16 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  if (process.env.NEXT_PHASE !== "phase-production-build") {
+    try {
+      redisClient
+        .hIncrBy("stats:total:allStats", "totalVisits", 1)
+        .catch((err) => console.error("Redis Incr Error:", err));
+    } catch (e) {
+      console.error("Redis incre totalvisits err Error:", e);
+    }
+  }
+
   const session = await auth();
 
   const userData =
