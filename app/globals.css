@@ -1,27 +1,39 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* الخلفيات */
   --bg: #f8f4ec;
   --bg-deep: #ede8dc;
   --surface: #ffffff;
   --surface-2: #fffdf8;
   --surface-3: #fffef8;
+
+  /* الحدود */
   --border: rgba(90, 60, 20, 0.1);
   --border-md: rgba(90, 60, 20, 0.18);
   --border-strong: rgba(90, 60, 20, 0.32);
+
+  /* الذهبي */
   --gold: #a07830;
   --gold-mid: #b89040;
   --gold-bright: #d0a820;
   --gold-bg: rgba(160, 120, 48, 0.07);
+
+  /* النصوص */
   --text-1: #181008;
   --text-2: #483820;
   --text-3: #806840;
   --text-inv: #ffffff;
-  --red: #b91c1c;
-}
 
+  /* حالة الخطأ */
+  --red: #b91c1c;
+
+  /* الظلال */
+  --shadow-sm:
+    0 1px 2px rgba(90, 60, 20, 0.06), 0 1px 3px rgba(90, 60, 20, 0.08);
+  --shadow-md:
+    0 4px 6px rgba(90, 60, 20, 0.07), 0 10px 15px rgba(90, 60, 20, 0.1);
+}
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;

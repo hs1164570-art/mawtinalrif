@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse, NextFetchEvent } from "next/server";
 import { getToken } from "next-auth/jwt"; // 👈 استورد دي بديل لـ auth() في الميدل وير
-import { Redis } from "@upstash/redis";
+import { Redis } from "@upstash/redis/cloudflare";
 
 const redis = Redis.fromEnv();
-
 export default async function middleware(
   req: NextRequest,
   event: NextFetchEvent,

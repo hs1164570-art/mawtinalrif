@@ -136,7 +136,7 @@ export default function Sub2EqualGrid({
               {/* في حال كان الكارت الثالث وحيد، نضع حاوية جمالية فارغة أو كارت دمي للحفاظ على توازن التصميم في الشاشات الكبيرة */}
               <div className="hidden md:block w-full aspect-[3/4] rounded-[2rem] border-2 border-dashed border-[#846a24]/10 bg-[#846a24]/[0.01] flex items-center justify-center p-6 text-center">
                 <p className="text-[#846a24]/40 text-xs font-medium tracking-wide">
-                  ZFashion Premium Editorial Layout
+                  Mawtin alryf Premium Editorial Layout
                 </p>
               </div>
             </div>

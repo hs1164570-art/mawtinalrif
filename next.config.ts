@@ -11,7 +11,7 @@ script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.paypal.com https://w
 style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
 img-src 'self' blob: data: https://res.cloudinary.com avatars.githubusercontent.com lh3.googleusercontent.com images.unsplash.com via.placeholder.com placehold.co picsum.photos source.unsplash.com https://www.paypalobjects.com https://i.pravatar.cc;
 font-src 'self' data: https://fonts.gstatic.com;
-connect-src 'self' https://*.googleapis.com https://*.firebaseio.com https://api.cloudinary.com https://www.paypal.com https://www.sandbox.paypal.com https://real-time-chat-for-zfashion-chat.up.railway.app wss://real-time-chat-for-zfashion-chat.up.railway.app https://api.apify.com;
+connect-src 'self'  https://www.mawtinalriyf.com https://*.googleapis.com https://*.firebaseio.com https://api.cloudinary.com https://www.paypal.com https://www.sandbox.paypal.com   https://api.apify.com;
 frame-src 'self' https://www.paypal.com https://www.sandbox.paypal.com https://js.stripe.com https://www.google.com https://accounts.google.com;
 object-src 'none';
 base-uri 'self';
