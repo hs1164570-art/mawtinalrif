@@ -9,9 +9,9 @@ const cspHeader = `
 default-src 'self';
 script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.paypal.com https://www.sandbox.paypal.com https://js.stripe.com https://www.gstatic.com;
 style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-img-src 'self' blob: data: https://res.cloudinary.com avatars.githubusercontent.com lh3.googleusercontent.com images.unsplash.com via.placeholder.com placehold.co picsum.photos source.unsplash.com https://www.paypalobjects.com https://i.pravatar.cc;
+img-src 'self' blob: data: https://bwmvrztnbjayktocsdvc.supabase.co https://res.cloudinary.com https://images.unsplash.com https://images.pexels.com https://source.unsplash.com avatars.githubusercontent.com lh3.googleusercontent.com via.placeholder.com placehold.co picsum.photos https://www.paypalobjects.com https://i.pravatar.cc;
 font-src 'self' data: https://fonts.gstatic.com;
-connect-src 'self'  https://www.mawtinalriyf.com https://*.googleapis.com https://*.firebaseio.com https://api.cloudinary.com https://www.paypal.com https://www.sandbox.paypal.com   https://api.apify.com;
+connect-src 'self' https://bwmvrztnbjayktocsdvc.supabase.co https://res.cloudinary.com https://images.unsplash.com https://images.pexels.com https://source.unsplash.com https://www.mawtinalriyf.com https://*.googleapis.com https://*.firebaseio.com https://api.cloudinary.com https://www.paypal.com https://www.sandbox.paypal.com https://api.apify.com;
 frame-src 'self' https://www.paypal.com https://www.sandbox.paypal.com https://js.stripe.com https://www.google.com https://accounts.google.com;
 object-src 'none';
 base-uri 'self';
@@ -46,7 +46,6 @@ const nextConfig: NextConfig = {
 
   async headers() {
     return [
-      // ✅ الإضافة دي هي الحل - بتضبط Content-Type للـ sitemap
       {
         source: "/sitemap.xml",
         headers: [
@@ -60,7 +59,6 @@ const nextConfig: NextConfig = {
           },
         ],
       },
-      // باقي الهيدرز زي ما هي
       {
         source: "/((?!sitemap\\.xml$).*)",
         headers: [

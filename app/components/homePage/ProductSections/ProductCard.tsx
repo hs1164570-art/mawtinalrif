@@ -242,7 +242,7 @@ export default function ProductCard({
             itemScope
             itemType="https://schema.org/Offer"
           >
-            <meta itemProp="priceCurrency" content="EGP" />
+            <meta itemProp="priceCurrency" content="SAR" />
             <meta
               itemProp="availability"
               content={

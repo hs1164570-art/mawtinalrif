@@ -1,8 +1,6 @@
 import { fetchDashboardData } from "./dataCore";
 import Dashboard from "./Dashboard";
 
-export const revalidate = 300;
-
 export default async function StatisticsPage({
   searchParams,
 }: {

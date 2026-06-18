@@ -13,6 +13,3 @@ import CatchAllPage, {
 export default CatchAllPage;
 
 export const generateMetadata = catchAllMetadata;
-
-// تفعيل ميزة الـ ISR 5 دقائق للمسار الجديد تلقائياً
-export const revalidate = 300;

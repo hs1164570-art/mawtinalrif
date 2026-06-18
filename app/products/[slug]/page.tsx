@@ -623,7 +623,6 @@ export async function generateStaticParams() {
 }
 
 // ─── ISR: revalidate كل 30 دقيقة ─────────────────────────────────────────────
-export const revalidate = 1800;
 
 // ─── Page Component ───────────────────────────────────────────────────────────
 export default async function ProductPage({
