@@ -174,7 +174,7 @@ export const getProductsData = unstable_cache(
   async (params: GetProductsParams) => fetchProductsDataFromDB(params),
   ["products-page-cache"],
   {
-    revalidate: 300,
+    revalidate: 3600, // 24 ساعة — شبكة أمان بس، مش المصدر الأساسي للتحديث
     tags: ["products"],
   },
 );

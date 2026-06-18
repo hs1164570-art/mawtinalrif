@@ -128,7 +128,7 @@ const furnitureStoreSchema = {
   image: `${BASE_URL}/og-about.jpg`,
   description:
     "متجر أثاث فاخر في الرياض يقدم غرف نوم وطعام وديكورات داخلية بخامات طبيعية عالية الجودة مع خدمة التوصيل والتركيب لجميع مناطق المملكة العربية السعودية.",
-  telephone: "+966532055715",
+  telephone: "+966557211359",
   email: "info@mawtinalriyf.com",
   priceRange: "$$", // ✅ FIX 6: كان "$$$"
   currenciesAccepted: "SAR",
@@ -159,7 +159,7 @@ const furnitureStoreSchema = {
   contactPoint: [
     {
       "@type": "ContactPoint",
-      telephone: "+966532055715",
+      telephone: "+966557211359",
       contactType: "customer service",
       availableLanguage: "Arabic",
       areaServed: "SA",
@@ -285,8 +285,8 @@ const contactItems: readonly ContactItem[] = [
   {
     icon: "📞",
     label: "هاتف مباشر",
-    value: "0532055715",
-    href: "tel:+966532055715",
+    value: "0557211359",
+    href: "tel:+966557211359",
     external: false,
   },
   {
@@ -636,7 +636,7 @@ export default function AboutPage() {
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <a
-                href="tel:+966532055715"
+                href="tel:+966557211359"
                 className="inline-flex items-center gap-2 bg-[var(--gold)] hover:bg-[var(--gold-mid)] text-[var(--text-inv)] font-bold px-6 py-3 rounded-xl transition-colors text-sm"
               >
                 📞 اتصل بنا الآن

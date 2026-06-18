@@ -9,8 +9,8 @@ export default function ContactSpeedDial() {
   const [isOpen, setIsOpen] = useState(false);
 
   // البيانات والأرقام الخاصة بك
-  const phoneNumber = "+966532055715";
-  const whatsappNumber = "966532055715";
+  const phoneNumber = "+966557211359";
+  const whatsappNumber = "966557211359";
   const emailAddress = "info@mawtinalriyf.com";
 
   return (

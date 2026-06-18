@@ -30,11 +30,12 @@ async function fetchCategories(): Promise<Category[]> {
 }
 
 async function deleteCategory(id: string): Promise<void> {
-  const res = await fetch("/api/admin/categories", {
+  // 👈 تعديل هام: تمرير الـ id في الرابط (Query Param) ليتوافق مع الـ adminGuard
+  const res = await fetch(`/api/admin/categories?id=${id}`, {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ id }),
   });
+
   if (!res.ok) {
     const err = await res.json();
     throw new Error(err.message || "فشل في حذف الفئة");

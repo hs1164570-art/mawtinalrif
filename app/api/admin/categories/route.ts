@@ -78,32 +78,30 @@ const AddToExisting = async (data: AddExistingData) => {
     })),
   });
 };
-
 /**
  * @method PATCH
- * @description Update category and subCategories
+ * @description Update category and subCategories (Root or Sub)
  * @route /api/categories
  * @access private (only Admin)
  * */
-
-// ------------------------------------------------------------------
-// 2. PATCH: Update Category (Root or Sub)
-// ------------------------------------------------------------------
 export const PATCH = adminGuard(
   UpdateCategorySchema,
   async (request, userId, data) => {
     try {
-      if (data.image) {
-        await prisma.category.update({
-          where: { id: data.id },
-          data: {
-            name: data.name,
-            slug: data.slug,
-            image: data.image,
-            parentId: data.parentId,
-          },
-        });
-      }
+      // تحديث ذكي: نحدث الحقول الأساسية، والصورة تتحدث فقط لو جاية بقيمة نصية حقيقية
+      await prisma.category.update({
+        where: { id: data.id },
+        data: {
+          name: data.name,
+          slug: data.slug,
+          parentId: data.parentId,
+          // لو الصورة مبعوتة ومش فاضية بنحدثها، لو فاضية أو undefined بنسيب القديمة في الداتابيز
+          ...(data.image && data.image.trim() !== "" ?
+            { image: data.image }
+          : {}),
+        },
+      });
+
       revalidateTag(`nav_ctg`);
 
       return NextResponse.json(
@@ -111,7 +109,7 @@ export const PATCH = adminGuard(
         { status: 200 },
       );
     } catch (error) {
-      console.error("DB_ERROR:", error);
+      console.error("DB_PATCH_CATEGORY_ERROR:", error);
       return NextResponse.json(
         { message: "Failed to update category. Database error." },
         { status: 500 },
@@ -126,7 +124,6 @@ export const PATCH = adminGuard(
  * @route /api/categories
  * @access private (only Admin)
  * */
-
 export const DELETE = adminGuard(
   DeleteCategorySchema,
   async (request, userId, data) => {
@@ -143,7 +140,7 @@ export const DELETE = adminGuard(
         { status: 200 },
       );
     } catch (error) {
-      console.error("DB_ERROR:", error);
+      console.error("DB_DELETE_CATEGORY_ERROR:", error);
       return NextResponse.json(
         { message: "Failed to delete category. Database error." },
         { status: 500 },

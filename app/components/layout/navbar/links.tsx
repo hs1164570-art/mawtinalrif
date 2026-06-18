@@ -309,32 +309,6 @@ export default function NavLinks({
           </li>
         );
       })}
-
-      {/* 3. من نحن للموبايل */}
-      <li className="border-t border-[#e6dfd5] pt-1">
-        <Link
-          href="/about"
-          onClick={onClose}
-          className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-[#2e261f] hover:bg-[#f3ede4] transition-colors"
-        >
-          <Info className="w-4 h-4 text-[#b89a5a]" />
-          <span>من نحن</span>
-        </Link>
-      </li>
-
-      {/* 4. لوحة التحكم للموبايل (تظهر فقط للأدمن) */}
-      {isAdmin && (
-        <li className="border-t border-[#e6dfd5]/60 pt-1">
-          <Link
-            href="/adminDashboard"
-            onClick={onClose}
-            className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-[#b89a5a] bg-[#b89a5a]/[0.04] hover:bg-[#b89a5a]/[0.09] transition-colors"
-          >
-            <LayoutDashboard className="w-4 h-4" />
-            <span>لوحة الإدارة (adminDashboard)</span>
-          </Link>
-        </li>
-      )}
     </ul>
   );
 }

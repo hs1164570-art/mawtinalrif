@@ -227,7 +227,7 @@ export default async function HomePage() {
       "مؤسسة موطن الريف للتجارة — أجمل تشكيلات الأثاث المنزلي الفاخر " +
       "في الرياض. حي الجزيرة، الطريق الدائري الشرقي الفرعي (بين مخرج 15 ومخرج 16).",
     email: "info@mawtinalriyf.com",
-    telephone: "+966532055715",
+    telephone: "+966557211359",
     priceRange: "$$",
     currenciesAccepted: "SAR",
     paymentAccepted: "Cash, Credit Card",

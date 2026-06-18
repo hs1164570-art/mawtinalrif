@@ -31,12 +31,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "القسم غير موجود" }, { status: 404 });
     }
 
-    return NextResponse.json(data, {
-      headers: {
-        // ✅ CDN cache 60s — browser revalidate في الخلفية
-        "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
-      },
-    });
+    return NextResponse.json(data, {});
   } catch (err) {
     console.error("[/api/products]", err);
     return NextResponse.json({ error: "خطأ في الخادم" }, { status: 500 });

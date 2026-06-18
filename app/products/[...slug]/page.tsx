@@ -230,7 +230,6 @@ type PageProps = {
 };
 
 // ─── ISR: 5 دقايق ─────────────────────────────────────────────────────────────
-export const revalidate = 300;
 
 // ─── generateMetadata ─────────────────────────────────────────────────────────
 export async function generateMetadata({

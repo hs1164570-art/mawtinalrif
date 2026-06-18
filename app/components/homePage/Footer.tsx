@@ -48,8 +48,8 @@ const INFO_LINKS: { label: string; href: string }[] = [
 
 // ── Contact details ───────────────────────────────────────────────────────────
 const CONTACT = {
-  phone: "0532055715",
-  whatsapp: "966532055715", // digits-only for wa.me
+  phone: "0557211359",
+  whatsapp: "966557211359", // digits-only for wa.me
   whatsappDisplay: "+966 53 205 5715",
   email: "info@mawtinalriyf.com",
 };

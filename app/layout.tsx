@@ -167,13 +167,14 @@ export const metadata: Metadata = {
   // ── Icons ──────────────────────────────────────────────────────────────────
   icons: {
     icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/icon.svg", type: "image/svg+xml" },
-      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
-      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+      { url: "/favicon.ico" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
     ],
-    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
-    shortcut: "/favicon.ico",
+    apple: [
+      // الربط ده هيحل مشكلة الـ 404 للآيفون تماماً
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
   },
 
   // ── Manifest ───────────────────────────────────────────────────────────────
@@ -213,7 +214,7 @@ export const metadata: Metadata = {
     "revisit-after": "7 days",
     "theme-color": "#a07830",
     // Business contact
-    "contact:phone": "+966532055715",
+    "contact:phone": "+966557211359",
     "contact:email": "info@mawtinalriyf.com",
   },
 };
@@ -279,18 +280,18 @@ function getOrganizationJsonLd() {
         },
         image: LOGO_URL,
         email: "info@mawtinalriyf.com",
-        telephone: "+966532055715",
+        telephone: "+966557211359",
         contactPoint: [
           {
             "@type": "ContactPoint",
-            telephone: "+966532055715",
+            telephone: "+966557211359",
             contactType: "customer support",
             areaServed: "SA",
             availableLanguage: "Arabic",
           },
           {
             "@type": "ContactPoint",
-            telephone: "+966532055715",
+            telephone: "+966557211359",
             contactType: "sales",
             contactOption: "TollFree",
             areaServed: "SA",
@@ -331,7 +332,7 @@ function getOrganizationJsonLd() {
           "مؤسسة موطن الريف للتجارة — أجمل تشكيلات الأثاث المنزلي الفاخر " +
           "في الرياض، المملكة العربية السعودية. حي الجزيرة، الطريق الدائري الشرقي.",
         email: "info@mawtinalriyf.com",
-        telephone: "+966532055715",
+        telephone: "+966557211359",
         priceRange: "$$",
         currenciesAccepted: "SAR",
         paymentAccepted: "Cash, Credit Card",
