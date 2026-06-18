@@ -1,6 +1,5 @@
-import { getStatusCount } from "@/app/api/utils/createOrderSchema";
-import { adminGuard } from "@/lib/Guards";
 import { NextRequest, NextResponse } from "next/server";
+import prisma from "@/lib/db";
 /**
  * @method GET
  * @description Get Status Details
@@ -10,7 +9,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   try {
-    const statusDetails = await prisma?.user.groupBy({
+    const statusDetails = await prisma.user.groupBy({
       by: ["status"],
       _count: {
         status: true,

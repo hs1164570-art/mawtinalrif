@@ -470,7 +470,7 @@ export function UsersClient({ initialParams }: UsersClientProps) {
                     <td className="px-4 py-[0.875rem]">
                       <div className="flex items-center gap-1 text-[#6B4C3B] text-[0.8rem]">
                         <Calendar size={13} />
-                        {new Date(user.createdAt).toLocaleDateString("en-US", {
+                        {new Date(user.createdAt).toLocaleDateString("ar-SA", {
                           day: "numeric",
                           month: "short",
                           year: "numeric",

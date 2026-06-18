@@ -12,15 +12,6 @@ import { DOMAIN } from "@/lib/constants";
 // ─────────────────────────────────────────────────────────────────────────────
 // Palette — 2 lightness-degrees lighter than the site's CSS variables
 // (+4 HSL lightness pts per "degree")
-//
-// --bg         #f8f4ec  →  #fefdfb   footer strip / subtle tints
-// --bg-deep    #ede8dc  →  #f5f2eb   section dividers / card bg
-// --gold       #a07830  →  #b18535   primary accent
-// --gold-mid   #b89040  →  #c19a4e   secondary accent / hover
-// --gold-bright#d0a820  →  #ddb327   highlight / badge
-// --text-1     #181008  →  #261a0d   primary text on dark
-// --text-2     #483820  →  #544226   secondary text / borders
-// --text-3     #806840  →  #8e7548   muted text
 // ─────────────────────────────────────────────────────────────────────────────
 
 // ── Lazy-load the map iframe (keeps Lighthouse score clean) ──────────────────
@@ -32,7 +23,7 @@ const MapEmbed = dynamic(() => import("./MapEmbed"), {
       style={{ background: "#ece4d7" }}
     >
       <span className="text-sm font-arabic" style={{ color: "#8e7548" }}>
-        جارٍ تحميل الخريطة…
+        Refetching map…
       </span>
     </div>
   ),
@@ -49,18 +40,17 @@ const INFO_LINKS: { label: string; href: string }[] = [
 // ── Contact details ───────────────────────────────────────────────────────────
 const CONTACT = {
   phone: "0557211359",
-  whatsapp: "966557211359", // digits-only for wa.me
-  whatsappDisplay: "+966 53 205 5715",
+  whatsapp: "966557211359",
+  whatsappDisplay: "+966 55 721 1359",
   email: "info@mawtinalriyf.com",
 };
 
-// ── Inline SVGs ───────────────────────────────────────────────────────────────
+// ── Inline SVGs (Contact & Socials) ──────────────────────────────────────────
 const PhoneIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
     fill="currentColor"
-    aria-hidden="true"
     className="w-4 h-4 shrink-0"
   >
     <path
@@ -76,7 +66,6 @@ const WhatsAppIcon = () => (
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
     fill="currentColor"
-    aria-hidden="true"
     className="w-4 h-4 shrink-0"
   >
     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z" />
@@ -88,7 +77,6 @@ const EmailIcon = () => (
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
     fill="currentColor"
-    aria-hidden="true"
     className="w-4 h-4 shrink-0"
   >
     <path d="M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67Z" />
@@ -101,7 +89,6 @@ const InstagramIcon = () => (
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
     fill="currentColor"
-    aria-hidden="true"
     className="w-5 h-5"
   >
     <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
@@ -113,29 +100,42 @@ const TikTokIcon = () => (
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
     fill="currentColor"
-    aria-hidden="true"
     className="w-5 h-5"
   >
     <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.79 1.52V6.76a4.85 4.85 0 0 1-1.02-.07z" />
   </svg>
 );
 
-const PayPalIcon = () => (
+const SnapchatIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 124 33"
-    aria-label="PayPal"
-    role="img"
-    className="h-7 w-auto"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    className="w-5 h-5"
   >
-    <path
-      fill="#253B80"
-      d="M46.211 6.749h-6.839a.95.95 0 0 0-.939.802l-2.766 17.537a.57.57 0 0 0 .564.658h3.265a.95.95 0 0 0 .939-.803l.746-4.73a.95.95 0 0 1 .938-.803h2.165c4.505 0 7.105-2.18 7.784-6.5.306-1.89.013-3.375-.872-4.415-.972-1.142-2.696-1.746-4.985-1.746zM47 13.154c-.374 2.454-2.249 2.454-4.062 2.454h-1.032l.724-4.583a.57.57 0 0 1 .563-.481h.473c1.235 0 2.4 0 3.002.704.359.42.468 1.044.332 1.906zM66.654 13.075h-3.275a.57.57 0 0 0-.563.481l-.145.916-.229-.332c-.709-1.029-2.29-1.373-3.868-1.373-3.619 0-6.71 2.741-7.312 6.586-.313 1.918.132 3.752 1.22 5.031.998 1.176 2.426 1.666 4.125 1.666 2.916 0 4.533-1.875 4.533-1.875l-.146.91a.57.57 0 0 0 .562.66h2.95a.95.95 0 0 0 .939-.803l1.77-11.209a.568.568 0 0 0-.561-.658zm-4.565 6.374c-.316 1.871-1.801 3.127-3.695 3.127-.951 0-1.711-.305-2.199-.883-.484-.574-.668-1.391-.514-2.301.295-1.855 1.805-3.152 3.67-3.152.93 0 1.686.309 2.184.892.499.589.697 1.411.554 2.317zM84.096 13.075h-3.291a.954.954 0 0 0-.787.417l-4.539 6.686-1.924-6.425a.953.953 0 0 0-.912-.678h-3.234a.57.57 0 0 0-.541.754l3.625 10.638-3.408 4.811a.57.57 0 0 0 .465.9h3.287a.949.949 0 0 0 .781-.408l10.946-15.8a.57.57 0 0 0-.468-.895z"
-    />
-    <path
-      fill="#179BD7"
-      d="M94.992 6.749h-6.84a.95.95 0 0 0-.938.802l-2.766 17.537a.569.569 0 0 0 .562.658h3.51a.665.665 0 0 0 .656-.562l.785-4.971a.95.95 0 0 1 .938-.803h2.164c4.506 0 7.105-2.18 7.785-6.5.307-1.89.012-3.375-.873-4.415-.971-1.142-2.694-1.746-4.983-1.746zm.789 6.405c-.373 2.454-2.248 2.454-4.062 2.454h-1.031l.725-4.583a.568.568 0 0 1 .562-.481h.473c1.234 0 2.4 0 3.002.704.359.42.468 1.044.331 1.906zM115.434 13.075h-3.273a.567.567 0 0 0-.562.481l-.145.916-.23-.332c-.709-1.029-2.289-1.373-3.867-1.373-3.619 0-6.709 2.741-7.311 6.586-.312 1.918.131 3.752 1.219 5.031 1 1.176 2.426 1.666 4.125 1.666 2.916 0 4.533-1.875 4.533-1.875l-.146.91a.57.57 0 0 0 .564.66h2.949a.95.95 0 0 0 .938-.803l1.771-11.209a.571.571 0 0 0-.565-.658zm-4.565 6.374c-.314 1.871-1.801 3.127-3.695 3.127-.949 0-1.711-.305-2.199-.883-.484-.574-.666-1.391-.514-2.301.297-1.855 1.805-3.152 3.67-3.152.93 0 1.686.309 2.184.892.501.589.699 1.411.554 2.317zM119.295 7.23l-2.807 17.858a.569.569 0 0 0 .562.658h2.822c.469 0 .867-.34.939-.803l2.768-17.536a.57.57 0 0 0-.562-.659h-3.16a.571.571 0 0 0-.562.482z"
-    />
+    <path d="M12 2c-3.93 0-5.5 2.5-5.5 5 0 .5.11.94.27 1.34-.64.38-1.27.91-1.27 1.91 0 .82.59 1.28 1.14 1.41-.12.44-.14.93-.14 1.34 0 2.2 1.54 3.75 3.5 4.25-.33.39-.75 1.03-.75 1.75 0 .75.44 1.5 1.5 1.75.25.06.5.25.5.5s-.25.5-.5.5h-1c-.55 0-1 .45-1 1s.45 1 1 1h8c.55 0 1-.45 1-1s-.45-1-1-1h-1c-.25 0-.5-.25-.5-.5s.25-.44.5-.5c1.06-.25 1.5-1 1.5-1.75 0-.72-.42-1.36-.75-1.75 1.96-.5 3.5-2.05 3.5-4.25 0-.41-.02-.9-.14-1.34.55-.13 1.14-.59 1.14-1.41 0-1-.63-1.53-1.27-1.91.16-.4.27-.84.27-1.34 0-2.5-1.57-5-5.5-5z" />
+  </svg>
+);
+
+const PinterestIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    className="w-5 h-5"
+  >
+    <path d="M12 0a12 12 0 0 0-4.37 23.17c-.07-.63-.13-1.6.03-2.3l1.37-5.8s-.35-.7-.35-1.74c0-1.63.95-2.85 2.13-2.85 1 0 1.49.75 1.49 1.66 0 1-.64 2.52-.97 3.92-.28 1.18.59 2.14 1.75 2.14 2.1 0 3.72-2.22 3.72-5.42 0-2.84-2.04-4.82-4.94-4.82-3.37 0-5.34 2.53-5.34 5.14 0 1 .39 2.12.88 2.72a.3.3 0 0 1 .07.25c-.08.33-.26 1.06-.3 1.22a.23.23 0 0 1-.14.15c-1.16-.54-1.88-2.23-1.88-3.6 0-3.86 2.8-7.4 8.08-7.4 4.24 0 7.54 3.02 7.54 7.06 0 4.22-2.66 7.62-6.35 7.62-1.24 0-2.4-.64-2.8-1.4l-.76 2.9c-.28 1.07-1 2.4-1.5 3.22A12 12 0 1 0 12 0z" />
+  </svg>
+);
+
+const XIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    className="w-4 h-4"
+  >
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
   </svg>
 );
 
@@ -150,25 +150,13 @@ type CategoryWithSubs = RootCategory & {
   subcategories?: SubCategory[];
 };
 
-// ── Shared token references (lightened palette) ───────────────────────────────
-// bg-footer    : #f5f2eb  (--bg-deep +4L)
-// bg-card      : #fefdfb  (--bg +4L)
-// border       : rgba(84,66,38,0.14)   (--text-2 +4L based)
-// border-md    : rgba(84,66,38,0.24)
-// gold         : #b18535  (--gold +4L)
-// gold-mid     : #c19a4e  (--gold-mid +4L)
-// gold-bright  : #ddb327  (--gold-bright +4L)
-// text-primary : #261a0d  (--text-1 +4L)
-// text-secondary:#544226  (--text-2 +4L)
-// text-muted   : #8e7548  (--text-3 +4L)
-
 export default function Footer() {
   const [showAllCategories, setShowAllCategories] = useState(false);
   const currentYear = new Date().getFullYear();
 
   const { data: categories = [] } = useQuery<CategoryWithSubs[]>({
     queryKey: categoriesQueryOptions.queryKey,
-    staleTime: 60 * 60 * 1000, // ساعة كاملة كاش في الكلاينت
+    staleTime: 60 * 60 * 1000,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
     queryFn: async (): Promise<CategoryWithSubs[]> => {
@@ -272,15 +260,6 @@ export default function Footer() {
                   </span>
                 </h3>
 
-                {/*
-                  SEO STRATEGY:
-                  ┌─ Main category  → /products/collections/[ctg.slug]
-                  └─ Sub-category   → /products/[ctg.slug]/[sub.slug]
-
-                  All links are rendered in the DOM (crawlable by Googlebot).
-                  Items past index 4 are sr-only (visually hidden) until the
-                  toggle fires — keyboard users and bots see everything.
-                */}
                 <ul className="space-y-2">
                   {categories.map((cat: CategoryWithSubs, idx: number) => {
                     const isHidden = idx >= VISIBLE_COUNT && !showAllCategories;
@@ -457,7 +436,7 @@ export default function Footer() {
               className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 pt-4"
               style={{ borderTop: "1px solid rgba(84,66,38,0.14)" }}
             >
-              {/* Social links */}
+              {/* Social links (Updated with exact counts and IDs from screenshots) */}
               <div>
                 <p
                   className="text-xs mb-3 font-medium"
@@ -465,13 +444,14 @@ export default function Footer() {
                 >
                   تابعنا على
                 </p>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center flex-wrap gap-2.5">
+                  {/* Instagram */}
                   <a
-                    href="https://www.instagram.com/alreeefl11/"
+                    href="https://www.instagram.com/al_rif.foundation/"
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="موطن الريف على إنستغرام"
-                    className="flex items-center justify-center w-10 h-10 rounded-xl transition-all duration-200 hover:opacity-70 hover:-translate-y-0.5 shadow-sm"
+                    className="flex items-center justify-center w-9 h-9 rounded-xl transition-all duration-200 hover:opacity-70 hover:-translate-y-0.5 shadow-sm"
                     style={{
                       background: "#fefdfb",
                       color: "#b18535",
@@ -480,12 +460,14 @@ export default function Footer() {
                   >
                     <InstagramIcon />
                   </a>
+
+                  {/* TikTok */}
                   <a
-                    href="https://www.tiktok.com/@mafrushatalriyf1"
+                    href="https://www.tiktok.com/@al_rif.foundation"
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="موطن الريف على تيك توك"
-                    className="flex items-center justify-center w-10 h-10 rounded-xl transition-all duration-200 hover:opacity-70 hover:-translate-y-0.5 shadow-sm"
+                    className="flex items-center justify-center w-9 h-9 rounded-xl transition-all duration-200 hover:opacity-70 hover:-translate-y-0.5 shadow-sm"
                     style={{
                       background: "#fefdfb",
                       color: "#261a0d",
@@ -494,19 +476,98 @@ export default function Footer() {
                   >
                     <TikTokIcon />
                   </a>
+
+                  {/* Snapchat */}
+                  <a
+                    href="https://snapchat.com/t/9fx3W32S"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="موطن الريف على سناب شات"
+                    className="flex items-center justify-center w-9 h-9 rounded-xl transition-all duration-200 hover:opacity-70 hover:-translate-y-0.5 shadow-sm"
+                    style={{
+                      background: "#fefdfb",
+                      color: "#FFFC00",
+                      border: "1px solid rgba(84,66,38,0.18)",
+                    }}
+                  >
+                    <SnapchatIcon />
+                  </a>
+
+                  {/* Pinterest */}
+                  <a
+                    href="https://pin.it/1MO6eVgpf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="موطن الريف على بينتريست"
+                    className="flex items-center justify-center w-9 h-9 rounded-xl transition-all duration-200 hover:opacity-70 hover:-translate-y-0.5 shadow-sm"
+                    style={{
+                      background: "#fefdfb",
+                      color: "#E60023",
+                      border: "1px solid rgba(84,66,38,0.18)",
+                    }}
+                  >
+                    <PinterestIcon />
+                  </a>
+
+                  {/* X (Twitter) */}
+                  <a
+                    href="https://x.com/a_riffoundation"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="موطن الريف على منصة إكس"
+                    className="flex items-center justify-center w-9 h-9 rounded-xl transition-all duration-200 hover:opacity-70 hover:-translate-y-0.5 shadow-sm"
+                    style={{
+                      background: "#fefdfb",
+                      color: "#261a0d",
+                      border: "1px solid rgba(84,66,38,0.18)",
+                    }}
+                  >
+                    <XIcon />
+                  </a>
                 </div>
               </div>
 
-              {/* Payment badge */}
+              {/* Payment badges (Replaced PayPal with Tamara, Tabby, Visa, Mastercard Logos) */}
               <div className="flex flex-col items-start sm:items-end gap-2">
                 <p className="text-xs font-medium" style={{ color: "#8e7548" }}>
-                  الدفع الآمن عبر
+                  طرق الدفع الآمنة
                 </p>
                 <div
-                  className="bg-white rounded-xl px-4 py-2.5 shadow-sm"
+                  className="bg-white rounded-xl px-3 py-1.5 shadow-sm flex items-center gap-3"
                   style={{ border: "1px solid rgba(84,66,38,0.14)" }}
                 >
-                  <PayPalIcon />
+                  {/* تمارا */}
+                  <Image
+                    src="https://bwmvrztnbjayktocsdvc.supabase.co/storage/v1/object/public/alrif/tamara.png"
+                    alt="Tamara"
+                    width={45}
+                    height={15}
+                    className="object-contain"
+                  />
+                  {/* تابي */}
+                  <Image
+                    src="https://bwmvrztnbjayktocsdvc.supabase.co/storage/v1/object/public/alrif/tabby.png"
+                    alt="Tabby"
+                    width={40}
+                    height={15}
+                    className="object-contain"
+                  />
+                  {/* فيزا */}
+                  <Image
+                    src="https://bwmvrztnbjayktocsdvc.supabase.co/storage/v1/object/public/alrif/visa.png"
+                    alt="Visa"
+                    width={35}
+                    height={15}
+                    className="object-contain"
+                  />
+                  {/* ماستر كارد */}
+                  <Image
+                    src="https://bwmvrztnbjayktocsdvc.supabase.co/storage/v1/object/public/alrif/mastercard.png"
+                    alt="Mastercard"
+                    width={28}
+                    height={15}
+                    className="object-contain"
+                  />
                 </div>
               </div>
             </div>
