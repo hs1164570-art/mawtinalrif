@@ -59,25 +59,29 @@ function CategoryRow({
 
   return (
     <div>
-      {/* Root row */}
+      {/* Root row -> 👈 تم إضافة الـ onClick هنا ليكون السطر بالكامل قابل للضغط */}
       <motion.div
         initial={{ opacity: 0, y: 4 }}
         animate={{ opacity: 1, y: 0 }}
-        className="flex items-center gap-3 px-4 py-3 hover:bg-[rgba(196,152,72,0.04)] transition-colors duration-100 group"
+        onClick={() => {
+          if (childCount > 0) setExpanded((e) => !e);
+        }}
+        className={`flex items-center gap-3 px-4 py-3 transition-colors duration-100 group ${
+          childCount > 0 ?
+            "cursor-pointer hover:bg-[rgba(196,152,72,0.06)]"
+          : "hover:bg-[rgba(196,152,72,0.02)]"
+        }`}
         style={{ borderBottom: "1px solid rgba(90,60,20,0.07)" }}
       >
         {/* Chevron */}
-        <button
-          onClick={() => setExpanded((e) => !e)}
-          className="w-5 h-5 flex items-center justify-center text-[#a08858] shrink-0 rounded transition-colors hover:text-[#c49848]"
+        <div
+          className="w-5 h-5 flex items-center justify-center text-[#a08858] shrink-0 rounded transition-colors"
           style={{ opacity: childCount === 0 ? 0.25 : 1 }}
-          disabled={childCount === 0}
-          aria-label={expanded ? "طي" : "توسيع"}
         >
           {expanded ?
             <ChevronDown size={14} />
           : <ChevronDown size={14} style={{ transform: "rotate(-90deg)" }} />}
-        </button>
+        </div>
 
         {/* Icon */}
         <div
@@ -128,8 +132,11 @@ function CategoryRow({
           </span>
         )}
 
-        {/* Actions — visible on hover */}
-        <div className="flex gap-1 items-center shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
+        {/* Actions — 👈 تم إضافة e.stopPropagation() لمنع تداخل الأحداث عند الضغط على الأزرار */}
+        <div
+          className="flex gap-1 items-center shrink-0 transition-opacity duration-150"
+          onClick={(e) => e.stopPropagation()}
+        >
           <button
             onClick={() => onAddSub(category)}
             className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[0.75rem] font-semibold transition-colors duration-100"
@@ -154,6 +161,7 @@ function CategoryRow({
             <Pencil size={13} />
           </button>
 
+          {/* زر الحذف */}
           <button
             onClick={() => onDelete(category, true)}
             className="w-7 h-7 rounded-md flex items-center justify-center transition-colors duration-100 hover:bg-red-50"
@@ -215,10 +223,10 @@ function CategoryRow({
                   </span>
                 </div>
 
-                {/* زر تعديل القسم الفرعي */}
+                {/* زر تعديل القسم الفرعي — ظاهر دائماً */}
                 <button
                   onClick={() => onEdit(sub)}
-                  className="w-6 h-6 rounded-md flex items-center justify-center opacity-0 group-hover/sub:opacity-100 transition-all duration-150"
+                  className="w-6 h-6 rounded-md flex items-center justify-center transition-all duration-150"
                   style={{ color: "#c0a080" }}
                   onMouseEnter={(e) =>
                     (e.currentTarget.style.color = "#c49848")
@@ -230,10 +238,10 @@ function CategoryRow({
                   <Pencil size={12} />
                 </button>
 
-                {/* Delete sub */}
+                {/* زر حذف القسم الفرعي — ظاهر دائماً */}
                 <button
                   onClick={() => onDelete(sub, false)}
-                  className="w-6 h-6 rounded-md flex items-center justify-center opacity-0 group-hover/sub:opacity-100 transition-all duration-150"
+                  className="w-6 h-6 rounded-md flex items-center justify-center transition-all duration-150"
                   style={{ color: "#c0a080" }}
                   onMouseEnter={(e) =>
                     (e.currentTarget.style.color = "#dc2626")
@@ -600,7 +608,7 @@ export function CategoriesClient() {
 
       {/* ─── Dialogs ──────────────────────────────────────────────── */}
 
-      {/* 1. مودال الإضافة (القديم بتاعك) */}
+      {/* 1. مودال الإضافة */}
       <AnimatePresence>
         {dialogMode && (
           <CategoryFormDialog

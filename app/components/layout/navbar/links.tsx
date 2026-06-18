@@ -3,7 +3,7 @@
 import { useState, useRef, useCallback } from "react";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
-import { ChevronDown, Home, Info, LayoutDashboard } from "lucide-react"; // ضفنا أيقونات مساعدة للموبايل والترتيب
+import { ChevronDown, Home, Info, LayoutDashboard } from "lucide-react"; // الأيقونات المساعدة للموبايل والترتيب
 import { categoriesQueryOptions } from "@/utils/categories";
 
 interface NavLinksProps {
@@ -242,7 +242,7 @@ export default function NavLinks({
         const isOpen = openId === cat.id;
 
         return (
-          <li key={cat.id} className="border-b border-[#e6dfd5] last:border-0">
+          <li key={cat.id} className="border-b border-[#e6dfd5]">
             {hasChildren ?
               <div className="py-0.5">
                 <button
@@ -309,6 +309,18 @@ export default function NavLinks({
           </li>
         );
       })}
+
+      {/* 3. رابط عن الشركة (من نحن) للموبايل */}
+      <li className="border-b border-[#e6dfd5] last:border-0">
+        <Link
+          href="/about"
+          onClick={onClose}
+          className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-[#2e261f] hover:bg-[#f3ede4] transition-colors"
+        >
+          <Info className="w-4 h-4 text-[#b89a5a]" />
+          <span>من نحن</span>
+        </Link>
+      </li>
     </ul>
   );
 }
