@@ -606,8 +606,8 @@ export async function generateMetadata({
       ICBM: "24.7136, 46.6753",
       // Language + freshness
       "content-language": "ar-SA",
-      "article:modified_time": product.updatedAt.toISOString(),
-      "article:published_time": product.createdAt.toISOString(),
+      "article:modified_time": new Date(product.updatedAt).toISOString(),
+      "article:published_time": new Date(product.createdAt).toISOString(),
     },
   };
 }
