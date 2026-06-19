@@ -46,15 +46,7 @@ const CONTACT = {
   email: "info@mawtinalriyf.com",
 };
 
-// ── Payment logos (hosted on Cloudinary) ──────────────────────────────────────
-const PAYMENT_LOGOS = {
-  tabby:
-    "https://res.cloudinary.com/dfhecwiib/image/upload/v1781862056/%D8%B4%D8%B9%D8%A7%D8%B1_%D8%AA%D8%A7%D8%A8%D9%8A_pxfsgu.webp",
-  tamara:
-    "https://res.cloudinary.com/dfhecwiib/image/upload/v1781862065/%D8%B4%D8%B9%D8%A7%D8%B1_%D8%AA%D9%85%D8%A7%D8%B1%D8%A7_eemjfk.webp",
-};
-
-// ── Inline SVGs (Contact icons only) ─────────────────────────────────────────
+// ── Inline SVGs (Contact & Payment icons) ─────────────────────────────────────────
 const PhoneIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -93,7 +85,6 @@ const EmailIcon = () => (
   </svg>
 );
 
-// ── Instagram — real gradient mark (their actual brand path + gradient) ─────
 const InstagramIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -116,12 +107,11 @@ const InstagramIcon = () => (
   </svg>
 );
 
-// ── Mastercard — real two-circle mark, red + orange ──────────────────────────
 const MastercardIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 36 24"
-    className="h-6 w-auto"
+    className="h-6 w-auto shrink-0"
     aria-label="Mastercard"
   >
     <circle cx="15" cy="12" r="11" fill="#EB001B" />
@@ -129,26 +119,81 @@ const MastercardIcon = () => (
   </svg>
 );
 
-// ── Visa — real wordmark blue ─────────────────────────────────────────────────
+const TabbyIcon = () => (
+  <svg
+    version="1.1"
+    id="Layer_1"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlnsXlink="http://www.w3.org/1999/xlink"
+    x="0px"
+    y="0px"
+    viewBox="0 0 141 141"
+    style={{ enableBackground: "new 0 0 141 141" } as any}
+    xmlSpace="preserve"
+    className="h-5 w-auto shrink-0"
+    aria-label="Tabby"
+  >
+    <style type="text/css">{`.st0{fill:#292929;}`}</style>
+    <path
+      className="st0"
+      d="M120.1,59.9l-8,30.4l0,0.1h6.2l8-30.4H120.1z M21.7,77.1c-0.9,0.5-2,0.7-3,0.7c-2.2,0-3.5-0.4-3.6-2.2v-0.1 c0-0.1,0-0.1,0-0.2v-5.2l0-0.6v-3.7h0v-1.6l0-0.6V60l-5.5,0.7c3.7-0.7,5.9-3.7,5.9-6.6v-1.8H9.3v8.5l-0.4,0.1v15.7 c0.2,4.4,3.1,7,7.9,7c1.7,0,3.6-0.4,5-1l0,0L21.7,77.1L21.7,77.1L21.7,77.1z"
+    />
+    <path
+      className="st0"
+      d="M22.7,58.7L5.3,61.4v4.4l17.4-2.7C22.7,63.1,22.7,58.7,22.7,58.7z M22.7,65.2L5.3,67.9v4.2l17.4-2.7 C22.7,69.4,22.7,65.2,22.7,65.2z M42.3,67.2C42,62.3,39,59.4,34,59.4c-2.9,0-5.2,1.1-6.9,3.2c-1.6,2.1-2.5,5.2-2.5,8.9 c0,3.7,0.8,6.8,2.5,8.9c1.6,2.1,4,3.2,6.9,3.2c5,0,8.1-2.9,8.3-7.9v7.4h6.2V59.9l-6.2,1L42.3,67.2L42.3,67.2z M42.6,71.5 c0,4.4-2.3,7.2-5.8,7.2c-3.6,0-5.8-2.7-5.8-7.2c0-4.5,2.2-7.2,5.8-7.2c1.8,0,3.3,0.7,4.3,2C42.1,67.6,42.6,69.4,42.6,71.5 C42.6,71.5,42.6,71.5,42.6,71.5z M66.6,59.4c-5,0-8.1,2.9-8.3,7.8V53.1l-6.2,1v29.1h6.2v-7.4c0.2,4.9,3.3,7.9,8.3,7.9 c5.9,0,9.4-4.5,9.4-12.1S72.5,59.4,66.6,59.4z M63.8,78.7c-3.5,0-5.8-2.8-5.8-7.2c0-2.1,0.5-3.9,1.5-5.2c1-1.3,2.5-2,4.3-2 c3.6,0,5.8,2.7,5.8,7.2C69.6,76,67.4,78.7,63.8,78.7L63.8,78.7z M92.9,59.4c-5,0-8.1,2.9-8.3,7.8V53.1l-6.2,1v29.1h6.2v-7.4 c0.2,4.9,3.3,7.9,8.3,7.9c5.9,0,9.4-4.5,9.4-12.1S98.7,59.4,92.9,59.4L92.9,59.4z M90.1,78.7c-3.5,0-5.8-2.8-5.8-7.2 c0-2.1,0.5-3.9,1.5-5.2c1-1.3,2.5-2,4.3-2c3.6,0,5.8,2.7,5.8,7.2C95.9,76,93.7,78.7,90.1,78.7L90.1,78.7z M102.3,59.9h6.6l5.4,23.3 h-5.9C108.3,83.1,102.3,59.9,102.3,59.9z M131.4,62.3v-1.9h-0.8V60h2v0.4h-0.8v1.9H131.4z M132.8,62.3V60h0.8l0.4,1.1 c0.1,0.3,0.1,0.4,0.2,0.5c0-0.1,0.1-0.2,0.2-0.5l0.4-1.1h0.8v2.3H135v-1.8l-0.6,1.8h-0.4l-0.6-1.8v1.8L132.8,62.3L132.8,62.3z"
+    />
+  </svg>
+);
+
 const VisaIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 48 16"
-    className="h-4 w-auto"
+    viewBox="0 0 1465.16 912.45"
+    version="1.1"
+    className="h-4 w-auto shrink-0"
     aria-label="Visa"
   >
-    <text
-      x="0"
-      y="13"
-      fontFamily="Arial, sans-serif"
-      fontWeight="900"
-      fontStyle="italic"
-      fontSize="15"
-      fill="#1A1F71"
-      letterSpacing="-0.5"
-    >
-      VISA
-    </text>
+    <defs>
+      <clipPath id="clip1">
+        <path d="M 0 781 L 1465.160156 781 L 1465.160156 912.449219 L 0 912.449219 Z M 0 781 " />
+      </clipPath>
+      <clipPath id="clip2">
+        <path d="M 0 0 L 1465.160156 0 L 1465.160156 132 L 0 132 Z M 0 0 " />
+      </clipPath>
+    </defs>
+    <g id="surface1">
+      <g clipPath="url(#clip1)" clipRule="nonzero">
+        <path
+          style={{
+            stroke: "none",
+            fillRule: "nonzero",
+            fill: "rgb(95.298767%,70.999146%,0%)",
+            fillOpacity: 1,
+          }}
+          d="M 0 912.449219 L 1465.160156 912.449219 L 1465.160156 781.101563 L 0 781.101563 Z M 0 912.449219 "
+        />
+      </g>
+      <g clipPath="url(#clip2)" clipRule="nonzero">
+        <path
+          style={{
+            stroke: "none",
+            fillRule: "nonzero",
+            fill: "rgb(16.899109%,16.099548%,38.798523%)",
+            fillOpacity: 1,
+          }}
+          d="M 0 131.363281 L 1465.160156 131.363281 L 1465.160156 0.00390625 L 0 0.00390625 Z M 0 131.363281 "
+        />
+      </g>
+      <path
+        style={{
+          stroke: "none",
+          fillRule: "nonzero",
+          fill: "rgb(16.899109%,16.099548%,38.798523%)",
+          fillOpacity: 1,
+        }}
+        d="M 719.941406 276.082031 L 642.710938 637.148438 L 549.3125 637.148438 L 626.546875 276.082031 Z M 1112.921875 509.226563 L 1162.101563 373.628906 L 1190.378906 509.226563 Z M 1217.179688 637.148438 L 1303.558594 637.148438 L 1228.101563 276.082031 L 1148.421875 276.082031 C 1130.460938 276.082031 1115.339844 286.5 1108.621094 302.566406 L 968.476563 637.148438 L 1066.578125 637.148438 L 1086.039063 583.21875 L 1205.871094 583.21875 Z M 973.328125 519.261719 C 973.75 423.984375 841.621094 418.691406 842.492188 376.128906 C 842.769531 363.183594 855.109375 349.402344 882.097656 345.890625 C 895.472656 344.160156 932.386719 342.765625 974.230469 362.035156 L 990.597656 285.449219 C 968.109375 277.316406 939.203125 269.480469 903.222656 269.480469 C 810.882813 269.480469 745.921875 318.539063 745.394531 388.832031 C 744.796875 440.816406 791.796875 469.792969 827.128906 487.097656 C 863.570313 504.808594 875.773438 516.15625 875.589844 531.960938 C 875.324219 556.1875 846.523438 566.914063 819.71875 567.316406 C 772.734375 568.046875 745.519531 554.625 723.796875 544.492188 L 706.851563 623.65625 C 728.695313 633.664063 768.984375 642.359375 810.679688 642.816406 C 908.863281 642.816406 973.054688 594.332031 973.328125 519.261719 M 586.476563 276.082031 L 435.125 637.148438 L 336.402344 637.148438 L 261.902344 348.984375 C 257.402344 331.269531 253.457031 324.753906 239.726563 317.277344 C 217.257813 305.070313 180.191406 293.660156 147.589844 286.5625 L 149.792969 276.082031 L 308.738281 276.082031 C 328.96875 276.082031 347.199219 289.5625 351.839844 312.871094 L 391.191406 521.824219 L 488.339844 276.082031 "
+      />
+    </g>
   </svg>
 );
 
@@ -490,7 +535,7 @@ export default function Footer() {
                   <SocialBadge
                     href="https://snapchat.com/t/9fx3W32S"
                     label="موطن الريف على سناب شات"
-                    background="#FFFC00"
+                    background="#fffc0aa1"
                   >
                     <FaSnapchat className="w-5 h-5" color="#FFFFFF" />
                   </SocialBadge>
@@ -521,35 +566,25 @@ export default function Footer() {
                   طرق الدفع الآمنة
                 </p>
                 <div
-                  className="bg-white rounded-xl px-3.5 py-2 shadow-sm flex items-center gap-3"
+                  className="bg-white rounded-xl px-3.5 py-2 shadow-sm flex items-center gap-4 h-9"
                   style={{ border: "1px solid rgba(84,66,38,0.14)" }}
                 >
-                  {/* تمارا — real logo */}
+                  {/* تمارا — Local SVG from public folder */}
                   <Image
-                    src={PAYMENT_LOGOS.tamara}
+                    src="/Tamara.svg"
                     alt="Tamara"
-                    width={56}
-                    height={20}
-                    quality={95}
-                    loading="lazy"
-                    className="h-5 w-auto object-contain"
+                    width={55}
+                    height={16}
+                    className="h-4.5 w-auto object-contain shrink-0"
                   />
 
-                  {/* تابي — real logo */}
-                  <Image
-                    src={PAYMENT_LOGOS.tabby}
-                    alt="Tabby"
-                    width={56}
-                    height={20}
-                    quality={95}
-                    loading="lazy"
-                    className="h-5 w-auto object-contain"
-                  />
+                  {/* تابي — Inline SVG Code */}
+                  <TabbyIcon />
 
-                  {/* فيزا */}
+                  {/* فيزا — Inline SVG Code */}
                   <VisaIcon />
 
-                  {/* ماستر كارد */}
+                  {/* ماستر كارد — Inline SVG Code */}
                   <MastercardIcon />
                 </div>
               </div>
