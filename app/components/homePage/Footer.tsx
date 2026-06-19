@@ -46,6 +46,14 @@ const CONTACT = {
   email: "info@mawtinalriyf.com",
 };
 
+// ── Payment logos (hosted on Cloudinary) ──────────────────────────────────────
+const PAYMENT_LOGOS = {
+  tabby:
+    "https://res.cloudinary.com/dfhecwiib/image/upload/v1781862056/%D8%B4%D8%B9%D8%A7%D8%B1_%D8%AA%D8%A7%D8%A8%D9%8A_pxfsgu.webp",
+  tamara:
+    "https://res.cloudinary.com/dfhecwiib/image/upload/v1781862065/%D8%B4%D8%B9%D8%A7%D8%B1_%D8%AA%D9%85%D8%A7%D8%B1%D8%A7_eemjfk.webp",
+};
+
 // ── Inline SVGs (Contact icons only) ─────────────────────────────────────────
 const PhoneIcon = () => (
   <svg
@@ -507,7 +515,7 @@ export default function Footer() {
                 </div>
               </div>
 
-              {/* Payment badges — real brand colors sampled from official marks */}
+              {/* Payment badges — real brand logos */}
               <div className="flex flex-col items-start sm:items-end gap-2">
                 <p className="text-xs font-medium" style={{ color: "#8e7548" }}>
                   طرق الدفع الآمنة
@@ -516,31 +524,27 @@ export default function Footer() {
                   className="bg-white rounded-xl px-3.5 py-2 shadow-sm flex items-center gap-3"
                   style={{ border: "1px solid rgba(84,66,38,0.14)" }}
                 >
-                  {/* تمارا — pill badge in sampled brand gradient */}
-                  <span
-                    className="px-2.5 py-1 rounded-full text-[11px] font-bold lowercase leading-none"
-                    style={{
-                      background:
-                        "linear-gradient(135deg, #90B0D6 0%, #6C86B3 100%)",
-                      color: "#3D6181",
-                    }}
-                    aria-label="Tamara"
-                  >
-                    tamara
-                  </span>
+                  {/* تمارا — real logo */}
+                  <Image
+                    src={PAYMENT_LOGOS.tamara}
+                    alt="Tamara"
+                    width={56}
+                    height={20}
+                    quality={95}
+                    loading="lazy"
+                    className="h-5 w-auto object-contain"
+                  />
 
-                  {/* تابي — pill badge in sampled brand gradient */}
-                  <span
-                    className="px-2.5 py-1 rounded-full text-[11px] font-bold lowercase leading-none"
-                    style={{
-                      background:
-                        "linear-gradient(135deg, #3BFE9E 0%, #3CFFC7 100%)",
-                      color: "#091F13",
-                    }}
-                    aria-label="Tabby"
-                  >
-                    tabby
-                  </span>
+                  {/* تابي — real logo */}
+                  <Image
+                    src={PAYMENT_LOGOS.tabby}
+                    alt="Tabby"
+                    width={56}
+                    height={20}
+                    quality={95}
+                    loading="lazy"
+                    className="h-5 w-auto object-contain"
+                  />
 
                   {/* فيزا */}
                   <VisaIcon />
