@@ -8,14 +8,12 @@ import { useQuery } from "@tanstack/react-query";
 import { categoriesQueryOptions } from "@/utils/categories";
 import type { RootCategory } from "@/utils/category";
 import { DOMAIN } from "@/lib/constants";
-import {
-  FaInstagram,
-  FaTiktok,
-  FaSnapchat,
-  FaPinterest,
-  FaXTwitter,
-} from "react-icons/fa6";
-import { FaCcVisa, FaCcMastercard } from "react-icons/fa";
+import { FaTiktok, FaSnapchat, FaPinterest, FaXTwitter } from "react-icons/fa6";
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Palette — 2 lightness-degrees lighter than the site's CSS variables
+// (+4 HSL lightness pts per "degree")
+// ─────────────────────────────────────────────────────────────────────────────
 
 // ── Lazy-load the map iframe (keeps Lighthouse score clean) ──────────────────
 const MapEmbed = dynamic(() => import("./MapEmbed"), {
@@ -48,7 +46,7 @@ const CONTACT = {
   email: "info@mawtinalriyf.com",
 };
 
-// ── Inline SVGs ──────────────────────────────────────────────────────────────
+// ── Inline SVGs (Contact icons only) ─────────────────────────────────────────
 const PhoneIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -87,8 +85,92 @@ const EmailIcon = () => (
   </svg>
 );
 
-const ICON_TONE = "#8e7548";
+// ── Instagram — real gradient mark (their actual brand path + gradient) ─────
+const InstagramIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 448 512"
+    className="w-[18px] h-[18px]"
+  >
+    <defs>
+      <linearGradient id="ig-gradient" x1="0%" y1="100%" x2="100%" y2="0%">
+        <stop offset="0%" stopColor="#FFDC80" />
+        <stop offset="25%" stopColor="#F77737" />
+        <stop offset="50%" stopColor="#E1306C" />
+        <stop offset="75%" stopColor="#C13584" />
+        <stop offset="100%" stopColor="#833AB4" />
+      </linearGradient>
+    </defs>
+    <path
+      fill="white"
+      d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"
+    />
+  </svg>
+);
 
+// ── Mastercard — real two-circle mark, red + orange ──────────────────────────
+const MastercardIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 36 24"
+    className="h-6 w-auto"
+    aria-label="Mastercard"
+  >
+    <circle cx="15" cy="12" r="11" fill="#EB001B" />
+    <circle cx="21" cy="12" r="11" fill="#F79E1B" fillOpacity="0.85" />
+  </svg>
+);
+
+// ── Visa — real wordmark blue ─────────────────────────────────────────────────
+const VisaIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 48 16"
+    className="h-4 w-auto"
+    aria-label="Visa"
+  >
+    <text
+      x="0"
+      y="13"
+      fontFamily="Arial, sans-serif"
+      fontWeight="900"
+      fontStyle="italic"
+      fontSize="15"
+      fill="#1A1F71"
+      letterSpacing="-0.5"
+    >
+      VISA
+    </text>
+  </svg>
+);
+
+// ── Shared social-icon badge wrapper ─────────────────────────────────────────
+function SocialBadge({
+  href,
+  label,
+  background,
+  children,
+}: {
+  href: string;
+  label: string;
+  background: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={label}
+      className="flex items-center justify-center w-9 h-9 rounded-xl shadow-sm transition-transform duration-200 hover:scale-110 hover:shadow-md"
+      style={{ background }}
+    >
+      {children}
+    </a>
+  );
+}
+
+// ── Types ─────────────────────────────────────────────────────────────────────
 type SubCategory = {
   id: string;
   slug: string;
@@ -158,7 +240,6 @@ export default function Footer() {
             </Link>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-              {/* Column 1: حول موطن الريف */}
               <nav aria-label="روابط موطن الريف">
                 <h3
                   className="text-xs font-semibold uppercase tracking-widest mb-5"
@@ -191,7 +272,6 @@ export default function Footer() {
                 </ul>
               </nav>
 
-              {/* Column 2: روابط سريعة */}
               <nav aria-label="تصفح الفئات">
                 <h3
                   className="text-xs font-semibold uppercase tracking-widest mb-5"
@@ -246,7 +326,7 @@ export default function Footer() {
                                   aria-hidden={isHidden || undefined}
                                 >
                                   <span
-                                    className="w-1.5 h-1.5 rounded-full shrink-0"
+                                    className="w-1 h-1 rounded-full shrink-0"
                                     style={{ background: "#c19a4e" }}
                                     aria-hidden="true"
                                   />
@@ -299,7 +379,6 @@ export default function Footer() {
 
             <address className="not-italic">
               <ul className="space-y-3">
-                {/* Phone */}
                 <li>
                   <a
                     href={`tel:${CONTACT.phone}`}
@@ -321,7 +400,6 @@ export default function Footer() {
                   </a>
                 </li>
 
-                {/* WhatsApp */}
                 <li>
                   <a
                     href={`https://wa.me/${CONTACT.whatsapp}`}
@@ -345,7 +423,6 @@ export default function Footer() {
                   </a>
                 </li>
 
-                {/* Email */}
                 <li>
                   <a
                     href={`mailto:${CONTACT.email}`}
@@ -369,10 +446,12 @@ export default function Footer() {
               </ul>
             </address>
 
+            {/* ── Socials + Payment ───────────────────────────────────────── */}
             <div
               className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 pt-4"
               style={{ borderTop: "1px solid rgba(84,66,38,0.14)" }}
             >
+              {/* Social links — each badge in its own real app color */}
               <div>
                 <p
                   className="text-xs mb-3 font-medium"
@@ -381,118 +460,93 @@ export default function Footer() {
                   تابعنا على
                 </p>
                 <div className="flex items-center flex-wrap gap-2.5">
-                  <a
+                  {/* Instagram — real gradient */}
+                  <SocialBadge
                     href="https://www.instagram.com/al_rif.foundation/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="موطن الريف على إنستغرام"
-                    className="flex items-center justify-center w-9 h-9 rounded-xl transition-all duration-200 hover:opacity-70 hover:-translate-y-0.5 shadow-sm"
-                    style={{
-                      background: "#fefdfb",
-                      color: ICON_TONE,
-                      border: "1px solid rgba(84,66,38,0.18)",
-                    }}
+                    label="موطن الريف على إنستغرام"
+                    background="linear-gradient(45deg, #FFDC80 0%, #F77737 25%, #E1306C 50%, #C13584 75%, #833AB4 100%)"
                   >
-                    <FaInstagram className="w-5 h-5" />
-                  </a>
+                    <InstagramIcon />
+                  </SocialBadge>
 
-                  <a
+                  {/* TikTok — brand black */}
+                  <SocialBadge
                     href="https://www.tiktok.com/@al_rif.foundation"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="موطن الريف على تيك توك"
-                    className="flex items-center justify-center w-9 h-9 rounded-xl transition-all duration-200 hover:opacity-70 hover:-translate-y-0.5 shadow-sm"
-                    style={{
-                      background: "#fefdfb",
-                      color: ICON_TONE,
-                      border: "1px solid rgba(84,66,38,0.18)",
-                    }}
+                    label="موطن الريف على تيك توك"
+                    background="#000000"
                   >
-                    <FaTiktok className="w-5 h-5" />
-                  </a>
+                    <FaTiktok className="w-[18px] h-[18px]" color="#FFFFFF" />
+                  </SocialBadge>
 
-                  <a
+                  {/* Snapchat — brand yellow */}
+                  <SocialBadge
                     href="https://snapchat.com/t/9fx3W32S"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="موطن الريف على سناب شات"
-                    className="flex items-center justify-center w-9 h-9 rounded-xl transition-all duration-200 hover:opacity-70 hover:-translate-y-0.5 shadow-sm"
-                    style={{
-                      background: "#fefdfb",
-                      color: ICON_TONE,
-                      border: "1px solid rgba(84,66,38,0.18)",
-                    }}
+                    label="موطن الريف على سناب شات"
+                    background="#FFFC00"
                   >
-                    <FaSnapchat className="w-5 h-5" />
-                  </a>
+                    <FaSnapchat className="w-5 h-5" color="#FFFFFF" />
+                  </SocialBadge>
 
-                  <a
+                  {/* Pinterest — brand red */}
+                  <SocialBadge
                     href="https://pin.it/1MO6eVgpf"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="موطن الريف على بينتريست"
-                    className="flex items-center justify-center w-9 h-9 rounded-xl transition-all duration-200 hover:opacity-70 hover:-translate-y-0.5 shadow-sm"
-                    style={{
-                      background: "#fefdfb",
-                      color: ICON_TONE,
-                      border: "1px solid rgba(84,66,38,0.18)",
-                    }}
+                    label="موطن الريف على بينتريست"
+                    background="#E60023"
                   >
-                    <FaPinterest className="w-5 h-5" />
-                  </a>
+                    <FaPinterest className="w-5 h-5" color="#FFFFFF" />
+                  </SocialBadge>
 
-                  <a
+                  {/* X — brand black */}
+                  <SocialBadge
                     href="https://x.com/a_riffoundation"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="موطن الريف على منصة إكس"
-                    className="flex items-center justify-center w-9 h-9 rounded-xl transition-all duration-200 hover:opacity-70 hover:-translate-y-0.5 shadow-sm"
-                    style={{
-                      background: "#fefdfb",
-                      color: ICON_TONE,
-                      border: "1px solid rgba(84,66,38,0.18)",
-                    }}
+                    label="موطن الريف على منصة إكس"
+                    background="#000000"
                   >
-                    <FaXTwitter className="w-[18px] h-[18px]" />
-                  </a>
+                    <FaXTwitter className="w-[18px] h-[18px]" color="#FFFFFF" />
+                  </SocialBadge>
                 </div>
               </div>
 
+              {/* Payment badges — real brand colors sampled from official marks */}
               <div className="flex flex-col items-start sm:items-end gap-2">
                 <p className="text-xs font-medium" style={{ color: "#8e7548" }}>
                   طرق الدفع الآمنة
                 </p>
                 <div
-                  className="bg-white rounded-xl px-3.5 py-2 shadow-sm flex items-center gap-4"
+                  className="bg-white rounded-xl px-3.5 py-2 shadow-sm flex items-center gap-3"
                   style={{ border: "1px solid rgba(84,66,38,0.14)" }}
                 >
+                  {/* تمارا — pill badge in sampled brand gradient */}
                   <span
-                    className="text-xs font-bold lowercase tracking-tight leading-none"
-                    style={{ color: ICON_TONE }}
+                    className="px-2.5 py-1 rounded-full text-[11px] font-bold lowercase leading-none"
+                    style={{
+                      background:
+                        "linear-gradient(135deg, #90B0D6 0%, #6C86B3 100%)",
+                      color: "#3D6181",
+                    }}
                     aria-label="Tamara"
                   >
                     tamara
                   </span>
 
+                  {/* تابي — pill badge in sampled brand gradient */}
                   <span
-                    className="text-xs font-bold lowercase tracking-tight leading-none"
-                    style={{ color: ICON_TONE }}
+                    className="px-2.5 py-1 rounded-full text-[11px] font-bold lowercase leading-none"
+                    style={{
+                      background:
+                        "linear-gradient(135deg, #3BFE9E 0%, #3CFFC7 100%)",
+                      color: "#091F13",
+                    }}
                     aria-label="Tabby"
                   >
                     tabby
                   </span>
 
-                  <FaCcVisa
-                    className="h-6 w-auto"
-                    style={{ color: ICON_TONE }}
-                    aria-label="Visa"
-                  />
+                  {/* فيزا */}
+                  <VisaIcon />
 
-                  <FaCcMastercard
-                    className="h-6 w-auto"
-                    style={{ color: ICON_TONE }}
-                    aria-label="Mastercard"
-                  />
+                  {/* ماستر كارد */}
+                  <MastercardIcon />
                 </div>
               </div>
             </div>
@@ -503,8 +557,7 @@ export default function Footer() {
       {/* ── Bottom copyright bar ──────────────────────────────────────────── */}
       <div style={{ borderTop: "1px solid rgba(84,66,38,0.14)" }}>
         <div
-          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-4
-            flex flex-col sm:flex-row items-center justify-between gap-3 text-xs"
+          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs"
           style={{ color: "#8e7548" }}
         >
           <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">

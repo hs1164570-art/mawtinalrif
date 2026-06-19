@@ -166,7 +166,7 @@ const furnitureStoreSchema = {
     },
     {
       "@type": "ContactPoint",
-      telephone: "8001243888",
+      telephone: "966557211359",
       contactType: "customer service",
       contactOption: "TollFree",
       availableLanguage: "Arabic",
@@ -239,13 +239,13 @@ const shippingFeatures: readonly ShippingFeature[] = [
     icon: "🚛",
     title: "توصيل سريع داخل الرياض",
     description:
-      "يصلك طلبك خلال 3–5 أيام عمل مع إشعار مسبق بالموعد الدقيق عبر الهاتف أو الواتساب.",
+      "يصلك طلبك خلال 7–10 أيام عمل مع إشعار مسبق بالموعد الدقيق عبر الهاتف أو الواتساب.",
   },
   {
     icon: "🇸🇦",
     title: "شحن لجميع مناطق المملكة",
     description:
-      "نغطي جميع مدن المملكة من جدة إلى أبها وتبوك والدمام خلال 5–10 أيام عمل بتغليف احترافي.",
+      "نغطي جميع مدن المملكة من جدة إلى أبها وتبوك والدمام خلال 10-15 أيام عمل بتغليف احترافي.",
   },
   {
     icon: "🔧",
@@ -263,7 +263,7 @@ const shippingFeatures: readonly ShippingFeature[] = [
     icon: "📞",
     title: "متابعة مستمرة للشحنة",
     description:
-      "نُبلغك بكل مراحل رحلة طلبك حتى استلامه، ودعمنا متاح على الخط المجاني 8001243888.",
+      "نُبلغك بكل مراحل رحلة طلبك حتى استلامه، ودعمنا متاح على الخط المجاني 966557211359.",
   },
   {
     icon: "↩️",
@@ -292,8 +292,8 @@ const contactItems: readonly ContactItem[] = [
   {
     icon: "☎️",
     label: "الخط المجاني",
-    value: "8001243888",
-    href: "tel:8001243888",
+    value: "966557211359",
+    href: "tel:966557211359",
     external: false,
   },
   {
