@@ -100,12 +100,7 @@ export const GET = adminGuard(
             limit,
           },
         },
-        {
-          headers: {
-            // منع التخزين المؤقت لضمان تحديث فوري لبيانات لوحة التحكم
-            "Cache-Control": "no-store, max-age=0, must-revalidate",
-          },
-        },
+        {},
       );
     } catch (error) {
       console.error("[ADMIN_PRODUCTS_GET_ERR]", error);

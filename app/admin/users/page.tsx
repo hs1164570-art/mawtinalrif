@@ -16,7 +16,7 @@ interface UsersPageProps {
 
 // تنظيف الـ URL وفصل منطق الـ Fetch
 async function fetchUsers(params: URLSearchParams) {
-  const BASE = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+  const BASE = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
   const res = await fetch(
     `${BASE}/api/admin/users/details?${params.toString()}`,
     {

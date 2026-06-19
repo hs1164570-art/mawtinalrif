@@ -18,7 +18,7 @@ interface ProductsPageProps {
 }
 
 async function fetchProducts(params: Record<string, string>) {
-  const BASE = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+  const BASE = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
   const sp = new URLSearchParams();
 
   Object.entries(params).forEach(([k, v]) => v && sp.set(k, v));
@@ -33,6 +33,7 @@ async function fetchProducts(params: Record<string, string>) {
       headers: Object.fromEntries(currentHeaders.entries()), // تمرير الكوكيز هنا
     });
 
+    console.log("res products", res);
     if (!res.ok) {
       console.error("🚨 Fetch Products Failed Status:", res.status);
       // 🔥 حماية: بدل ما نعمل throw يوقع الصفحة ويموت الـ Thread، بنرجع شكل الداتا الافتراضي
@@ -47,12 +48,13 @@ async function fetchProducts(params: Record<string, string>) {
 }
 
 async function fetchCategories() {
-  const BASE = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+  const BASE = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
 
   try {
     const res = await fetch(`${BASE}/api/categories`, {
       next: { tags: ["categories"] },
     });
+    console.log("res ctg", res);
     if (!res.ok) {
       console.error("🚨 Fetch Categories Failed Status:", res.status);
       return [];

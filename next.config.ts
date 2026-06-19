@@ -23,6 +23,7 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
 
   images: {
+    unoptimized: true, // <-- السطر ده هيقفل الـ Optimization من فيرسيل للموقع كله ويصفر الاستهلاك
     remotePatterns: [
       { protocol: "https", hostname: "res.cloudinary.com" },
       { protocol: "https", hostname: "avatars.githubusercontent.com" },
