@@ -9,7 +9,7 @@ import {
   Plus,
   Minus,
   Trash2,
-  ArrowRight,
+  ArrowLeft,
   Tag,
   PackageOpen,
   CreditCard,
@@ -21,27 +21,243 @@ interface CartDrawerProps {
   children: React.ReactNode;
 }
 
-// ── Skeleton متناسق تماماً مع الأنميشن النظيف والباليتة الجديدة ──
+// ── 1. مكون الـ Skeleton للمحاذاة والتحميل الناعم ──
 function SkeletonCard() {
   return (
     <div
       aria-hidden="true"
-      className="flex gap-3 p-3 rounded-2xl border border-[#f0ebdf] animate-pulse bg-[#faf6ed]"
+      className="flex gap-3 p-3 rounded-2xl animate-pulse"
+      style={{
+        border: "1px solid var(--border-md)",
+        backgroundColor: "var(--surface-2)",
+      }}
     >
-      <div className="w-[76px] h-[76px] rounded-xl bg-[#ede5d5] flex-shrink-0" />
+      <div
+        className="w-[76px] h-[76px] rounded-xl flex-shrink-0"
+        style={{ backgroundColor: "var(--bg-deep)" }}
+      />
       <div className="flex-1 space-y-2.5 py-1">
-        <div className="h-3.5 rounded bg-[#ede5d5] w-3/4" />
-        <div className="h-3 rounded bg-[#ede5d5] w-1/2" />
-        <div className="h-7 rounded bg-[#ede5d5] w-28 mt-1" />
+        <div
+          className="h-3.5 rounded w-3/4"
+          style={{ backgroundColor: "var(--bg-deep)" }}
+        />
+        <div
+          className="h-3 rounded w-1/2"
+          style={{ backgroundColor: "var(--bg-deep)" }}
+        />
+        <div
+          className="h-7 rounded w-28 mt-1"
+          style={{ backgroundColor: "var(--bg-deep)" }}
+        />
       </div>
     </div>
   );
 }
 
+// ── 2. مكون السلة الفارغة (Empty State) ──
+function EmptyCart({ onClose }: { onClose: () => void }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 15 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="flex flex-col items-center justify-center h-full gap-4 text-center py-20"
+    >
+      <motion.div
+        animate={{ y: [0, -6, 0] }}
+        transition={{
+          repeat: Infinity,
+          duration: 3,
+          ease: "easeInOut",
+        }}
+        className="w-20 h-20 rounded-full flex items-center justify-center shadow-inner"
+        style={{
+          backgroundColor: "var(--surface-2)",
+          border: "1px solid var(--border-md)",
+        }}
+      >
+        <PackageOpen
+          className="w-9 h-9"
+          style={{ color: "var(--text-3)" }}
+          aria-hidden
+        />
+      </motion.div>
+      <div>
+        <p className="font-bold text-[16px]" style={{ color: "var(--text-1)" }}>
+          السلة فارغة تماماً
+        </p>
+        <p className="text-sm mt-1" style={{ color: "var(--text-3)" }}>
+          أضف بعض القطع الفخمة لتبدأ التسوق
+        </p>
+      </div>
+      <motion.button
+        whileHover={{ scale: 1.03 }}
+        whileTap={{ scale: 0.97 }}
+        onClick={onClose}
+        className="mt-2 px-7 py-3.5 rounded-xl text-sm font-bold transition-colors focus-visible:outline-none"
+        style={{
+          backgroundColor: "var(--cyan)",
+          color: "var(--text-inv)",
+          boxShadow: "var(--shadow-md)",
+        }}
+      >
+        تصفح المنتجات الفاخرة
+      </motion.button>
+    </motion.div>
+  );
+}
+
+// ── 3. مكون كرت المنتج الذكي (Cart Item Card) ──
+interface CartItemProps {
+  item: any;
+  loading: boolean;
+  updateQty: (productId: string, newQty: number) => void;
+  removeItem: (productId: string) => void;
+}
+
+function CartItem({ item, loading, updateQty, removeItem }: CartItemProps) {
+  const disc = item.product.discount ?? 0;
+  const finalPrice = Math.round(item.product.price * (1 - disc / 100));
+  const hasDiscount = disc > 0;
+
+  return (
+    <motion.li
+      initial={{ opacity: 0, y: 12, scale: 0.98 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{
+        opacity: 0,
+        scale: 0.92,
+        height: 0,
+        marginBottom: 0,
+        padding: 0,
+        border: 0,
+      }}
+      transition={{ type: "spring", damping: 25, stiffness: 220 }}
+      className="flex gap-3 p-3 rounded-2xl relative overflow-hidden group"
+      style={{
+        backgroundColor: "var(--surface-2)",
+        border: "1px solid var(--border-md)",
+        boxShadow: "var(--shadow-sm)",
+      }}
+    >
+      {/* صورة المنتج والخصم */}
+      <div
+        className="relative w-[80px] h-[80px] rounded-xl overflow-hidden flex-shrink-0"
+        style={{
+          backgroundColor: "var(--bg-deep)",
+          border: "1px solid var(--border-md)",
+        }}
+      >
+        <Image
+          src={item.product.image}
+          alt={item.product.name}
+          fill
+          sizes="80px"
+          className="object-cover group-hover:scale-105 transition-transform duration-500"
+        />
+        {hasDiscount && (
+          <span
+            className="absolute top-1 left-1 flex items-center gap-0.5 text-[9px] font-black rounded px-1.5 py-0.5 shadow-sm"
+            style={{
+              backgroundColor: "var(--cyan)",
+              color: "var(--text-inv)",
+            }}
+          >
+            <Tag className="w-2.5 h-2.5" aria-hidden />
+            {disc}%
+          </span>
+        )}
+      </div>
+
+      {/* تفاصيل المنتج والأسعار */}
+      <div className="flex-1 min-w-0 flex flex-col justify-between">
+        <div>
+          <p
+            className="text-sm font-bold line-clamp-2 leading-snug transition-colors"
+            style={{ color: "var(--text-1)" }}
+          >
+            {item.product.name}
+          </p>
+
+          <div className="flex items-baseline gap-2 mt-1 flex-wrap">
+            <span
+              className="text-sm font-black"
+              style={{ color: "var(--cyan)" }}
+            >
+              {(finalPrice * item.quantity).toLocaleString("en-US")} ر.س
+            </span>
+            {hasDiscount && (
+              <span
+                className="text-xs line-through"
+                style={{ color: "var(--text-3)" }}
+              >
+                {(item.product.price * item.quantity).toLocaleString("en-US")}
+              </span>
+            )}
+          </div>
+        </div>
+
+        {/* أزرار التحكم بالكمية والحذف */}
+        <div className="flex items-center gap-2 mt-2">
+          <div
+            className="flex items-center gap-0.5 rounded-xl p-0.5"
+            style={{
+              border: "1px solid var(--border-md)",
+              backgroundColor: "var(--surface)",
+              boxShadow: "var(--shadow-sm)",
+            }}
+          >
+            <motion.button
+              whileTap={{ scale: 0.85 }}
+              onClick={() => updateQty(item.productId, item.quantity - 1)}
+              disabled={loading || item.quantity <= 1}
+              aria-label="تقليل الكمية"
+              className="w-6 h-6 rounded-lg flex items-center justify-center transition-colors disabled:opacity-20 disabled:cursor-not-allowed hover:bg-[var(--bg)]"
+              style={{ color: "var(--text-1)" }}
+            >
+              <Minus className="w-3 h-3" />
+            </motion.button>
+
+            <span
+              aria-live="polite"
+              className="w-7 text-center text-sm font-black select-none"
+              style={{ color: "var(--text-1)" }}
+            >
+              {item.quantity}
+            </span>
+
+            <motion.button
+              whileTap={{ scale: 0.85 }}
+              onClick={() => updateQty(item.productId, item.quantity + 1)}
+              disabled={loading}
+              aria-label="زيادة الكمية"
+              className="w-6 h-6 rounded-lg flex items-center justify-center transition-colors disabled:opacity-20 disabled:cursor-not-allowed hover:bg-[var(--bg)]"
+              style={{ color: "var(--text-1)" }}
+            >
+              <Plus className="w-3 h-3" />
+            </motion.button>
+          </div>
+
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => removeItem(item.productId)}
+            disabled={loading}
+            aria-label={`حذف ${item.product.name}`}
+            className="p-2 rounded-xl mr-auto transition-colors disabled:opacity-30 hover:bg-rose-50"
+            style={{ color: "var(--text-3)" }}
+          >
+            <Trash2 className="w-4 h-4" />
+          </motion.button>
+        </div>
+      </div>
+    </motion.li>
+  );
+}
+
+// ── 4. المكون الرئيسي (Cart Drawer) ──
 export default function CartDrawer({ children }: CartDrawerProps) {
   const [open, setOpen] = useState(false);
 
-  // ربط الـ Hook واستدعاء الدوال والـ states الصحيحة
   const {
     items,
     isLoading,
@@ -74,7 +290,7 @@ export default function CartDrawer({ children }: CartDrawerProps) {
 
   return (
     <>
-      {/* Trigger المطور اللامع */}
+      {/* الـ Trigger الخارجي لفتح السلة */}
       <div onClick={() => setOpen(true)} className="contents cursor-pointer">
         {children}
       </div>
@@ -82,7 +298,7 @@ export default function CartDrawer({ children }: CartDrawerProps) {
       <AnimatePresence>
         {open && (
           <>
-            {/* ── الـ Backdrop بأنيميشن ناعم ومتناسق ── */}
+            {/* الخلفية المظلمة (Backdrop) */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -93,7 +309,7 @@ export default function CartDrawer({ children }: CartDrawerProps) {
               className="fixed inset-0 z-[999999] bg-stone-900/30 backdrop-blur-[4px]"
             />
 
-            {/* ── لوحة السلة (Panel) الفاخرة باللون الكريمي #fdfaf6 ── */}
+            {/* لوحة السلة الجانبية (Drawer Panel) */}
             <motion.div
               dir="rtl"
               role="dialog"
@@ -103,20 +319,33 @@ export default function CartDrawer({ children }: CartDrawerProps) {
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ type: "spring", damping: 30, stiffness: 260 }}
-              className="fixed top-0 bottom-0 left-0 z-[1000000] w-full max-w-[440px] h-full flex flex-col bg-[#fdfaf6] shadow-[-15px_0_50px_rgba(40,30,20,0.06)] overflow-hidden"
+              className="fixed top-0 bottom-0 left-0 z-[1000000] w-full max-w-[440px] h-full flex flex-col overflow-hidden"
+              style={{
+                backgroundColor: "var(--surface)",
+                boxShadow: "var(--shadow-md)",
+              }}
             >
-              {/* ── Header ناعم ومريح ومتناسق جداً ── */}
-              <div className="flex items-center justify-between px-5 py-4 border-b border-[#ebdfcb] bg-[#f9f4e8] z-10">
+              {/* الهيدر (Header) */}
+              <div
+                className="flex items-center justify-between px-5 py-4 z-10"
+                style={{
+                  borderBottom: "1px solid var(--border-md)",
+                  backgroundColor: "var(--surface-2)",
+                }}
+              >
                 <div className="flex items-center gap-2.5">
                   <ShoppingBag
-                    className="w-[20px] h-[20px] text-[#806040]"
+                    className="w-[20px] h-[20px]"
+                    style={{ color: "var(--cyan)" }}
                     aria-hidden
                   />
-                  <span className="font-bold text-[#1a1510] text-[16px] tracking-tight">
+                  <span
+                    className="font-bold text-[16px] tracking-tight"
+                    style={{ color: "var(--text-1)" }}
+                  >
                     سلة التسوق
                   </span>
 
-                  {/* عداد حركي ينبض عند تغير القيمة */}
                   <AnimatePresence mode="popLayout">
                     {totalItems > 0 && (
                       <motion.span
@@ -124,7 +353,11 @@ export default function CartDrawer({ children }: CartDrawerProps) {
                         initial={{ scale: 0.6, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
                         exit={{ scale: 0.6, opacity: 0 }}
-                        className="bg-[#806040] text-[#fdfaf6] text-[11px] font-black rounded-full min-w-[22px] h-5.5 px-1.5 flex items-center justify-center leading-none shadow-sm"
+                        className="text-[11px] font-black rounded-full min-w-[22px] h-5.5 px-1.5 flex items-center justify-center leading-none shadow-sm"
+                        style={{
+                          backgroundColor: "var(--cyan)",
+                          color: "var(--text-inv)",
+                        }}
                       >
                         {totalItems > 99 ? "99+" : totalItems}
                       </motion.span>
@@ -137,17 +370,17 @@ export default function CartDrawer({ children }: CartDrawerProps) {
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setOpen(false)}
                   aria-label="إغلاق السلة"
-                  className="p-2 rounded-xl text-stone-500 hover:text-[#1a1510] hover:bg-[#ede3d0] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#806040]"
+                  className="p-2 rounded-xl transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--cyan)] hover:bg-[var(--bg)]"
+                  style={{ color: "var(--text-3)" }}
                 >
                   <X className="w-5 h-5" aria-hidden />
                 </motion.button>
               </div>
 
-              {/* ── Body بخلفية متناسقة ونظيفة تماماً ── */}
+              {/* محتوى السلة الرئيسي (Body) */}
               <div
-                role="list"
-                aria-label="منتجات السلة"
-                className="flex-1 overflow-y-auto px-4 py-5 space-y-4 bg-[#fdfaf6] custom-scrollbar overflow-x-hidden"
+                className="flex-1 overflow-y-auto px-4 py-5 custom-scrollbar overflow-x-hidden"
+                style={{ backgroundColor: "var(--surface)" }}
               >
                 {isLoading && (
                   <div className="space-y-3">
@@ -157,205 +390,75 @@ export default function CartDrawer({ children }: CartDrawerProps) {
                   </div>
                 )}
 
-                {/* كرت السلة الفارغة المطور بألوان راقية هادئة */}
                 {!isLoading && items.length === 0 && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="flex flex-col items-center justify-center h-full gap-4 text-center py-20"
-                  >
-                    <motion.div
-                      animate={{ y: [0, -6, 0] }}
-                      transition={{
-                        repeat: Infinity,
-                        duration: 3,
-                        ease: "easeInOut",
-                      }}
-                      className="w-20 h-20 rounded-full bg-[#f9f4e8] flex items-center justify-center border border-[#ebdfcb] shadow-inner"
-                    >
-                      <PackageOpen
-                        className="w-9 h-9 text-[#806040]/50"
-                        aria-hidden
-                      />
-                    </motion.div>
-                    <div>
-                      <p className="font-bold text-[#1a1510] text-[16px]">
-                        السلة فارغة تماماً
-                      </p>
-                      <p className="text-sm text-stone-500 mt-1">
-                        أضف بعض القطع الفخمة لتبدأ التسوق
-                      </p>
-                    </div>
-                    <motion.button
-                      whileHover={{ scale: 1.03, backgroundColor: "#6d5135" }}
-                      whileTap={{ scale: 0.97 }}
-                      onClick={() => setOpen(false)}
-                      className="mt-2 px-7 py-3.5 rounded-xl bg-[#806040] text-[#fdfaf6] text-sm font-bold shadow-md shadow-[#806040]/10 transition-colors focus-visible:outline-none"
-                    >
-                      تصفح المنتجات الفاخرة
-                    </motion.button>
-                  </motion.div>
+                  <EmptyCart onClose={() => setOpen(false)} />
                 )}
 
-                {/* قائمة المنتجات مع خلفية الكارت الفاتحة والفاخرة */}
-                <div className="space-y-3 relative">
-                  <AnimatePresence initial={false}>
-                    {!isLoading &&
-                      items.map((item) => {
-                        const disc = item.product.discount ?? 0;
-                        const finalPrice = Math.round(
-                          item.product.price * (1 - disc / 100),
-                        );
-                        const hasDiscount = disc > 0;
-
-                        return (
-                          <motion.article
-                            key={item.id}
-                            role="listitem"
-                            aria-label={item.product.name}
-                            initial={{ opacity: 0, y: 12, scale: 0.98 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            exit={{
-                              opacity: 0,
-                              scale: 0.92,
-                              height: 0,
-                              marginBottom: 0,
-                              padding: 0,
-                              border: 0,
-                            }}
-                            transition={{
-                              type: "spring",
-                              damping: 25,
-                              stiffness: 220,
-                            }}
-                            className="flex gap-3 p-3 rounded-2xl bg-[#fbf8f0] border border-[#ebdfcb] shadow-[0_2px_12px_rgba(40,30,20,0.02)] relative overflow-hidden group"
-                          >
-                            {/* Image */}
-                            <div className="relative w-[80px] h-[80px] rounded-xl overflow-hidden flex-shrink-0 bg-[#f4ebd9] border border-[#e8ddc7]">
-                              <Image
-                                src={item.product.image}
-                                alt={item.product.name}
-                                fill
-                                sizes="80px"
-                                className="object-cover group-hover:scale-105 transition-transform duration-500"
-                              />
-                              {hasDiscount && (
-                                <span className="absolute top-1 left-1 flex items-center gap-0.5 bg-[#806040] text-[#fdfaf6] text-[9px] font-black rounded px-1.5 py-0.5 shadow-sm">
-                                  <Tag className="w-2.5 h-2.5" aria-hidden />
-                                  {disc}%
-                                </span>
-                              )}
-                            </div>
-
-                            {/* Details */}
-                            <div className="flex-1 min-w-0 flex flex-col justify-between">
-                              <div>
-                                <p className="text-sm font-bold text-[#1a1510] line-clamp-2 leading-snug group-hover:text-[#806040] transition-colors">
-                                  {item.product.name}
-                                </p>
-
-                                <div className="flex items-baseline gap-2 mt-1 flex-wrap">
-                                  <span className="text-sm font-black text-[#806040]">
-                                    {(
-                                      finalPrice * item.quantity
-                                    ).toLocaleString("en-US")}{" "}
-                                    ر.س
-                                  </span>
-                                  {hasDiscount && (
-                                    <span className="text-xs text-stone-400 line-through">
-                                      {(
-                                        item.product.price * item.quantity
-                                      ).toLocaleString("en-US")}
-                                    </span>
-                                  )}
-                                </div>
-                              </div>
-
-                              {/* Controls */}
-                              <div className="flex items-center gap-2 mt-2">
-                                <div className="flex items-center gap-0.5 border border-[#ebdfcb] rounded-xl bg-[#fdfaf6] p-0.5 shadow-sm">
-                                  <motion.button
-                                    whileTap={{ scale: 0.85 }}
-                                    onClick={() =>
-                                      updateQty(
-                                        item.productId,
-                                        item.quantity - 1,
-                                      )
-                                    }
-                                    disabled={loading || item.quantity <= 1}
-                                    aria-label="تقليل الكمية"
-                                    className="w-6 h-6 rounded-lg flex items-center justify-center hover:bg-[#f3ede4] text-[#1a1510] transition-colors disabled:opacity-20 disabled:cursor-not-allowed"
-                                  >
-                                    <Minus className="w-3 h-3" />
-                                  </motion.button>
-
-                                  <span
-                                    aria-live="polite"
-                                    className="w-7 text-center text-sm font-black text-[#1a1510] select-none"
-                                  >
-                                    {item.quantity}
-                                  </span>
-
-                                  <motion.button
-                                    whileTap={{ scale: 0.85 }}
-                                    onClick={() =>
-                                      updateQty(
-                                        item.productId,
-                                        item.quantity + 1,
-                                      )
-                                    }
-                                    disabled={loading}
-                                    aria-label="زيادة الكمية"
-                                    className="w-6 h-6 rounded-lg flex items-center justify-center hover:bg-[#f3ede4] text-[#1a1510] transition-colors disabled:opacity-20 disabled:cursor-not-allowed"
-                                  >
-                                    <Plus className="w-3 h-3" />
-                                  </motion.button>
-                                </div>
-
-                                <motion.button
-                                  whileHover={{ scale: 1.1, color: "#e11d48" }}
-                                  whileTap={{ scale: 0.9 }}
-                                  onClick={() => removeItem(item.productId)}
-                                  disabled={loading}
-                                  aria-label={`حذف ${item.product.name}`}
-                                  className="p-2 rounded-xl text-stone-400 mr-auto hover:bg-rose-50 transition-colors disabled:opacity-30"
-                                >
-                                  <Trash2 className="w-4 h-4" />
-                                </motion.button>
-                              </div>
-                            </div>
-                          </motion.article>
-                        );
-                      })}
-                  </AnimatePresence>
-                </div>
+                {/* قائمة المنتجات المعروضة بشكل منظم ودلالي */}
+                {!isLoading && items.length > 0 && (
+                  <ul className="space-y-3 relative list-none p-0 m-0">
+                    <AnimatePresence initial={false}>
+                      {items.map((item) => (
+                        <CartItem
+                          key={item.id}
+                          item={item}
+                          loading={loading}
+                          updateQty={updateQty}
+                          removeItem={removeItem}
+                        />
+                      ))}
+                    </AnimatePresence>
+                  </ul>
+                )}
               </div>
 
-              {/* ── Footer الفخم بلون متباين وهادئ جداً ── */}
+              {/* الفوتر وحساب الإجمالي (Footer) */}
               {items.length > 0 && (
-                <div className="border-t border-[#ebdfcb] bg-[#f9f4e8] p-5 space-y-4 shadow-[0_-4px_25px_rgba(40,30,20,0.03)] z-10">
+                <div
+                  className="p-5 space-y-4 z-10"
+                  style={{
+                    borderTop: "1px solid var(--border-md)",
+                    backgroundColor: "var(--surface-2)",
+                    boxShadow: "var(--shadow-sm)",
+                  }}
+                >
                   <div className="space-y-2">
-                    <div className="flex justify-between text-sm text-stone-600">
+                    <div
+                      className="flex justify-between text-sm"
+                      style={{ color: "var(--text-2)" }}
+                    >
                       <span>المجموع الفرعي:</span>
-                      <span className="font-bold text-stone-900">
-                        {subtotal?.toLocaleString("en-US")}ر.س
+                      <span
+                        className="font-bold"
+                        style={{ color: "var(--text-1)" }}
+                      >
+                        {subtotal?.toLocaleString("en-US")} ر.س
                       </span>
                     </div>
                     {totalDiscount > 0 && (
                       <div className="flex justify-between text-sm text-emerald-700 font-semibold">
                         <span>إجمالي الخصومات:</span>
                         <span>
-                          -{totalDiscount?.toLocaleString("en-US")}ر.س
+                          -{totalDiscount?.toLocaleString("en-US")} ر.س
                         </span>
                       </div>
                     )}
-                    <div className="h-px bg-[#ebdfcb] my-1" />
+                    <div
+                      className="h-px my-1"
+                      style={{ backgroundColor: "var(--border-md)" }}
+                    />
                     <div className="flex justify-between items-baseline">
-                      <span className="text-[15px] font-black text-[#1a1510]">
+                      <span
+                        className="text-[15px] font-black"
+                        style={{ color: "var(--text-1)" }}
+                      >
                         الإجمالي الصافي:
                       </span>
-                      <span className="text-xl font-black text-[#806040] tracking-tight">
-                        {total?.toLocaleString("en-US")}ر.س
+                      <span
+                        className="text-xl font-black tracking-tight"
+                        style={{ color: "var(--cyan)" }}
+                      >
+                        {total?.toLocaleString("en-US")} ر.س
                       </span>
                     </div>
                   </div>
@@ -368,11 +471,17 @@ export default function CartDrawer({ children }: CartDrawerProps) {
                     <motion.button
                       whileHover={{
                         scale: 1.01,
-                        boxShadow: "0 8px 24px rgba(128,96,64,0.15)",
+                        boxShadow: "0 8px 24px rgba(14,165,233,0.15)",
                       }}
                       whileTap={{ scale: 0.99 }}
-                      className="w-full py-4 px-5 rounded-xl bg-[#806040] text-[#fdfaf6] font-bold text-sm flex items-center justify-center gap-2 relative overflow-hidden group shadow-md transition-colors"
+                      className="w-full py-4 px-5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 relative overflow-hidden group transition-colors"
+                      style={{
+                        backgroundColor: "var(--cyan)",
+                        color: "var(--text-inv)",
+                        boxShadow: "var(--shadow-md)",
+                      }}
                     >
+                      {/* أنميشن لمعة الزر اللامعة */}
                       <motion.div
                         initial={{ x: "-100%" }}
                         animate={{ x: "100%" }}
@@ -386,7 +495,7 @@ export default function CartDrawer({ children }: CartDrawerProps) {
                       />
                       <CreditCard className="w-4 h-4" />
                       إتمام عملية الشراء الآمن
-                      <ArrowRight className="w-4 h-4 mr-1 group-hover:-translate-x-1 transition-transform" />
+                      <ArrowLeft className="w-4 h-4 mr-1 group-hover:-translate-x-1 transition-transform" />
                     </motion.button>
                   </Link>
                 </div>

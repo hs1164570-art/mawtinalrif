@@ -29,14 +29,15 @@ interface HeroSectionProps {
   ctaLabel?: string;
 }
 
-// ─── Placeholder colors per index (when image is null) ───────────────────────
+// ─── Placeholder gradients per index (when image is null) ─────────────────────
+// مبنية بالكامل من متغيرات اللون الجديدة (رمادي/أسود محايد) بدل الألوان الدافئة القديمة
 
 const PLACEHOLDER_GRADIENTS = [
-  "linear-gradient(135deg,#1a1410 0%,#2e2418 100%)",
-  "linear-gradient(135deg,#0e141a 0%,#182030 100%)",
-  "linear-gradient(135deg,#131a10 0%,#202e18 100%)",
-  "linear-gradient(135deg,#1a1018 0%,#2e1828 100%)",
-  "linear-gradient(135deg,#1a1810 0%,#2e2c18 100%)",
+  "linear-gradient(135deg, var(--gold) 0%, var(--gold-mid) 100%)",
+  "linear-gradient(135deg, var(--gold-mid) 0%, var(--gold) 100%)",
+  "linear-gradient(160deg, var(--gold) 0%, var(--bg-deep) 120%)",
+  "linear-gradient(110deg, var(--gold-mid) 0%, var(--gold) 100%)",
+  "linear-gradient(140deg, var(--gold) 0%, var(--gold-bright) 130%)",
 ];
 
 // ─── isomorphic layout effect: useLayoutEffect على الـ client، useEffect على الـ server ──
@@ -138,13 +139,14 @@ export default function HeroSection({
 
         /* ══ Shell ══════════════════════════════════════════════════════════ */
         .hero {
-          --hero-gold:           #94731c;
-          --hero-gold-mid:       #b5912f;
-          --hero-gold-bright:    #dfb320;
-          --hero-text-inv:       #ffffff;
-          --hero-surface:        #fffdf5;
-          --hero-surface-2:      #fffdfa;
-          --hero-overlay-vignette: rgba(23,23,26,0.9);
+          /* تم تنظيف الألوان المحلية لتعكس الفخامة البسيطة (أبيض ناصع وتدرجات شفافة فوق الخلفية الداكنة) */
+          --hero-gold:           var(--gold-mid);
+          --hero-gold-mid:       rgba(255, 255, 255, 0.25); /* درجة أبيض ناعمة وشفافة للفواصل وبداية البروجريس */
+          --hero-gold-bright:    #ffffff;                  /* أبيض ناصع ونظيف جداً للأسماء الحركية والعناصر النشطة */
+          --hero-text-inv:       var(--text-inv, #ffffff);
+          --hero-surface:        var(--surface);
+          --hero-surface-2:      var(--surface-2);
+          --hero-overlay-vignette: rgba(26,26,26,0.9);
 
           position: relative;
           width: 100%;
@@ -155,7 +157,7 @@ export default function HeroSection({
           overflow: hidden;
           font-family: 'Cairo', sans-serif;
           direction: rtl;
-          background: #0a0a0a;
+          background: var(--gold);
           margin: 0 !important;
           padding: 0 !important;
         }
@@ -184,7 +186,7 @@ export default function HeroSection({
           position: absolute;
           inset: 0;
           z-index: 2;
-          background: rgba(43, 34, 27, 0.18);
+          background: rgba(26, 26, 26, 0.18);
           backdrop-filter: blur(4px);
           -webkit-backdrop-filter: blur(4px);
         }
@@ -195,9 +197,9 @@ export default function HeroSection({
           z-index: 2;
           background: linear-gradient(
             to bottom,
-            rgba(34, 25, 18, 0.2) 0%,
-            rgba(34, 25, 18, 0.5) 50%,
-            rgba(22, 16, 11, 0.75) 100%
+            rgba(26, 26, 26, 0.2) 0%,
+            rgba(26, 26, 26, 0.5) 50%,
+            rgba(26, 26, 26, 0.78) 100%
           );
         }
 
@@ -206,7 +208,8 @@ export default function HeroSection({
           bottom: 0; left: 0; right: 0;
           height: 100%;
           z-index: 2;
-          background: linear-gradient(to top, rgba(148, 115, 28, 0.2) 0%, transparent 100%);
+          /* تم إزالة ظل السيان واستبداله بظلال داكنة تعزز تباين النصوص وفخامة الـ UI */
+          background: linear-gradient(to top, rgba(0, 0, 0, 0.25) 0%, transparent 100%);
           pointer-events: none;
         }
 
@@ -273,9 +276,10 @@ export default function HeroSection({
         .heading-dynamic {
           font-size: clamp(32px,6.2vw,80px);
           font-weight: 900;
+          /* الألوان الآن باللون الأبيض الصافي الفاخر تماماً */
           color: var(--hero-gold-bright);
           line-height: 1.1;
-          text-shadow: 0 0 40px rgba(223,179,32,0.35), 0 4px 24px rgba(0,0,0,0.35);
+          text-shadow: 0 4px 32px rgba(0,0,0,0.4);
           display: inline-block;
           will-change: transform, opacity;
         }
@@ -340,7 +344,7 @@ export default function HeroSection({
           transform: translateY(-3px);
           border-color: var(--hero-gold-bright);
           background: rgba(255,255,255,0.22);
-          box-shadow: inset 0 1.5px 0 rgba(255,255,255,.3), 0 12px 40px rgba(223,179,32,0.2);
+          box-shadow: inset 0 1.5px 0 rgba(255,255,255,.3), 0 12px 40px rgba(0,0,0,0.3);
         }
         .cta-btn svg { transition: transform .3s ease; flex-shrink: 0; }
         .cta-btn:hover svg { transform: translateX(-5px); }
@@ -409,7 +413,7 @@ export default function HeroSection({
           font-size: 28px; font-weight: 900;
           color: var(--hero-gold-bright);
           line-height: 1;
-          text-shadow: 0 0 24px rgba(223,179,32,0.4);
+          text-shadow: 0 2px 14px rgba(0,0,0,0.2);
         }
 
         /* ── Progress bar ── */
@@ -422,6 +426,7 @@ export default function HeroSection({
         }
         .progress-bar {
           height: 100%;
+          /* خط متطور يبدأ بأبيض خفيف وينتهي بكتلة بيضاء صافية ممتدة وسريعة المحاكاة */
           background: linear-gradient(to right, var(--hero-gold-mid), var(--hero-gold-bright));
           animation: progress 5.5s linear forwards;
         }

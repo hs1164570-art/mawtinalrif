@@ -197,14 +197,14 @@ export default function ProductCard({
             <div className="absolute top-0 left-0 w-24 h-24 overflow-hidden z-20 pointer-events-none rounded-tl-2xl">
               <div
                 className="absolute top-4 -left-9 w-[140px] -rotate-45 text-center text-[11px] font-bold tracking-wide shadow-md py-1"
-                style={{ background: "#ff6b6b", color: "#ffffff" }}
+                style={{ background: "var(--red)", color: "#ffffff" }}
               >
                 خصم {product.discount}%
               </div>
             </div>
           )}
 
-          {/* Quick View — الزرار أصبح حر وخارج نطاق الـ Link تماماً مع z-index أعلى للاستجابة الفورية */}
+          {/* Quick View */}
           <motion.button
             variants={quickBtnVariants}
             type="button"
@@ -219,7 +219,7 @@ export default function ProductCard({
           >
             <Eye
               className="w-4 h-4"
-              style={{ color: "var(--gold)" }}
+              style={{ color: "var(--cyan)" }}
               aria-hidden="true"
             />
             عرض سريع
@@ -244,9 +244,9 @@ export default function ProductCard({
                     width: i === activeImg ? 16 : 6,
                     height: 6,
                     background:
-                      i === activeImg ?
-                        "var(--gold-bright, #d4af37)"
-                      : "rgba(255, 255, 255, 0.55)",
+                      i === activeImg ? "var(--cyan)" : (
+                        "rgba(255, 255, 255, 0.55)"
+                      ),
                   }}
                   aria-label={`صورة ${i + 1}`}
                 />
@@ -273,8 +273,14 @@ export default function ProductCard({
             className="no-underline block mb-3"
           >
             <h3
-              className="text-[13px] font-semibold leading-snug line-clamp-2 group-hover:text-[var(--gold)] transition-colors"
+              className="text-[13px] font-semibold leading-snug line-clamp-2 transition-colors"
               style={{ color: "var(--text-1)", minHeight: "2.4rem" }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.color = "var(--cyan)")
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.color = "var(--text-1)")
+              }
               itemProp="name"
             >
               <span className="line-clamp-2">{product.name}</span>
@@ -301,7 +307,7 @@ export default function ProductCard({
             <div className="flex items-baseline gap-1">
               <span
                 className="text-[16px] font-bold"
-                style={{ color: "var(--gold)" }}
+                style={{ color: "var(--red)" }}
                 itemProp="price"
                 content={String(finalPrice)}
               >
@@ -327,13 +333,11 @@ export default function ProductCard({
               className="text-[10px] font-semibold rounded-full px-2.5 py-0.5 border"
               style={{
                 background:
-                  product.inStock ?
-                    "rgba(160,120,48,0.06)"
-                  : "rgba(220,50,50,0.04)",
-                color: product.inStock ? "var(--gold)" : "var(--red)",
+                  product.inStock ? "var(--cyan-bg)" : "rgba(220,50,50,0.04)",
+                color: product.inStock ? "var(--cyan)" : "var(--red)",
                 borderColor:
                   product.inStock ?
-                    "rgba(160,120,48,0.12)"
+                    "rgba(0,180,216,0.12)"
                   : "rgba(220,50,50,0.1)",
               }}
             >

@@ -19,7 +19,7 @@ export default function Sub3Duo({
 
   return (
     <article
-      className="py-6 md:py-10 bg-gradient-to-b from-[#FBF7F0] to-[#F6EEE2]"
+      className="py-6 md:py-10 bg-gradient-to-b from-[var(--bg)] to-[var(--bg-deep)]"
       aria-labelledby={`sub-heading-${subSlug}`}
     >
       <div className="max-w-7xl mx-auto px-4 md:px-8">
@@ -56,7 +56,7 @@ export default function Sub3Duo({
 
               {/* ريبون الخصم */}
               {p.discount && p.discount > 0 && (
-                <div className="absolute top-0 right-5 bg-[#C49858] text-white text-[11px] font-bold tracking-wide px-3 py-1.5 rounded-b-md shadow-sm">
+                <div className="absolute top-0 right-5 bg-[var(--gold)] text-[var(--text-inv)] text-[11px] font-bold tracking-wide px-3 py-1.5 rounded-b-md shadow-sm">
                   خصم {p.discount}%
                 </div>
               )}
@@ -73,16 +73,16 @@ export default function Sub3Duo({
               : p.price;
             return (
               <div key={p.slug} className="px-1 md:px-2">
-                <span className="text-[#3D2B1A] font-bold text-sm md:text-base block truncate">
+                <span className="text-[var(--text-1)] font-bold text-sm md:text-base block truncate">
                   {p.name}
                 </span>
                 <div className="flex items-baseline gap-2 mt-0.5">
                   {p.discount && p.discount > 0 && (
-                    <span className="text-[#9C8568] text-xs line-through">
+                    <span className="text-[var(--text-3)] text-xs line-through">
                       {p.price.toLocaleString("en-US")} ر.س
                     </span>
                   )}
-                  <span className="text-[#A87C3F] font-black text-sm md:text-base">
+                  <span className="text-[var(--gold)] font-black text-sm md:text-base">
                     {discounted.toLocaleString("en-US")} ر.س
                   </span>
                 </div>

@@ -18,22 +18,28 @@ import type { UserProfile } from "@/utils/index";
 
 const CSS_VARS = `
   :root {
-    --bg: #f8f4ec;
-    --bg-deep: #ede8dc;
     --surface: #ffffff;
-    --surface-2: #fffdf8;
-    --border: rgba(90,60,20,0.10);
-    --border-md: rgba(90,60,20,0.18);
-    --border-strong: rgba(90,60,20,0.32);
-    --gold: #a07830;
-    --gold-mid: #b89040;
-    --gold-bright: #d0a820;
-    --gold-bg: rgba(160,120,48,0.07);
-    --text-1: #181008;
-    --text-2: #483820;
-    --text-3: #806840;
+    --bg: #f8f9fa;
+    --bg-deep: #f1f3f5;
+    --surface-2: #fafbfa;
+    --surface-3: #fcfdfd;
+    --border: rgba(33, 37, 41, 0.06);
+    --border-md: rgba(33, 37, 41, 0.12);
+    --border-strong: rgba(33, 37, 41, 0.25);
+    --red: #e03131;
+    --cyan: #0ea5e9;
+    --cyan-bright: #38bdf8;
+    --cyan-bg: rgba(14, 165, 233, 0.06);
+    --gold: #1a1a1a;
+    --gold-mid: #212529;
+    --gold-bright: #495057;
+    --gold-bg: rgba(0, 0, 0, 0.75);
+    --text-1: #1a1a1a;
+    --text-2: #495057;
+    --text-3: #868e96;
     --text-inv: #ffffff;
-    --red: #b91c1c;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.05), 0 10px 15px rgba(0, 0, 0, 0.08);
   }
 `;
 
@@ -91,7 +97,7 @@ export function ProfileClient({ profile }: ProfileClientProps) {
               border: "1px solid var(--border-md)",
               borderRadius: "24px",
               overflow: "hidden",
-              boxShadow: "0 2px 16px rgba(90,60,20,0.07)",
+              boxShadow: "var(--shadow-md)",
             }}
           >
             {/* Banner strip */}
@@ -100,7 +106,7 @@ export function ProfileClient({ profile }: ProfileClientProps) {
               style={{
                 height: 80,
                 background:
-                  "linear-gradient(135deg, var(--gold-bg) 0%, rgba(160,120,48,0.18) 100%)",
+                  "linear-gradient(135deg, var(--cyan-bg) 0%, var(--bg-deep) 100%)",
                 borderBottom: "1px solid var(--border)",
                 position: "relative",
               }}
@@ -114,7 +120,7 @@ export function ProfileClient({ profile }: ProfileClientProps) {
                     width: 4,
                     height: 4,
                     borderRadius: "50%",
-                    background: "rgba(160,120,48,0.25)",
+                    background: "rgba(14, 165, 233, 0.25)",
                     left: `${(i % 6) * 18 + 8}%`,
                     top: i < 6 ? "25%" : "65%",
                   }}
@@ -143,10 +149,10 @@ export function ProfileClient({ profile }: ProfileClientProps) {
                     borderRadius: "50%",
                     border: "3px solid var(--surface)",
                     overflow: "hidden",
-                    background: "var(--gold-bg)",
+                    background: "var(--cyan-bg)",
                     flexShrink: 0,
                     position: "relative",
-                    boxShadow: "0 2px 12px rgba(90,60,20,0.15)",
+                    boxShadow: "0 2px 12px rgba(0, 0, 0, 0.15)",
                   }}
                 >
                   {profile.image ?
@@ -167,7 +173,7 @@ export function ProfileClient({ profile }: ProfileClientProps) {
                         justifyContent: "center",
                         fontSize: "1.3rem",
                         fontWeight: 800,
-                        color: "var(--gold)",
+                        color: "var(--cyan)",
                       }}
                     >
                       {initials}
@@ -204,9 +210,9 @@ export function ProfileClient({ profile }: ProfileClientProps) {
                       background:
                         profile.status === "ACTIVE" ?
                           "rgba(22,163,74,0.10)"
-                        : "rgba(185,28,28,0.10)",
+                        : "rgba(224,49,49,0.10)",
                       color:
-                        profile.status === "ACTIVE" ? "#15803d" : "#b91c1c",
+                        profile.status === "ACTIVE" ? "#15803d" : "var(--red)",
                       borderRadius: "99px",
                       fontSize: "0.72rem",
                       fontWeight: 700,
@@ -218,7 +224,9 @@ export function ProfileClient({ profile }: ProfileClientProps) {
                         height: 6,
                         borderRadius: "50%",
                         background:
-                          profile.status === "ACTIVE" ? "#22c55e" : "#ef4444",
+                          profile.status === "ACTIVE" ?
+                            "#22c55e"
+                          : "var(--red)",
                       }}
                     />
                     {profile.status}
@@ -299,20 +307,20 @@ export function ProfileClient({ profile }: ProfileClientProps) {
             {[
               {
                 icon: (
-                  <ClipboardList size={20} style={{ color: "var(--gold)" }} />
+                  <ClipboardList size={20} style={{ color: "var(--cyan)" }} />
                 ),
                 value: profile.order.length,
                 label: "Recent Orders",
               },
               {
                 icon: (
-                  <ShoppingBag size={20} style={{ color: "var(--gold)" }} />
+                  <ShoppingBag size={20} style={{ color: "var(--cyan)" }} />
                 ),
                 value: cartCount,
                 label: "Items in Cart",
               },
               {
-                icon: <Package size={20} style={{ color: "var(--gold)" }} />,
+                icon: <Package size={20} style={{ color: "var(--cyan)" }} />,
                 value: profile.order.filter((o) => o.status === "DELIVERED")
                   .length,
                 label: "Delivered",
@@ -328,7 +336,7 @@ export function ProfileClient({ profile }: ProfileClientProps) {
                   display: "flex",
                   alignItems: "center",
                   gap: "14px",
-                  boxShadow: "0 1px 4px rgba(90,60,20,0.04)",
+                  boxShadow: "var(--shadow-sm)",
                 }}
               >
                 <div
@@ -336,7 +344,7 @@ export function ProfileClient({ profile }: ProfileClientProps) {
                     width: 40,
                     height: 40,
                     borderRadius: "10px",
-                    background: "var(--gold-bg)",
+                    background: "var(--cyan-bg)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -387,7 +395,7 @@ export function ProfileClient({ profile }: ProfileClientProps) {
               <SectionHeader
                 title="Cart Preview"
                 icon={
-                  <ShoppingBag size={15} style={{ color: "var(--gold)" }} />
+                  <ShoppingBag size={15} style={{ color: "var(--cyan)" }} />
                 }
                 href="/cart"
               />
@@ -476,7 +484,7 @@ export function ProfileClient({ profile }: ProfileClientProps) {
                           style={{
                             fontSize: "0.85rem",
                             fontWeight: 700,
-                            color: "var(--gold)",
+                            color: "var(--red)",
                             flexShrink: 0,
                           }}
                         >
@@ -494,7 +502,7 @@ export function ProfileClient({ profile }: ProfileClientProps) {
               <SectionHeader
                 title="Recent Orders"
                 icon={
-                  <ClipboardList size={15} style={{ color: "var(--gold)" }} />
+                  <ClipboardList size={15} style={{ color: "var(--cyan)" }} />
                 }
                 href="/orders"
               />
@@ -566,7 +574,7 @@ export function ProfileClient({ profile }: ProfileClientProps) {
                           style={{
                             fontWeight: 800,
                             fontSize: "0.88rem",
-                            color: "var(--gold)",
+                            color: "var(--red)",
                           }}
                         >
                           ${order.totalPrice.toFixed(2)}
@@ -598,7 +606,7 @@ const sectionStyle: React.CSSProperties = {
   border: "1px solid var(--border-md)",
   borderRadius: "20px",
   padding: "20px",
-  boxShadow: "0 1px 6px rgba(90,60,20,0.04)",
+  boxShadow: "var(--shadow-sm)",
   display: "flex",
   flexDirection: "column",
   gap: "16px",
@@ -627,7 +635,7 @@ function SectionHeader({
             width: 28,
             height: 28,
             borderRadius: "7px",
-            background: "var(--gold-bg)",
+            background: "var(--cyan-bg)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -653,7 +661,7 @@ function SectionHeader({
           display: "flex",
           alignItems: "center",
           gap: "2px",
-          color: "var(--gold)",
+          color: "var(--cyan)",
           fontSize: "0.75rem",
           fontWeight: 600,
           textDecoration: "none",
@@ -693,12 +701,12 @@ function EmptySection({
         style={{
           fontSize: "0.78rem",
           fontWeight: 700,
-          color: "var(--gold)",
+          color: "var(--cyan)",
           textDecoration: "none",
           padding: "6px 14px",
           border: "1px solid var(--border-md)",
           borderRadius: "8px",
-          background: "var(--gold-bg)",
+          background: "var(--cyan-bg)",
         }}
       >
         {cta}

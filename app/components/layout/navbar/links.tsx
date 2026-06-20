@@ -3,7 +3,7 @@
 import { useState, useRef, useCallback } from "react";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
-import { ChevronDown, Home, Info, LayoutDashboard } from "lucide-react"; // الأيقونات المساعدة للموبايل والترتيب
+import { ChevronDown, Home, Info, LayoutDashboard } from "lucide-react";
 import { categoriesQueryOptions } from "@/utils/categories";
 
 interface NavLinksProps {
@@ -12,15 +12,15 @@ interface NavLinksProps {
   onClose: () => void;
 }
 
-/* 🎨 الألوان الأساسية المأخوذة من لوحة تحكم "موطن الريف" */
+/* 🎨 الألوان الأساسية معتمدة كلياً على الـ CSS Variables الجديدة */
 const linkBase =
   "block px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 " +
-  "text-[#2e261f] hover:text-[#000000] hover:bg-[#f3ede4] " +
-  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8c6239]";
+  "text-[var(--text-1)] hover:text-[var(--text-1)] hover:bg-[var(--bg-deep)] " +
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--cyan)]";
 
 const subLinkBase =
   "block px-4 py-2.5 rounded-lg text-sm font-semibold transition-all duration-150 " +
-  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8c6239]";
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--cyan)]";
 
 export default function NavLinks({
   isDesktop,
@@ -53,7 +53,7 @@ export default function NavLinks({
             <div
               key={w}
               style={{ width: w }}
-              className="h-8 rounded-xl bg-[#f3ede4] animate-pulse"
+              className="h-8 rounded-xl bg-[var(--bg-deep)] animate-pulse"
             />
           ))}
         </div>
@@ -106,16 +106,16 @@ export default function NavLinks({
                     }}
                     className={[
                       "flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-bold border",
-                      "transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8c6239]",
+                      "transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--cyan)]",
                       isOpen ?
-                        "bg-[#f3ede4] text-[#000000] border-[#dcd4c9] shadow-sm"
-                      : "text-[#2e261f] bg-transparent border-transparent hover:bg-[#f3ede4] hover:text-[#000000]",
+                        "bg-[var(--bg-deep)] text-[var(--text-1)] border-[var(--border-strong)] shadow-[var(--shadow-sm)]"
+                      : "text-[var(--text-1)] bg-transparent border-transparent hover:bg-[var(--bg-deep)] hover:text-[var(--text-1)]",
                     ].join(" ")}
                   >
                     <span>{cat.name}</span>
                     <ChevronDown
                       className={[
-                        "w-4 h-4 text-[#2e261f] transition-transform duration-300",
+                        "w-4 h-4 text-[var(--text-2)] transition-transform duration-300",
                         isOpen ? "rotate-180" : "",
                       ].join(" ")}
                       aria-hidden="true"
@@ -135,7 +135,7 @@ export default function NavLinks({
                       : "opacity-0 scale-95 -translate-y-2 pointer-events-none invisible",
                     ].join(" ")}
                   >
-                    <div className="p-2 space-y-0.5 bg-[#faf6f0] rounded-2xl border border-[#dcd4c9] shadow-[0_15px_35px_rgba(46,38,31,0.08)]">
+                    <div className="p-2 space-y-0.5 bg-[var(--surface)] rounded-2xl border border-[var(--border-md)] shadow-[var(--shadow-md)]">
                       <Link
                         href={`/products/collections/${cat.slug}`}
                         role="menuitem"
@@ -145,7 +145,7 @@ export default function NavLinks({
                         }}
                         className={[
                           subLinkBase,
-                          "block text-[#000000] font-bold border-b border-[#e6dfd5] pb-2 mb-1.5 rounded-b-none bg-[#f3ede4] hover:bg-[#eadecc]",
+                          "block text-[var(--cyan)] font-bold border-b border-[var(--border)] pb-2 mb-1.5 rounded-b-none bg-[var(--cyan-bg)] hover:bg-[var(--bg-deep)]",
                         ].join(" ")}
                       >
                         عرض كل {cat.name}
@@ -162,7 +162,7 @@ export default function NavLinks({
                           }}
                           className={[
                             subLinkBase,
-                            "block text-[#4a4035] hover:text-[#000000] hover:bg-[#f3ede4]",
+                            "block text-[var(--text-2)] hover:text-[var(--text-1)] hover:bg-[var(--bg-deep)]",
                           ].join(" ")}
                         >
                           {sub.name}
@@ -208,7 +208,7 @@ export default function NavLinks({
               onClick={onClose}
               className={[
                 linkBase,
-                "text-[#b89a5a] hover:bg-[#b89a5a]/[0.08] hover:text-[#8c6239]",
+                "text-[var(--gold-bright)] hover:bg-[var(--bg-deep)] hover:text-[var(--gold)]",
               ].join(" ")}
             >
               لوحة تحكم الأدمن
@@ -225,13 +225,13 @@ export default function NavLinks({
   return (
     <ul className="space-y-1">
       {/* 1. الرئيسية للموبايل */}
-      <li className="border-b border-[#e6dfd5]">
+      <li className="border-b border-[var(--border)]">
         <Link
           href="/"
           onClick={onClose}
-          className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-[#2e261f] hover:bg-[#f3ede4] transition-colors"
+          className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-[var(--text-1)] hover:bg-[var(--bg-deep)] transition-colors"
         >
-          <Home className="w-4 h-4 text-[#b89a5a]" />
+          <Home className="w-4 h-4 text-[var(--cyan)]" />
           <span>الرئيسية</span>
         </Link>
       </li>
@@ -242,7 +242,7 @@ export default function NavLinks({
         const isOpen = openId === cat.id;
 
         return (
-          <li key={cat.id} className="border-b border-[#e6dfd5]">
+          <li key={cat.id} className="border-b border-[var(--border)]">
             {hasChildren ?
               <div className="py-0.5">
                 <button
@@ -250,14 +250,14 @@ export default function NavLinks({
                   aria-controls={`mob-sub-${cat.id}`}
                   onClick={() => setOpenId(isOpen ? null : cat.id)}
                   className="w-full flex items-center justify-between px-4 py-3
-                    rounded-xl text-sm font-bold text-[#2e261f]
-                    hover:bg-[#f3ede4] transition-colors
-                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8c6239]"
+                    rounded-xl text-sm font-bold text-[var(--text-1)]
+                    hover:bg-[var(--bg-deep)] transition-colors
+                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--cyan)]"
                 >
                   <span>{cat.name}</span>
                   <ChevronDown
                     className={[
-                      "w-4 h-4 text-[#2e261f] transition-transform duration-200",
+                      "w-4 h-4 text-[var(--text-2)] transition-transform duration-200",
                       isOpen ? "rotate-180" : "",
                     ].join(" ")}
                     aria-hidden="true"
@@ -273,13 +273,13 @@ export default function NavLinks({
                     : "max-h-0 opacity-0",
                   ].join(" ")}
                 >
-                  <div className="pe-2 ps-6 pb-2 pt-1 space-y-1 bg-[#faf6f0] rounded-xl border border-[#dcd4c9]">
+                  <div className="pe-2 ps-6 pb-2 pt-1 space-y-1 bg-[var(--surface-2)] rounded-xl border border-[var(--border-md)]">
                     <Link
                       href={`/products/collections/${cat.slug}`}
                       onClick={onClose}
                       className="block px-4 py-2.5 text-sm rounded-lg
-                        text-[#000000] font-bold hover:bg-[#eadecc] transition-colors
-                        border-b border-[#e6dfd5] mb-1"
+                        text-[var(--cyan)] font-bold bg-[var(--cyan-bg)] hover:bg-[var(--bg-deep)] transition-colors
+                        border-b border-[var(--border)] mb-1"
                     >
                       عرض الكل
                     </Link>
@@ -289,7 +289,7 @@ export default function NavLinks({
                         href={`/products/${cat.slug}/${sub.slug}`}
                         onClick={onClose}
                         className="block px-4 py-2 text-sm rounded-lg
-                          text-[#4a4035] hover:text-[#000000] hover:bg-[#f3ede4] transition-colors"
+                          text-[var(--text-2)] hover:text-[var(--text-1)] hover:bg-[var(--bg-deep)] transition-colors"
                       >
                         {sub.name}
                       </Link>
@@ -301,7 +301,7 @@ export default function NavLinks({
                 href={`/products/collections/${cat.slug}`}
                 onClick={onClose}
                 className="block px-4 py-3 rounded-xl text-sm font-bold
-                  text-[#2e261f] hover:text-[#000000] hover:bg-[#f3ede4] transition-colors"
+                  text-[var(--text-1)] hover:text-[var(--text-1)] hover:bg-[var(--bg-deep)] transition-colors"
               >
                 {cat.name}
               </Link>
@@ -311,13 +311,13 @@ export default function NavLinks({
       })}
 
       {/* 3. رابط عن الشركة (من نحن) للموبايل */}
-      <li className="border-b border-[#e6dfd5] last:border-0">
+      <li className="border-b border-[var(--border)] last:border-0">
         <Link
           href="/about"
           onClick={onClose}
-          className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-[#2e261f] hover:bg-[#f3ede4] transition-colors"
+          className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-[var(--text-1)] hover:bg-[var(--bg-deep)] transition-colors"
         >
-          <Info className="w-4 h-4 text-[#b89a5a]" />
+          <Info className="w-4 h-4 text-[var(--cyan)]" />
           <span>من نحن</span>
         </Link>
       </li>

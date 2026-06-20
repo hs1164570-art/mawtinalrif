@@ -18,10 +18,6 @@ import PaginationBar from "./PaginationBar";
 
 import type { ProductsPageData, ProductsFilters } from "@/utils/products";
 
-/* ── الألوان (نفس FilterDrawer بالظبط) ──────────────────────────────────── */
-const BG = "#f8f4ec";
-const BORDER = "#D6C4A8";
-
 const FALLBACK_BG =
   "https://bwmvrztnbjayktocsdvc.supabase.co/storage/v1/object/sign/alrif/productBacground.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9hNzkzMzE5NS0xOGUwLTRkOTMtYTRiMC0xNjczMTVlOTUyMGUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJhbHJpZi9wcm9kdWN0QmFjZ3JvdW5kLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODEwOTc1OTEsImV4cCI6Mjk1MDEyNDE1OTF9.4ObB39B7KzW9kHij2anpwn8-U0ukXNDG7Bq0nAHMKPQ";
 
@@ -106,7 +102,11 @@ export default function ProductsPageClient({
     <main
       id="main-content"
       dir="rtl"
-      style={{ minHeight: "100vh", background: BG, overflowX: "hidden" }}
+      style={{
+        minHeight: "100vh",
+        background: "var(--bg)",
+        overflowX: "hidden",
+      }}
     >
       {/* ── Hero ── */}
       <CategoryHero
@@ -152,7 +152,7 @@ export default function ProductsPageClient({
             {current.totalPages > 1 && (
               <div
                 className="pt-4"
-                style={{ borderTop: `1px solid ${BORDER}` }}
+                style={{ borderTop: "1px solid var(--border)" }}
               >
                 <PaginationBar
                   currentPage={current.currentPage}

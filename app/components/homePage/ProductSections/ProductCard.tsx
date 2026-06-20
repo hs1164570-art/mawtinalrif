@@ -7,17 +7,17 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Eye } from "lucide-react";
 import QuickViewModal from "../../products/QuickViewModal";
 
-// ─── التعديل السحري للألوان الملكية الدافيئة ──────────────────────────────────────────
+// ─── التعديل السحري للألوان العصرية النظيفة ──────────────────────────────────────────
 const cardVariants = {
   rest: {
     y: 0,
-    // ظل ذهبي برونزي خفيف جداً يدمج الكارد مع الخلفية البيج/الكريمي
-    boxShadow: "0 6px 20px rgba(180, 140, 60, 0.04)",
+    // استخدام المتغير الجديد للظلال الخفيفة الناعمة المحايدة
+    boxShadow: "var(--shadow-sm)",
   },
   hover: {
     y: -8,
-    // ظل ذهبي دافئ وعميق يعطي فخامة ملكية بدون كآبة
-    boxShadow: "0 22px 40px rgba(180, 140, 60, 0.15)",
+    // استخدام المتغير الجديد للظلال العميقة الاحترافية
+    boxShadow: "var(--shadow-md)",
   },
 };
 
@@ -116,25 +116,26 @@ export default function ProductCard({
         whileHover="hover"
         animate="rest"
         variants={cardVariants}
-        // الحدود (border) هنا ناعمة جداً وذهبية فاتحة (var(--gold-faint))
-        className="group relative flex flex-col h-full bg-[var(--surface)] border border-[var(--gold-faint,rgba(180,140,60,0.06))] hover:border-[var(--gold-warm,rgba(180,140,60,0.15))] transition-all duration-400 rounded-2xl overflow-hidden select-none"
+        // ربط الحدود بمتغيرات الـ border الشفافة العصرية والتبديل عند الـ hover لـ border-md
+        className="group relative flex flex-col h-full bg-[var(--surface)] border border-[var(--border)] hover:border-[var(--border-md)] transition-all duration-400 rounded-2xl overflow-hidden select-none"
         itemScope
         itemType="https://schema.org/Product"
       >
-        {/* ── Badges الملكية الدافيئة ── */}
+        {/* ── Badges الخصومات والمخزون ── */}
         {hasDiscount && (
           <div className="absolute top-0 left-0 w-24 h-24 overflow-hidden z-20 pointer-events-none rounded-tl-2xl">
             <div
               className="absolute top-4 -left-9 w-[140px] -rotate-45 text-center text-[11px] font-bold tracking-wide shadow-md py-1"
-              style={{ background: "#ff6b6b", color: "antiquewhite" }}
+              // ربط لون شارة الخصم باللون الأحمر الزاهي المخصص للخصومات والأسعار من الـ Palette
+              style={{ background: "var(--red)", color: "var(--text-inv)" }}
             >
               خصم {product.discount}%
             </div>
           </div>
         )}
         {isLowStock && (
-          // هنا استبدلنا الأسود تماماً باللون الأخضر الزمردي/الفيروزي الغامق (var(--emerald-deep)) مع بلور ناعم
-          <div className="absolute top-3 right-0-3 z-20 bg-[brown] backdrop-blur-md text-[antiquewhite] text-[10px]  px-2.5 py-1 rounded-md">
+          // استخدام الـ gold-bg خلفية الشارات الفوقية للمنتجات بناءً على وصفك
+          <div className="absolute top-3 right-3 z-20 bg-[var(--gold-bg)] backdrop-blur-md text-[var(--text-inv)] text-[10px] px-2.5 py-1 rounded-md">
             آخر {product.countStock} قطع
           </div>
         )}
@@ -179,19 +180,19 @@ export default function ProductCard({
             </AnimatePresence>
           </motion.div>
 
-          {/* زر العرض السريع - أبيض كريمي ناعم مع نص ذهبي برونزي */}
+          {/* زر العرض السريع - متناسق مع الخلفيات الأساسية والنصوص التفاعلية الداكنة */}
           <button
             type="button"
             onClick={() => setQvOpen(true)}
-            className="absolute bottom-4 left-1/2 -translate-x-1/2 hidden lg:flex items-center gap-1.5 text-[11px] font-bold rounded-full px-4 py-2.5 z-30 shadow-md opacity-0 group-hover:opacity-100 transition-all duration-200 bg-[#fdfbf7] text-[#8c7661] hover:scale-105 hover:bg-white"
+            className="absolute bottom-4 left-1/2 -translate-x-1/2 hidden lg:flex items-center gap-1.5 text-[11px] font-bold rounded-full px-4 py-2.5 z-30 shadow-md opacity-0 group-hover:opacity-100 transition-all duration-200 bg-[var(--surface)] text-[var(--gold-mid)] hover:scale-105 hover:bg-[var(--surface-2)]"
           >
-            <Eye className="w-3.5 h-3.5 text-[var(--gold)]" />
+            <Eye className="w-3.5 h-3.5 text-[var(--gold-bright)]" />
             عرض سريع
           </button>
 
-          {/* نقاط الموبايل - بيج كريمي وبني ذهبي دافئ */}
+          {/* نقاط الموبايل - تعتمد على متغير الـ gold والنصوص المعكوسة */}
           {allImages.length > 1 && (
-            <div className="absolute bottom-2.5 left-1/2 -translate-x-1/2 flex gap-1 lg:hidden z-25 px-2 py-1 rounded-full bg-[#fdfbf7]/30 backdrop-blur-sm border border-white/10">
+            <div className="absolute bottom-2.5 left-1/2 -translate-x-1/2 flex gap-1 lg:hidden z-25 px-2 py-1 rounded-full bg-[var(--surface-2)]/30 backdrop-blur-sm border border-[var(--border)]">
               {allImages.map((_, i) => (
                 <span
                   key={i}
@@ -201,7 +202,7 @@ export default function ProductCard({
                     height: 6,
                     background:
                       i === activeImg ? "var(--gold)" : (
-                        "rgba(253, 251, 247, 0.5)"
+                        "rgba(255, 255, 255, 0.5)"
                       ),
                   }}
                 />
@@ -212,10 +213,10 @@ export default function ProductCard({
 
         {/* ── Info Body ── */}
         <div className="flex flex-col flex-1 p-4 gap-2 bg-[var(--surface)]">
-          {/* اسم المنتج: واخد لونك العتيق #846a24 وبيتحول لذهبي مشرق عند الـ Hover */}
+          {/* اسم المنتج: مربوط بـ text-1 للعناوين والأسماء ويتحول لـ cyan عند الـ Hover ليعطي طابعاً تفاعلياً مريحاً */}
           <Link
             href={`/products/${product.slug}`}
-            className="text-[#846a24] font-semibold text-sm leading-snug line-clamp-2 hover:text-[var(--gold-bright,#d4af37)] transition-colors duration-200"
+            className="text-[var(--text-1)] font-semibold text-sm leading-snug line-clamp-2 hover:text-[var(--cyan)] transition-colors duration-200"
             itemProp="name"
           >
             {product.name}
@@ -223,13 +224,11 @@ export default function ProductCard({
 
           {/* التقييم */}
           <div className="flex items-center gap-1.5">
-            {/* النجوم هتاخد نفس لونك العتيق الفخم */}
-            <span style={{ color: "#846a24" }}>
-              <Stars rating={product.rating || 5} />
-            </span>
+            {/* النجوم مربوطة بـ var(--gold) للشارات والتقييمات */}
+            <Stars rating={product.rating || 5} />
             {product._count?.comments > 0 && (
-              // عدد التقييمات: درجة كريمي مائلة للذهبي العتيق خفيفة وهادية
-              <span className="text-[#a48e4b] text-[10px] font-medium">
+              // عدد التقييمات: مربوط بـ text-3 للتلميحات والنصوص الأقل أهمية
+              <span className="text-[var(--text-3)] text-[10px] font-medium">
                 ({product._count.comments})
               </span>
             )}
@@ -252,19 +251,19 @@ export default function ProductCard({
               }
             />
 
-            {/* السعر الأساسي: ظاهر بقوة لونك الأسطوري #846a24 وبخط عريض ملكي */}
+            {/* السعر الأساسي: مربوط باللون الأحمر var(--red) لإثارة الحماس للشراء وجذب الانتباه */}
             <span
-              className="text-[#846a24] font-black text-base"
+              className="text-[var(--red)] font-black text-base"
               itemProp="price"
               content={String(finalPrice)}
             >
               {finalPrice.toLocaleString("en-US")}{" "}
-              <span className="text-xs font-bold mr-0.5">ج.م</span>
+              <span className="text-xs font-bold mr-0.5">ر.س</span>
             </span>
 
             {hasDiscount && (
-              // السعر المشطوب: درجة ذهبية باهتة جداً وراقية ممسوحة بنسبة 60% علشان العين متتشتتش
-              <span className="text-[#c1ae77] text-xs line-through opacity-60 font-medium">
+              // السعر المشطوب: مربوط بـ text-3 خفيف وهادئ لعدم التشتيت
+              <span className="text-[var(--text-3)] text-xs line-through opacity-70 font-medium">
                 {product.price.toLocaleString("en-US")} ج
               </span>
             )}

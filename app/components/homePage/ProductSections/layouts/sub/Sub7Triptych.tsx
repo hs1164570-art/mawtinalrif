@@ -41,11 +41,11 @@ function DividerHandle({
       }}
     >
       {/* خط عمودي */}
-      <div className="absolute inset-y-0 w-px bg-white/70" />
+      <div className="absolute inset-y-0 w-px bg-[var(--surface)]/70" />
 
       {/* زرار السهمين */}
       <button
-        className="relative z-10 flex items-center gap-0.5 bg-[#f9e1b0] backdrop-blur-sm shadow-lg px-2 py-2.5 rounded-sm cursor-col-resize select-none hover:bg-[#ffe0a2] transition-colors"
+        className="relative z-10 flex items-center gap-0.5 bg-[var(--surface)] backdrop-blur-sm shadow-lg px-2 py-2.5 rounded-sm cursor-col-resize select-none hover:bg-[var(--bg-deep)] transition-colors"
         onMouseDown={(e) => {
           e.preventDefault();
           onMouseDown();
@@ -56,8 +56,8 @@ function DividerHandle({
         }}
         aria-label="اسحب لضبط العرض"
       >
-        <ChevronLeft size={14} className="text-[#181008]" />
-        <ChevronRight size={14} className="text-[#181008]" />
+        <ChevronLeft size={14} className="text-[var(--text-1)]" />
+        <ChevronRight size={14} className="text-[var(--text-1)]" />
       </button>
     </div>
   );
@@ -81,15 +81,15 @@ function PanelInfo({
       style={{ left: `${left}%`, width: `${width}%` }}
     >
       {product.discount && product.discount > 0 && (
-        <span className="inline-block bg-[#C0392B] text-white text-[10px] font-black px-2 py-0.5 mb-1.5">
+        <span className="inline-block bg-[var(--red)] text-[var(--text-inv)] text-[10px] font-black px-2 py-0.5 mb-1.5">
           -{product.discount}%
         </span>
       )}
-      <p className="text-white font-bold text-sm leading-snug mb-1 line-clamp-2 drop-shadow">
+      <p className="text-[var(--text-inv)] font-bold text-sm leading-snug mb-1 line-clamp-2 drop-shadow">
         {product.name}
       </p>
       <div className="flex items-baseline gap-2">
-        <span className="text-[#d0a820] font-black text-sm drop-shadow">
+        <span className="text-[var(--text-inv)] font-black text-sm drop-shadow">
           {fp.toLocaleString("en-US")} ج
         </span>
         {product.discount && product.discount > 0 && (
@@ -181,7 +181,7 @@ export default function Sub7Triptych({
 
   return (
     <article
-      className="py-10 md:py-14 bg-[#fdfbf7]"
+      className="py-10 md:py-14 bg-[var(--bg)]"
       aria-labelledby={`sub-heading-${subSlug}`}
     >
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
@@ -193,7 +193,7 @@ export default function Sub7Triptych({
         />
 
         {/* نص التلميح */}
-        <p className="text-center text-[#806840] text-xs mb-3 select-none">
+        <p className="text-center text-[var(--text-3)] text-xs mb-3 select-none">
           اسحب الفاصل لمقارنة المنتجات
         </p>
 

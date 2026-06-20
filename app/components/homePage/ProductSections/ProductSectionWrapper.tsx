@@ -1,4 +1,3 @@
-//@TODO convet this file to tailwind
 "use client";
 
 import { useEffect, useRef, useState } from "react";
@@ -6,38 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import type { HomeProductSection } from "./types";
 
-/* ═══════════════════════════════════════════════════
-   PALETTE — نفس توكنز المشروع
-═══════════════════════════════════════════════════ */
-const C = {
-  bg: "#f8f4ec",
-  bgDeep: "#ede8dc",
-  surface: "#ffffff",
-  surface2: "#fffdf8",
-  border: "rgba(90,60,20,0.10)",
-  borderMd: "rgba(90,60,20,0.18)",
-  borderStrong: "rgba(90,60,20,0.32)",
-  gold: "#a07830",
-  goldMid: "#b89040",
-  goldBright: "#d0a820",
-  goldBg: "rgba(160,120,48,0.07)",
-  text1: "#181008",
-  text2: "#483820",
-  text3: "#806840",
-  textInv: "#ffffff",
-} as const;
-
-const E_EXPO = "cubic-bezier(0.16, 1, 0.3, 1)";
-const E_BACK = "cubic-bezier(0.34, 1.56, 0.64, 1)";
-const E_SMOOTH = "cubic-bezier(0.25, 1, 0.5, 1)";
-
-const amiri: React.CSSProperties = {
-  fontFamily: "'Amiri','Noto Naskh Arabic',serif",
-};
-const sans: React.CSSProperties = {
-  fontFamily: "'IBM Plex Sans Arabic','Noto Sans Arabic',sans-serif",
-};
-
+// مصفوفة الأرقام العربية وتحويلها
 const EA = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];
 const ea = (n: number) =>
   String(n)
@@ -88,14 +56,8 @@ export default function ProductSectionWrapper({
 }
 
 /* ══════════════════════════════════════════════════
-   SECTION A — "الشريحة المائلة"  (زوجي: 0,2,4…)
-   ──────────────────────────────────────────────────
-   مفهوم: الصورة خلف قطع مائل (clip-path polygon)
-   تنكشف من اليسار لليمين كستارة. العنوان كلمة كلمة
-   بـ skew+translateY stagger. رقم التشكيلة يُزلق
-   من الحافة على track أفقي.
+   SECTION A — "الشريحة المائلة" (زوجي)
 ══════════════════════════════════════════════════ */
-
 function SectionSlash({
   section,
   num,
@@ -109,53 +71,33 @@ function SectionSlash({
   const n = ea(num);
   const words = section.categoryName.split(" ");
 
-  // هنا دمجنا توهج ذهبي دافئ متعدد الطبقات (Ambient Multi-layered Glow)
-  // ميكس بين الرمادي الدافئ والذهبي المطفي عشان يديك طابع الـ Luxury
+  // حساب الظلال باستخدام التوكنز الجديدة والـ Glow النظيف عند الظهور
   const glowShadow =
     v ?
-      `rgb(255 164 0 / 25%) 0px 0px 1px, rgb(221 139 28 / 30%) 0px 4px 24px, rgba(160, 120, 48, 0.14) 0px 20px 48px -12px, rgba(160, 120, 48, 0.08) 0px 30px 80px -20px`
-    : "0 10px 30px -15px rgba(90, 60, 20, 0.06)";
+      `0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 24px rgba(33, 37, 41, 0.08), 0 20px 48px -12px rgba(33, 37, 41, 0.06)`
+    : "0 1px 2px rgba(0, 0, 0, 0.04)";
 
   return (
     <div
       ref={ref}
       dir="rtl"
-      className="ps-slash"
-      style={{
-        position: "relative",
-        display: "grid",
-        gridTemplateColumns: "57% 43%",
-        minHeight: "clamp(480px,62vh,740px)",
-        background: C.bgDeep,
-        overflow: "hidden",
-        // ── التعديل هنا ─────────────────────────────────
-        borderRadius: "16px", // ضفتلك حواف ناعمة عشان الـ Glow يبان محتوي الـ Card
-        boxShadow: glowShadow,
-        transition: `box-shadow 1.2s ${E_SMOOTH}, transform 0.8s ${E_SMOOTH}`,
-        // ──────────────────────────────────────────────
-      }}
+      className="relative grid grid-cols-1 md:grid-cols-[57%_43%] min-h-[clamp(480px,62vh,740px)] bg-[var(--bg-deep)] overflow-hidden rounded-2xl motion-reduce:transition-none transition-shadow duration-[1200s] ease-[cubic-bezier(0.25,1,0.5,1)]"
+      style={{ boxShadow: glowShadow }}
     >
       {/* ── الصورة مع القطع المائل ─────────────────── */}
-      <div style={{ position: "relative", overflow: "hidden" }}>
-        {/* Flood reveal: clip-path من اليسار */}
+      <div className="relative overflow-hidden h-[clamp(58vw,65vw,74vw)] md:h-auto">
         <div
+          className="absolute inset-0 motion-reduce:transition-none transition-[clip-path] duration-[1050ms] ease-[cubic-bezier(0.16,1,0.3,1)] delay-75"
           style={{
-            position: "absolute",
-            inset: 0,
             clipPath:
               v ?
                 "polygon(0 0, 112% 0, 96% 100%, 0 100%)"
-              : "polygon(0 0, 0%   0, 0%  100%, 0 100%)",
-            transition: `clip-path 1.05s ${E_EXPO} 0.08s`,
+              : "polygon(0 0, 0% 0, 0% 100%, 0 100%)",
           }}
         >
           <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              transform: v ? "scale(1)" : "scale(1.12)",
-              transition: `transform 1.5s ${E_EXPO} 0.08s`,
-            }}
+            className="absolute inset-0 motion-reduce:transition-none transition-transform duration-[1500ms] ease-[cubic-bezier(0.16,1,0.3,1)] delay-75"
+            style={{ transform: v ? "scale(1)" : "scale(1.12)" }}
           >
             <Image
               src={section.categoryImage || "/placeholder.jpg"}
@@ -164,54 +106,32 @@ function SectionSlash({
               quality={100}
               priority={priority}
               sizes="(max-width:768px) 100vw, 57vw"
-              style={{ objectFit: "cover" }}
+              className="object-cover"
             />
           </div>
 
-          {/* تظليل خفيف على حافة القطع */}
+          {/* تظليل خفيف على حافة القطع مبني على الأسود الشفاف الهادئ */}
           <div
             aria-hidden
-            style={{
-              position: "absolute",
-              inset: 0,
-              background:
-                "linear-gradient(to left, rgba(24,16,8,0.38) 0%, transparent 40%)",
-            }}
+            className="absolute inset-0 bg-gradient-to-l from-black/25 to-transparent"
           />
         </div>
 
-        {/* Track رقم التشكيلة — يزلق من الحافة */}
+        {/* Track رقم التشكيلة */}
         <div
+          className="absolute bottom-[clamp(28px,3.5vw,48px)] right-[clamp(28px,3.5vw,48px)] z-30 flex items-center gap-3 motion-reduce:transition-none transition-[transform,opacity] duration-[720ms] ease-[cubic-bezier(0.16,1,0.3,1)] delay-[950ms]"
           style={{
-            position: "absolute",
-            bottom: "clamp(28px,3.5vw,48px)",
-            right: "clamp(28px,3.5vw,48px)",
-            zIndex: 3,
-            display: "flex",
-            alignItems: "center",
-            gap: 12,
             transform: v ? "translateX(0)" : "translateX(-72px)",
             opacity: v ? 1 : 0,
-            transition: `transform 0.72s ${E_EXPO} 0.95s,
-                         opacity   0.4s  ease     0.95s`,
           }}
         >
           <div
-            style={{
-              height: 1.5,
-              width: v ? "clamp(32px,4.5vw,56px)" : 0,
-              background: C.goldBright,
-              transition: `width 0.6s ${E_EXPO} 1.1s`,
-            }}
-          />
+            className="h-[1.5px] bg-[var(--gold-bright)] motion-reduce:transition-none transition-[width] duration-600 ease-[cubic-bezier(0.16,1,0.3,1)] delay-[1100ms]"
+            style={{ width: v ? "clamp(32px,4.5vw,56px)" : 0 }}
+          ></div>
           <span
-            style={{
-              ...amiri,
-              fontSize: "clamp(1rem,1.8vw,1.4rem)",
-              fontWeight: 900,
-              color: C.textInv,
-              letterSpacing: "0.05em",
-            }}
+            className="text-[clamp(1rem,1.8vw,1.4rem)] font-black text-[var(--text-inv)] tracking-wide"
+            style={{ fontFamily: "'Amiri','Noto Naskh Arabic',serif" }}
           >
             {n}
           </span>
@@ -219,77 +139,44 @@ function SectionSlash({
       </div>
 
       {/* ── كتلة النص ──────────────────────────────── */}
-      <div
-        className="ps-slash-text"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          padding:
-            "clamp(40px,5.5vw,80px) clamp(32px,4.5vw,64px) clamp(40px,5.5vw,80px) clamp(16px,2vw,28px)",
-          background: C.bg,
-          position: "relative",
-          zIndex: 1,
-        }}
-      >
-        {/* إبرة العنوان — eyebrow */}
+      <div className="relative z-10 flex flex-col justify-center bg-[var(--bg)] p-[clamp(28px,5vw,44px)_clamp(20px,5vw,36px)_clamp(36px,6vw,52px)_clamp(20px,5vw,36px)] md:p-[clamp(40px,5.5vw,80px)_clamp(32px,4.5vw,64px)_clamp(40px,5.5vw,80px)_clamp(16px,2vw,28px)]">
+        {/* eyebrow */}
         <div
+          className="flex items-center gap-2.5 mb-[clamp(18px,2.2vw,30px)] motion-reduce:transition-none transition-[opacity,transform] duration-550 ease-[cubic-bezier(0.25,1,0.5,1)] delay-[520ms]"
           style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 10,
-            marginBottom: "clamp(18px,2.2vw,30px)",
             opacity: v ? 1 : 0,
             transform: v ? "translateX(0)" : "translateX(22px)",
-            transition: `opacity 0.5s ease ${0.52}s,
-                         transform 0.55s ${E_SMOOTH} ${0.52}s`,
           }}
         >
-          <div
-            style={{
-              width: "clamp(22px,2.8vw,34px)",
-              height: 1.5,
-              background: C.gold,
-            }}
-          />
+          <div className="w-[clamp(22px,2.8vw,34px)] h-[1.5px] bg-[var(--gold-bright)]" />
           <span
+            className="text-[0.6rem] font-bold tracking-[0.42em] uppercase text-[var(--text-3)]"
             style={{
-              ...sans,
-              fontSize: "0.6rem",
-              fontWeight: 700,
-              letterSpacing: "0.42em",
-              textTransform: "uppercase",
-              color: C.text3,
+              fontFamily:
+                "'IBM Plex Sans Arabic','Noto Sans Arabic',sans-serif",
             }}
           >
             تشكيلة {n}
           </span>
         </div>
 
-        {/* العنوان — كلمة كلمة بـ skew + translateY */}
+        {/* العنوان */}
         <h2
-          style={{
-            ...amiri,
-            margin: "0 0 clamp(30px,4vw,52px)",
-            lineHeight: 1.12,
-            fontSize: "clamp(2.5rem,4.6vw,4.8rem)",
-            fontWeight: 900,
-            color: C.text1,
-          }}
+          className="m-0 mb-[clamp(30px,4vw,52px)] text-[clamp(2.5rem,4.6vw,4.8rem)] font-black text-[var(--text-1)] leading-[1.12]"
+          style={{ fontFamily: "'Amiri','Noto Naskh Arabic',serif" }}
         >
           {words.map((word, i) => (
             <span
               key={i}
+              className="inline-block motion-reduce:transition-none transition-[opacity,transform] duration-[650ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]"
               style={{
-                display: "inline-block",
                 marginLeft: i < words.length - 1 ? "0.3em" : 0,
                 opacity: v ? 1 : 0,
                 transform:
                   v ?
-                    "translateY(0)   skewX(0deg)"
+                    "translateY(0) skewX(0deg)"
                   : "translateY(24px) skewX(-5deg)",
-                transition: `opacity   0.55s ease     ${0.38 + i * 0.1}s,
-                             transform 0.65s ${E_BACK} ${0.38 + i * 0.1}s`,
+                transitionDelay: `${0.38 + i * 0.1}s`,
               }}
             >
               {word}
@@ -297,31 +184,22 @@ function SectionSlash({
           ))}
         </h2>
 
-        {/* زخرفة: مربع ركن صغير */}
+        {/* زخرفة الركن العلوي الأيسر */}
         <div
           aria-hidden
+          className="absolute top-[clamp(22px,3vw,38px)] left-[clamp(22px,3vw,38px)] w-[clamp(18px,2.2vw,28px)] h-[clamp(18px,2.2vw,28px)] border-t-[1.5px] border-l-[1.5px] border-[var(--gold-bright)] motion-reduce:transition-none transition-[opacity,transform] duration-[550ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] delay-[1150ms]"
           style={{
-            position: "absolute",
-            top: "clamp(22px,3vw,38px)",
-            left: "clamp(22px,3vw,38px)",
-            width: "clamp(18px,2.2vw,28px)",
-            height: "clamp(18px,2.2vw,28px)",
-            borderTop: `1.5px solid ${C.gold}`,
-            borderLeft: `1.5px solid ${C.gold}`,
             opacity: v ? 0.65 : 0,
             transform: v ? "scale(1)" : "scale(0.3)",
-            transition: `opacity 0.5s ease ${1.15}s,
-                         transform 0.55s ${E_BACK} ${1.15}s`,
           }}
-        ></div>
+        />
 
         {/* CTA */}
         <div
+          className="motion-reduce:transition-none transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] delay-[840ms]"
           style={{
             opacity: v ? 1 : 0,
             transform: v ? "translateX(0)" : "translateX(16px)",
-            transition: `opacity 0.5s ease ${0.84}s,
-                         transform 0.5s ${E_SMOOTH} ${0.84}s`,
           }}
         >
           <CTA href={`products/collections/${section.categorySlug}`} />
@@ -332,16 +210,7 @@ function SectionSlash({
 }
 
 /* ══════════════════════════════════════════════════════
-   SectionStage — "البطاقة"
-   ────────────────────────────────────────────────────
-   كارت أفقي صغير وجذاب:
-   - ارتفاع مضغوط clamp(260px, 36vh, 400px)
-   - صورة يسار (45%) بشكل متوازي الأضلاع (clip-path)
-     تنزلق من اليسار مع fade
-   - نص يمين (55%): eyebrow + عنوان + CTA
-     كل عنصر يخرج من overflow hidden بـ translateY
-   - شريط ذهبي رأسي رفيع يفصل بين الصورة والنص
-   - رقم التشكيلة كـ label صغير أنيق في أعلى الكارت
+   SectionStage — "البطاقة" (فردي)
 ══════════════════════════════════════════════════════ */
 function SectionStage({
   section,
@@ -356,101 +225,64 @@ function SectionStage({
   const [hCTA, setHCTA] = useState(false);
   const n = ea(num);
 
-  // حساب ما إذا كان القسم زوجي أم فردي لعكس التخطيط تلقائياً (Zig-Zag)
   const isEven = num % 2 === 0;
 
   return (
     <div
       ref={ref}
       dir="rtl"
-      style={{
-        background: C.bg,
-        padding: "clamp(20px,3vw,40px) clamp(20px,3.5vw,48px)",
-      }}
+      className="bg-[var(--bg)] p-[0_clamp(20px,3.5vw,48px)]"
     >
-      {/* ── الكارت الخارجي ─────────────────────────── */}
+      {/* الكارت الخارجي */}
       <div
-        style={{
-          position: "relative",
-          display: "flex",
-          /* يعكس اتجاه الـ Flex بناءً على ترتيب القسم */
-          flexDirection: isEven ? "row-reverse" : "row",
-          height: "clamp(260px,36vh,400px)",
-          overflow: "hidden",
-          background: C.bgDeep,
-          /* ظل خفيف */
-          boxShadow: "0 2px 24px rgba(90,60,20,0.10)",
-        }}
+        className={`relative flex ${
+          isEven ? "flex-col sm:flex-row-reverse" : "flex-col sm:flex-row"
+        } h-auto sm:h-[clamp(260px,36vh,400px)] overflow-hidden bg-[var(--bg-deep)] border border-[var(--border)] rounded-2xl shadow-[0_4px_6px_rgba(0,0,0,0.05)]`}
       >
-        {/* ── label الرقم — أعلى اليمين ─────────────── */}
+        {/* label الرقم */}
         <div
-          style={{
-            position: "absolute",
-            top: 0,
-            /* الـ label يثبت دائماً في جهة النص الصحيحة عند العكس */
-            right: isEven ? "auto" : 0,
-            left: isEven ? 0 : "auto",
-            zIndex: 5,
-            display: "flex",
-            alignItems: "center",
-            gap: 7,
-            padding: "clamp(8px,1vw,12px) clamp(14px,1.8vw,20px)",
-            background: v ? C.gold : "transparent",
-            transition: `background 0.4s ease 0.55s`,
-          }}
+          className={`absolute top-0 z-20 flex items-center gap-1.5 p-[clamp(8px,1vw,12px)_clamp(14px,1.8vw,20px)] motion-reduce:transition-none transition-colors duration-400 ease-in-out delay-[550ms] ${
+            isEven ? "left-0 right-auto" : "right-0 left-auto"
+          }`}
+          style={{ backgroundColor: v ? "var(--gold)" : "transparent" }}
         >
           <span
+            className="text-[0.58rem] font-bold tracking-[0.3em] uppercase motion-reduce:transition-none transition-colors duration-300 ease-in-out delay-[650ms]"
             style={{
-              ...sans,
-              fontSize: "0.58rem",
-              fontWeight: 700,
-              letterSpacing: "0.3em",
-              color: v ? C.textInv : "transparent",
-              transition: `color 0.3s ease 0.65s`,
-              textTransform: "uppercase",
+              fontFamily:
+                "'IBM Plex Sans Arabic','Noto Sans Arabic',sans-serif",
+              color: v ? "var(--text-inv)" : "transparent",
             }}
           >
             تشكيلة
           </span>
           <span
+            className="text-[clamp(0.9rem,1.4vw,1.1rem)] font-black motion-reduce:transition-none transition-colors duration-300 ease-in-out delay-[650ms] tracking-wide"
             style={{
-              ...amiri,
-              fontSize: "clamp(0.9rem,1.4vw,1.1rem)",
-              fontWeight: 900,
-              color: v ? C.textInv : "transparent",
-              transition: `color 0.3s ease 0.65s`,
-              letterSpacing: "0.04em",
+              fontFamily: "'Amiri','Noto Naskh Arabic',serif",
+              color: v ? "var(--text-inv)" : "transparent",
             }}
           >
             {n}
           </span>
         </div>
 
-        {/* ── الصورة — parallelogram clip المعكوس هندسياً ──────────── */}
+        {/* الصورة مع الـ Clip Path المتجاوب */}
         <div
+          className={`relative w-full sm:w-[46%] shrink-0 h-[clamp(180px,52vw,240px)] sm:h-auto motion-reduce:transition-none transition-[transform,opacity] duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] delay-75 ${
+            isEven ?
+              "clip-path-mobile sm:[clip-path:polygon(8%_0,100%_0,100%_100%,-8%_100%)]"
+            : "clip-path-mobile sm:[clip-path:polygon(0_0,108%_0,92%_100%,0_100%)]"
+          }`}
           style={{
-            width: "46%",
-            flexShrink: 0,
-            position: "relative",
-            /* هنا السحر: انعكاس مائل للـ clipPath والـ Animation بناءً على الاتجاه المعاكس */
-            clipPath:
-              isEven ?
-                "polygon(8% 0, 100% 0, 100% 100%, -8% 100%)" // حافة مقصوصة لليسار
-              : "polygon(0 0, 108% 0, 92% 100%, 0 100%)", // حافة مقصوصة لليمين
             transform:
               v ? "translateX(0)" : `translateX(${isEven ? "60px" : "-60px"})`,
             opacity: v ? 1 : 0,
-            transition: `transform 0.9s ${E_EXPO} 0.08s,
-                         opacity   0.6s ease     0.08s`,
           }}
         >
           <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              transform: v ? "scale(1)" : "scale(1.08)",
-              transition: `transform 1.2s ${E_EXPO} 0.08s`,
-            }}
+            className="absolute inset-0 motion-reduce:transition-none transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] delay-75"
+            style={{ transform: v ? "scale(1)" : "scale(1.08)" }}
           >
             <Image
               src={section.categoryImage || "/placeholder.jpg"}
@@ -458,56 +290,28 @@ function SectionStage({
               fill
               priority={priority}
               sizes="(max-width:640px) 100vw, 46vw"
-              style={{ objectFit: "cover" }}
+              className="object-cover"
             />
           </div>
         </div>
 
-        {/* ── شريط ذهبي رأسي فاصل ─────────────────── */}
+        {/* شريط فاصل رأسي (يختفي في الموبايل) */}
         <div
           aria-hidden
-          style={{
-            width: 2,
-            flexShrink: 0,
-            alignSelf: "stretch",
-            margin: "clamp(14px,2vw,24px) 0",
-            background: `linear-gradient(to bottom, transparent, ${C.gold} 30%, ${C.goldBright} 60%, transparent)`,
-            transformOrigin: "top center",
-            transform: v ? "scaleY(1)" : "scaleY(0)",
-            transition: `transform 0.7s ${E_EXPO} 0.6s`,
-          }}
+          className="hidden sm:block w-[1.5px] shrink-0 self-stretch my-[clamp(14px,2vw,24px)] bg-gradient-to-b from-transparent via-[var(--gold-bright)] to-transparent origin-top motion-reduce:transition-none transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] delay-[600ms]"
+          style={{ transform: v ? "scaleY(1)" : "scaleY(0)" }}
         />
 
-        {/* ── كتلة النص ────────────────────────────── */}
-        <div
-          style={{
-            flex: 1,
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            padding: "clamp(20px,3vw,36px) clamp(24px,3.5vw,48px)",
-            gap: 0,
-            overflow: "hidden",
-          }}
-        >
+        {/* كتلة النص */}
+        <div className="flex-1 flex flex-col justify-center p-[clamp(24px,5vw,36px)_clamp(20px,5vw,32px)_clamp(28px,5vw,40px)] sm:p-[clamp(20px,3vw,36px)_clamp(24px,3.5vw,48px)] overflow-hidden">
           {/* eyebrow */}
-          <div
-            style={{
-              overflow: "hidden",
-              marginBottom: "clamp(10px,1.2vw,16px)",
-            }}
-          >
+          <div className="overflow-hidden mb-[clamp(10px,1.2vw,16px)]">
             <p
+              className="m-0 text-[0.58rem] font-bold tracking-[0.4em] uppercase text-[var(--text-3)] motion-reduce:transition-none transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] delay-500"
               style={{
-                ...sans,
-                margin: 0,
-                fontSize: "0.58rem",
-                fontWeight: 700,
-                letterSpacing: "0.4em",
-                textTransform: "uppercase",
-                color: C.text3,
+                fontFamily:
+                  "'IBM Plex Sans Arabic','Noto Sans Arabic',sans-serif",
                 transform: v ? "translateY(0)" : "translateY(110%)",
-                transition: `transform 0.5s ${E_EXPO} 0.5s`,
               }}
             >
               {section.categoryName.split(" ").length > 1 ?
@@ -517,42 +321,29 @@ function SectionStage({
           </div>
 
           {/* العنوان */}
-          <div
-            style={{
-              overflow: "hidden",
-              marginBottom: "clamp(20px,2.8vw,36px)",
-            }}
-          >
+          <div className="overflow-hidden mb-[clamp(20px,2.8vw,36px)]">
             <h2
+              className="m-0 text-[clamp(1.9rem,3.4vw,3.4rem)] font-black text-[var(--text-1)] leading-[1.12] motion-reduce:transition-none transition-transform duration-[750ms] ease-[cubic-bezier(0.16,1,0.3,1)] delay-[600ms]"
               style={{
-                ...amiri,
-                margin: 0,
-                fontSize: "clamp(1.9rem,3.4vw,3.4rem)",
-                fontWeight: 900,
-                lineHeight: 1.12,
-                color: C.text1,
+                fontFamily: "'Amiri','Noto Naskh Arabic',serif",
                 transform: v ? "translateY(0)" : "translateY(105%)",
-                transition: `transform 0.75s ${E_EXPO} 0.6s`,
               }}
             >
               {section.categoryName}
             </h2>
           </div>
 
-          {/* CTA — سهم مع نص */}
-          <div style={{ overflow: "hidden" }}>
+          {/* CTA التفاعلي الأنيق بسهم مدمج */}
+          <div className="overflow-hidden">
             <Link
               href={`products/collections/${section.categorySlug}`}
               onMouseEnter={() => setHCTA(true)}
               onMouseLeave={() => setHCTA(false)}
+              className="inline-flex items-center gap-2 motion-reduce:transition-none transition-transform duration-600 ease-[cubic-bezier(0.34,1.56,0.64,1)] delay-[760ms]"
               style={{
-                ...sans,
-                textDecoration: "none",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 8,
+                fontFamily:
+                  "'IBM Plex Sans Arabic','Noto Sans Arabic',sans-serif",
                 transform: v ? "translateY(0)" : "translateY(110%)",
-                transition: `transform 0.6s ${E_BACK} 0.76s`,
               }}
             >
               <svg
@@ -561,37 +352,31 @@ function SectionStage({
                 viewBox="0 0 28 28"
                 fill="none"
                 aria-hidden
+                className="motion-reduce:transition-none transition-transform duration-300 ease-[cubic-bezier(0.25,1,0.5,1)]"
                 style={{
                   transform: hCTA ? "translateX(-4px)" : "translateX(0)",
-                  transition: `transform 0.3s ${E_SMOOTH}`,
                 }}
               >
                 <circle
                   cx="14"
                   cy="14"
                   r="13"
-                  stroke={hCTA ? C.gold : C.borderMd}
+                  stroke={hCTA ? "var(--gold-mid)" : "var(--border-md)"}
                   strokeWidth="1.2"
-                  style={{ transition: "stroke 0.25s ease" }}
+                  className="transition-colors duration-250"
                 />
                 <path
                   d="M15.5 10L11 14L15.5 18"
-                  stroke={hCTA ? C.gold : C.text3}
+                  stroke={hCTA ? "var(--gold-mid)" : "var(--text-3)"}
                   strokeWidth="1.3"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  style={{ transition: "stroke 0.25s ease" }}
+                  className="transition-colors duration-250"
                 />
               </svg>
               <span
-                style={{
-                  fontSize: "0.7rem",
-                  fontWeight: 700,
-                  letterSpacing: "0.12em",
-                  color: hCTA ? C.gold : C.text2,
-                  transition: "color 0.25s ease",
-                  whiteSpace: "nowrap",
-                }}
+                className="text-[0.7rem] font-bold tracking-wide whitespace-nowrap transition-colors duration-250"
+                style={{ color: hCTA ? "var(--gold-mid)" : "var(--text-2)" }}
               >
                 استعرض التشكيلة
               </span>
@@ -602,34 +387,10 @@ function SectionStage({
     </div>
   );
 }
-/* Styles — add inside ProductSectionStyles */
-export function StageStyles() {
-  return (
-    <style>{`
-      @media (max-width: 600px) {
-        /* على الموبايل الكارت يتحول لعمودي */
-        .ps-stage-card {
-          flex-direction: column !important;
-          height: auto !important;
-        }
-        .ps-stage-img {
-          width: 100% !important;
-          height: clamp(180px, 52vw, 240px);
-          clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%) !important;
-        }
-        .ps-stage-bar { display: none !important; }
-      }
-      @media (prefers-reduced-motion: reduce) {
-        *, *::before, *::after { transition: none !important; }
-      }
-    `}</style>
-  );
-}
 
 /* ══════════════════════════════════════════════════
-   CTAUnderline — للـ Stage: نص مع خط يُرسم تحته
+   CTA زر التشكيلة المربع الكامل
 ══════════════════════════════════════════════════ */
-
 function CTA({ href, inverted = false }: { href: string; inverted?: boolean }) {
   const [h, setH] = useState(false);
 
@@ -638,103 +399,50 @@ function CTA({ href, inverted = false }: { href: string; inverted?: boolean }) {
       href={href}
       onMouseEnter={() => setH(true)}
       onMouseLeave={() => setH(false)}
+      className="relative inline-flex items-center gap-3.5 p-[clamp(11px,1.4vw,17px)_clamp(20px,2.6vw,32px)] border-[1.5px] transition-colors duration-280"
       style={{
-        ...sans,
-        textDecoration: "none",
-        display: "inline-flex",
-        alignItems: "center",
-        gap: 14,
-        padding: "clamp(11px,1.4vw,17px) clamp(20px,2.6vw,32px)",
-        border: `1.5px solid ${
-          h ? C.gold
+        fontFamily: "'IBM Plex Sans Arabic','Noto Sans Arabic',sans-serif",
+        borderColor:
+          h ? "var(--gold-mid)"
           : inverted ? "rgba(255,255,255,0.38)"
-          : C.borderMd
-        }`,
-        background: h ? C.gold : "transparent",
-        transition: "background 0.28s ease, border-color 0.28s ease",
-        position: "relative",
+          : "var(--border-md)",
+        backgroundColor: h ? "var(--gold-mid)" : "transparent",
       }}
     >
       <span
+        className="text-[0.72rem] font-bold tracking-wider whitespace-nowrap relative z-10 transition-colors duration-280"
         style={{
-          fontSize: "0.72rem",
-          fontWeight: 700,
-          letterSpacing: "0.14em",
           color:
-            h ? C.textInv
+            h ? "var(--text-inv)"
             : inverted ? "rgba(255,255,255,0.88)"
-            : C.text2,
-          transition: "color 0.28s ease",
-          whiteSpace: "nowrap",
-          position: "relative",
-          zIndex: 1,
+            : "var(--text-2)",
         }}
       >
         استعرض التشكيلة
       </span>
 
-      {/* سهم مبسط */}
       <svg
         width="16"
         height="16"
         viewBox="0 0 16 16"
         fill="none"
         aria-hidden
-        style={{ flexShrink: 0, position: "relative", zIndex: 1 }}
+        className="shrink-0 relative z-10"
       >
         <path
           d="M9 3L4 8L9 13"
           stroke={
-            h ? C.textInv
+            h ? "var(--text-inv)"
             : inverted ?
               "rgba(255,255,255,0.7)"
-            : C.text3
+            : "var(--text-3)"
           }
           strokeWidth="1.4"
           strokeLinecap="round"
           strokeLinejoin="round"
-          style={{ transition: "stroke 0.28s ease" }}
+          className="transition-colors duration-280"
         />
       </svg>
     </Link>
-  );
-}
-
-/* ══════════════════════════════════════════════════
-   Global styles — responsive + reduced motion
-══════════════════════════════════════════════════ */
-export function ProductSectionStyles() {
-  return (
-    <style>{`
-      /* SectionSlash — mobile */
-      @media (max-width: 767px) {
-        .ps-slash {
-          grid-template-columns: 1fr !important;
-          grid-template-rows: clamp(58vw,65vw,74vw) auto;
-          min-height: unset !important;
-        }
-        .ps-slash-text {
-          padding: clamp(28px,5vw,44px) clamp(20px,5vw,36px)
-                   clamp(36px,6vw,52px) clamp(20px,5vw,36px) !important;
-        }
-      }
-
-      /* SectionStage — mobile */
-      @media (max-width: 640px) {
-        .ps-stage { height: clamp(420px,110vw,580px) !important; }
-        .ps-stage-text {
-          padding: clamp(24px,5vw,36px) clamp(20px,5vw,32px)
-                   clamp(28px,5vw,40px) !important;
-        }
-      }
-
-      /* Reduced motion */
-      @media (prefers-reduced-motion: reduce) {
-        *, *::before, *::after {
-          transition: none !important;
-          animation: none !important;
-        }
-      }
-    `}</style>
   );
 }

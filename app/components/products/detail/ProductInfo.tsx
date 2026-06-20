@@ -47,7 +47,14 @@ export default function ProductInfo({ product, session }: Props) {
     <div className="flex flex-col gap-5 h-full">
       {/* ── Category tag ──────────────────────────────────────────────── */}
       <div>
-        <span className="inline-flex items-center text-xs font-medium px-2.5 py-1 rounded-full bg-[rgba(160,120,48,0.09)] text-[#a07830] border border-[rgba(160,120,48,0.2)]">
+        <span
+          className="inline-flex items-center text-xs font-medium px-2.5 py-1 rounded-full text-[11px]"
+          style={{
+            backgroundColor: "var(--cyan-bg)",
+            color: "var(--cyan)",
+            border: "1px solid var(--border-md)",
+          }}
+        >
           {product.category.parent ?
             `${product.category.parent.name} · ${product.category.name}`
           : product.category.name}
@@ -55,7 +62,10 @@ export default function ProductInfo({ product, session }: Props) {
       </div>
 
       {/* ── Name ─────────────────────────────────────────────────────── */}
-      <h1 className="text-2xl sm:text-3xl font-bold text-[#181008] leading-snug">
+      <h1
+        className="text-2xl sm:text-3xl font-bold leading-snug"
+        style={{ color: "var(--text-1)" }}
+      >
         {product.name}
       </h1>
 
@@ -65,23 +75,28 @@ export default function ProductInfo({ product, session }: Props) {
           className="flex items-center gap-1"
           aria-label={`التقييم: ${product.rating} من 5 نجوم`}
         >
-          {[1, 2, 3, 4, 5].map((s) => (
-            <Star
-              key={s}
-              className={[
-                "w-4 h-4",
-                s <= product.rating ?
-                  "fill-[#d0a820] text-[#d0a820]"
-                : "fill-transparent text-[#c5a87a]",
-              ].join(" ")}
-              aria-hidden="true"
-            />
-          ))}
+          {[1, 2, 3, 4, 5].map((s) => {
+            const isActive = s <= product.rating;
+            return (
+              <Star
+                key={s}
+                className="w-4 h-4"
+                style={{
+                  fill: isActive ? "var(--cyan)" : "transparent",
+                  color: isActive ? "var(--cyan)" : "var(--border-strong)",
+                }}
+                aria-hidden="true"
+              />
+            );
+          })}
         </div>
-        <span className="text-sm text-[#806840]">
+        <span className="text-sm" style={{ color: "var(--text-3)" }}>
           {product._count.comments > 0 ?
             <>
-              <span className="font-semibold text-[#483820]">
+              <span
+                className="font-semibold"
+                style={{ color: "var(--text-1)" }}
+              >
                 {product.rating.toFixed(1)}
               </span>{" "}
               ({product._count.comments} تقييم)
@@ -93,20 +108,30 @@ export default function ProductInfo({ product, session }: Props) {
       {/* ── Price ────────────────────────────────────────────────────── */}
       <div className="flex items-end gap-3 flex-wrap">
         <span
-          className="text-3xl font-bold text-[#181008]"
+          className="text-3xl font-bold"
+          style={{ color: "var(--text-1)" }}
           aria-label={`السعر: ${formatSAR(effectivePrice)} ريال سعودي`}
         >
           {formatSAR(effectivePrice)}{" "}
-          <span className="text-lg font-semibold text-[#806840]">ر.س</span>
+          <span
+            className="text-lg font-semibold"
+            style={{ color: "var(--text-2)" }}
+          >
+            ر.س
+          </span>
         </span>
 
         {product.discount && product.discount > 0 && (
           <>
-            <span className="text-base text-[#806840] line-through">
+            <span
+              className="text-base line-through"
+              style={{ color: "var(--text-3)" }}
+            >
               {formatSAR(product.price)} ر.س
             </span>
             <span
-              className="inline-flex items-center text-xs font-bold px-2 py-0.5 rounded-full bg-[#b91c1c] text-white"
+              className="inline-flex items-center text-xs font-bold px-2 py-0.5 rounded-full text-white"
+              style={{ backgroundColor: "var(--red)" }}
               aria-label={`خصم ${product.discount}%`}
             >
               -{product.discount}%
@@ -124,14 +149,14 @@ export default function ProductInfo({ product, session }: Props) {
         <Package
           className={[
             "w-4 h-4",
-            product.inStock ? "text-green-600" : "text-[#b91c1c]",
+            product.inStock ? "text-green-600" : "text-[var(--red)]",
           ].join(" ")}
           aria-hidden="true"
         />
         <span
           className={[
             "text-sm font-medium",
-            product.inStock ? "text-green-700" : "text-[#b91c1c]",
+            product.inStock ? "text-green-700" : "text-[var(--red)]",
           ].join(" ")}
         >
           {product.inStock ? "متوفر في المخزون" : "غير متوفر حالياً"}
@@ -139,14 +164,14 @@ export default function ProductInfo({ product, session }: Props) {
         {product.inStock &&
           product.countStock > 0 &&
           product.countStock <= 10 && (
-            <span className="text-xs text-[#806840]">
+            <span className="text-xs" style={{ color: "var(--text-3)" }}>
               · {product.countStock} قطع متبقية
             </span>
           )}
       </div>
 
       {/* ── Divider ──────────────────────────────────────────────────── */}
-      <hr className="border-[rgba(90,60,20,0.10)]" />
+      <hr style={{ borderColor: "var(--border)" }} />
 
       {/* ── Cart actions ─────────────────────────────────────────────── */}
       <CartActions product={cartItem as any} />
@@ -161,12 +186,15 @@ export default function ProductInfo({ product, session }: Props) {
       </div>
 
       {/* ── Divider ──────────────────────────────────────────────────── */}
-      <hr className="border-[rgba(90,60,20,0.10)]" />
+      <hr style={{ borderColor: "var(--border)" }} />
 
       {/* ── Description ──────────────────────────────────────────────── */}
       {product.description && (
         <div>
-          <h2 className="text-sm font-semibold text-[#483820] mb-2">
+          <h2
+            className="text-sm font-semibold mb-2"
+            style={{ color: "var(--text-2)" }}
+          >
             وصف المنتج
           </h2>
           <div className="relative">
@@ -176,9 +204,10 @@ export default function ProductInfo({ product, session }: Props) {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 className={[
-                  "text-sm text-[#483820] leading-relaxed",
+                  "text-sm leading-relaxed",
                   !descExpanded && hasLongDesc ? "line-clamp-4" : "",
                 ].join(" ")}
+                style={{ color: "var(--text-2)" }}
               >
                 {product.description}
               </motion.p>
@@ -187,7 +216,8 @@ export default function ProductInfo({ product, session }: Props) {
             {hasLongDesc && (
               <button
                 onClick={() => setDescExpanded((v) => !v)}
-                className="flex items-center gap-1 mt-1.5 text-xs text-[#a07830] font-medium hover:text-[#8a6628] transition-colors focus-visible:outline-none"
+                className="flex items-center gap-1 mt-1.5 text-xs font-medium transition-colors focus-visible:outline-none"
+                style={{ color: "var(--cyan)" }}
                 aria-expanded={descExpanded}
               >
                 {descExpanded ? "عرض أقل" : "عرض المزيد"}
@@ -225,15 +255,30 @@ export default function ProductInfo({ product, session }: Props) {
         ].map(({ icon: Icon, title, sub }) => (
           <div
             key={title}
-            className="flex items-start gap-2.5 p-3 rounded-xl bg-[#fdfaf4] border border-[rgba(90,60,20,0.08)]"
+            className="flex items-start gap-2.5 p-3 rounded-xl"
+            style={{
+              backgroundColor: "var(--surface-2)",
+              border: "1px solid var(--border)",
+            }}
           >
             <Icon
-              className="w-4 h-4 text-[#a07830] mt-0.5 flex-shrink-0"
+              className="w-4 h-4 mt-0.5 flex-shrink-0"
+              style={{ color: "var(--cyan)" }}
               aria-hidden="true"
             />
             <div>
-              <p className="text-xs font-semibold text-[#181008]">{title}</p>
-              <p className="text-[11px] text-[#806840] mt-0.5">{sub}</p>
+              <p
+                className="text-xs font-semibold"
+                style={{ color: "var(--text-1)" }}
+              >
+                {title}
+              </p>
+              <p
+                className="text-[11px] mt-0.5"
+                style={{ color: "var(--text-3)" }}
+              >
+                {sub}
+              </p>
             </div>
           </div>
         ))}

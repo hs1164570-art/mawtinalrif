@@ -20,11 +20,11 @@ export default function Sub8CircularBrickwork({
 
   return (
     <article
-      className="relative py-12 md:py-20 bg-[#fdfbf7]"
+      className="relative py-12 md:py-20 bg-[var(--bg)]"
       aria-labelledby={`sub-heading-${subSlug}`}
     >
       {/* طبقة ضوئية ناعمة */}
-      <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-gradient-to-tr from-[#f3e1ce]/20 to-transparent rounded-full blur-[100px] md:blur-[150px] pointer-events-none" />
+      <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-gradient-to-tr from-[var(--border-strong)]/20 to-transparent rounded-full blur-[100px] md:blur-[150px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 relative z-10 flex flex-col gap-10 md:gap-14">
         {/* هيدر القسم الراقي */}
@@ -52,9 +52,9 @@ export default function Sub8CircularBrickwork({
                 }`}
               >
                 {/* حاوية الدائرة الملكية (Aspect Square + rounded-full) */}
-                <div className="relative w-full aspect-square rounded-full p-[3px] border border-[#846a24]/10 group-hover:border-[#846a24] transition-all duration-500 shadow-[0_4px_15px_rgba(0,0,0,0.01)] group-hover:shadow-[0_8px_25px_rgba(132,106,36,0.1)] overflow-hidden">
+                <div className="relative w-full aspect-square rounded-full p-[3px] border border-[var(--gold)]/10 group-hover:border-[var(--gold)] transition-all duration-500 shadow-[0_4px_15px_rgba(0,0,0,0.01)] group-hover:shadow-[0_8px_25px_rgba(26,26,26,0.1)] overflow-hidden">
                   {/* الدائرة الداخلية المقصوصة بدقة */}
-                  <div className="relative w-full h-full rounded-full overflow-hidden bg-[#ebe7df]">
+                  <div className="relative w-full h-full rounded-full overflow-hidden bg-[var(--bg-deep)]">
                     <Image
                       src={p.image}
                       alt={p.name}
@@ -64,12 +64,12 @@ export default function Sub8CircularBrickwork({
                       loading="lazy"
                     />
                     {/* فلتر ناعم يفتح مع الهوفر */}
-                    <div className="absolute inset-0 bg-[#846a24]/5 group-hover:bg-transparent transition-colors duration-500" />
+                    <div className="absolute inset-0 bg-[var(--gold)]/5 group-hover:bg-transparent transition-colors duration-500" />
                   </div>
                 </div>
 
                 {/* الاسم بالأسفل بخط راقي ومريح */}
-                <span className="text-[#3a3121] text-[9px] md:text-sm font-medium tracking-wide text-center px-1 max-w-full line-clamp-1 transition-colors duration-300 group-hover:text-[#846a24]">
+                <span className="text-[var(--text-1)] text-[9px] md:text-sm font-medium tracking-wide text-center px-1 max-w-full line-clamp-1 transition-colors duration-300 group-hover:text-[var(--gold)]">
                   {p.name}
                 </span>
               </Link>

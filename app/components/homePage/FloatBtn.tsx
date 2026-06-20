@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 // استيراد الأيقونات الرسمية والاحترافية من مكتبة react-icons
-import { FaWhatsapp } from "react-icons/fa"; // لوجو الواتساب الرسمي
+import { FaWhatsapp } from "react-icons/fa"; // لوجو الواتساب
 import { FiPhone, FiMail } from "react-icons/fi"; // أيقونات التليفون والإيميل بتصميم الـ Outline النظيف
 
 export default function ContactSpeedDial() {
@@ -14,12 +14,15 @@ export default function ContactSpeedDial() {
   const emailAddress = "info@mawtinalriyf.com";
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-center gap-4">
-      {/* القائمة الفرعية (تفتح وتغلق بسلاسة ونعومة) */}
+    <div
+      className="fixed bottom-6 right-6 z-50 flex flex-col items-center gap-4"
+      dir="rtl"
+    >
+      {/* القائمة الفرعية (تفتح وتغلق بسلاسة ونعومة مذهلة) */}
       <div
-        className={`flex flex-col items-center gap-3 transition-all duration-300 ease-out transform ${
+        className={`flex flex-col items-center gap-3 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] transform origin-bottom motion-reduce:transition-none ${
           isOpen ?
-            "opacity-100 translate-y-0 scale-100"
+            "opacity-100 translate-y-0 scale-100 pointer-events-auto"
           : "opacity-0 translate-y-4 scale-75 pointer-events-none"
         }`}
       >
@@ -27,7 +30,7 @@ export default function ContactSpeedDial() {
         <a
           href={`mailto:${emailAddress}`}
           title="إرسال بريد إلكتروني"
-          className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-slate-600 shadow-md hover:bg-slate-50 transition-all hover:scale-110 border border-slate-100 hover:text-amber-700"
+          className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--surface)] text-[var(--text-2)] shadow-md hover:bg-[var(--bg-deep)] border border-[var(--border)] transition-all duration-200 hover:scale-110 hover:text-[var(--gold-mid)]"
         >
           <FiMail className="w-5 h-5" />
         </a>
@@ -38,7 +41,7 @@ export default function ContactSpeedDial() {
           target="_blank"
           rel="noopener noreferrer"
           title="تواصل عبر الواتساب"
-          className="flex h-12 w-12 items-center justify-center rounded-full bg-[#25D366] text-white shadow-md hover:bg-[#20ba5a] transition-all hover:scale-110"
+          className="flex h-12 w-12 items-center justify-center rounded-full bg-[#25D366] text-white shadow-md hover:bg-[#20ba5a] transition-all duration-200 hover:scale-110"
         >
           <FaWhatsapp className="w-6 h-6" />
         </a>
@@ -47,16 +50,18 @@ export default function ContactSpeedDial() {
         <a
           href={`tel:${phoneNumber}`}
           title="اتصال هاتفي"
-          className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-600 text-white shadow-md hover:bg-blue-700 transition-all hover:scale-110"
+          className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--text-2)] text-[var(--text-inv)] shadow-md hover:bg-[var(--text-1)] border border-[var(--border-strong)] transition-all duration-200 hover:scale-110"
         >
           <FiPhone className="w-5 h-5" />
         </a>
       </div>
 
-      {/* الزر الرئيسي بـ SVG مودرن وانسيابي لفقاعة محادثة شيك جداً */}
+      {/* الزر الرئيسي المودرن الانسيابي باللون الذهبي المعتمد */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex h-14 w-14 items-center justify-center rounded-full bg-[#D2B48C] text-[#4A3525] shadow-lg hover:bg-[#c4a47c] transition-all transform active:scale-95 z-50 border border-[#bfa37d]"
+        aria-expanded={isOpen}
+        aria-label="قائمة وسائل الاتصال السريعة"
+        className="flex h-14 w-14 items-center justify-center rounded-full bg-[var(--gold)] text-[var(--text-inv)] shadow-lg hover:bg-[var(--gold-mid)] transition-all duration-200 transform active:scale-95 z-50 border border-[var(--border-strong)]"
       >
         {
           isOpen ?
@@ -67,7 +72,7 @@ export default function ContactSpeedDial() {
               viewBox="0 0 24 24"
               strokeWidth="2.5"
               stroke="currentColor"
-              className="w-6 h-6"
+              className="w-5 h-5 transition-transform duration-200 rotate-0 group-hover:rotate-90"
             >
               <path
                 strokeLinecap="round"
@@ -75,12 +80,12 @@ export default function ContactSpeedDial() {
                 d="M6 18 18 6M6 6l12 12"
               />
             </svg>
-            // الـ SVG المودرن الجديد لفقاعة الشات الانسيابية
+            // الـ SVG المودرن الانسيابي لفقاعة الشات الفاخرة
           : <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
-              strokeWidth="2"
+              strokeWidth="1.8"
               stroke="currentColor"
               className="w-6 h-6"
             >

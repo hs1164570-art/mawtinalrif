@@ -6,15 +6,16 @@ import { X, RotateCcw, SlidersHorizontal, Star } from "lucide-react";
 import { ProductsFilters, PriceRange, SortOption } from "@/utils/products";
 
 const C = {
-  bg: "rgb(253 247 239)",
-  bgDeep: "#EAD9C5",
-  gold: "#C49858",
-  goldRing: "rgba(196,152,88,0.25)",
-  text: "#3D2B1A",
-  textMuted: "#8A6A48",
-  border: "#D6C4A8",
-  borderMid: "#C4AD8E",
-  chipBg: "#E4D2BB",
+  bg: "var(--bg)",
+  bgDeep: "var(--bg-deep)",
+  gold: "var(--gold)",
+  goldRing: "var(--border-strong)",
+  text: "var(--text-1)",
+  textMuted: "var(--text-3)",
+  border: "var(--border-md)",
+  borderMid: "var(--border-strong)",
+  chipBg: "var(--surface-2)",
+  inv: "var(--text-inv)",
 };
 
 interface Props {
@@ -513,7 +514,7 @@ function FilterContent({
                     borderRadius: "20px",
                     cursor: "pointer",
                     background: on ? C.gold : C.chipBg,
-                    color: on ? "#fff" : C.textMuted,
+                    color: on ? C.inv : C.textMuted,
                     border: `1px solid ${on ? C.gold : C.border}`,
                     transition: "all 0.15s",
                   }}
@@ -615,7 +616,7 @@ function FilterContent({
                   bottom: "2px",
                   aspectRatio: "1",
                   borderRadius: "50%",
-                  background: "#fff",
+                  background: C.inv,
                   left: filters.inStock ? "calc(100% - 17px)" : "2px",
                   transition: "left 0.2s",
                   boxShadow: "0 1px 3px rgba(0,0,0,0.15)",

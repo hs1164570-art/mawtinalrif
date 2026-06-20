@@ -41,12 +41,12 @@ export default function CategoryHero({
         quality={100}
       />
 
-      {/* gradient overlay — يخلي النص قابل للقراءة ويحسن الـ accessibility */}
+      {/* gradient overlay — يعتمد الآن على درجات الرمادي الداكن الشفاف بدلاً من البني الترابي القديم */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(to top, rgba(18,10,4,0.72) 0%, rgba(18,10,4,0.28) 55%, rgba(18,10,4,0.08) 100%)",
+            "linear-gradient(to top, rgba(33,37,41,0.85) 0%, rgba(33,37,41,0.4) 55%, rgba(33,37,41,0.1) 100%)",
         }}
         aria-hidden="true"
       />
@@ -66,12 +66,13 @@ export default function CategoryHero({
                   key={crumb.href}
                   className="flex items-center gap-1"
                   itemScope
-                  itemProp="itemListElement"
                   itemType="https://schema.org/ListItem"
+                  itemProp="itemListElement"
                 >
                   {isLast ?
                     <span
-                      className="text-[var(--gold-bright)] font-medium"
+                      className="font-medium"
+                      style={{ color: "var(--gold-bright)" }}
                       itemProp="name"
                       aria-current="page"
                     >
@@ -105,7 +106,10 @@ export default function CategoryHero({
         <p className="text-sm text-white/60">
           {total > 0 ?
             <>
-              <span className="text-[var(--gold-bright)] font-semibold">
+              <span
+                className="font-semibold"
+                style={{ color: "var(--gold-bright)" }}
+              >
                 {total}
               </span>{" "}
               منتجًا في هذا القسم

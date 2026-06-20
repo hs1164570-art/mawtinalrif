@@ -22,7 +22,7 @@ function LuxuryMinimalCard({
       {/* 1. حاوية الصورة العمودية الفاخرة */}
       <Link
         href={`/products/${p.slug}`}
-        className="relative w-full aspect-[3/4] rounded-2xl overflow-hidden border border-[#846a24]/10 hover:border-[#846a24]/20 transition-all duration-500 bg-[#ebe7df] block"
+        className="relative w-full aspect-[3/4] rounded-2xl overflow-hidden border border-[var(--gold)]/10 hover:border-[var(--gold)]/20 transition-all duration-500 bg-[var(--bg-deep)] block"
       >
         <Image
           quality={95}
@@ -36,23 +36,23 @@ function LuxuryMinimalCard({
         />
 
         {/* طبقة حماية ضوئية تفاعلية تفصل الصورة بنعومة */}
-        <div className="absolute inset-0 bg-[#846a24]/0 group-hover:bg-[#846a24]/5 transition-colors duration-500" />
+        <div className="absolute inset-0 bg-[var(--gold)]/0 group-hover:bg-[var(--gold)]/5 transition-colors duration-500" />
       </Link>
 
       {/* 2. تفاصيل المنتج النظيفة بالأسفل بدون دوشة أزرار أو نجوم */}
       <div className="pt-3 px-1 flex flex-col space-y-1 text-right rtl">
         <Link
           href={`/products/${p.slug}`}
-          className="text-[#2c2212] font-bold text-xs sm:text-sm md:text-base line-clamp-1 hover:text-[#846a24] transition-colors duration-200"
+          className="text-[var(--text-1)] font-bold text-xs sm:text-sm md:text-base line-clamp-1 hover:text-[var(--gold)] transition-colors duration-200"
         >
           {p.name}
         </Link>
 
         {/* الأسعار بخط فخم وهادئ */}
         <div className="flex items-baseline justify-start gap-2">
-          <span className="text-[#846a24] font-black text-sm sm:text-base">
+          <span className="text-[var(--gold)] font-black text-sm sm:text-base">
             {finalPrice.toLocaleString("en-US")}{" "}
-            <span className="text-[10px] sm:text-xs font-bold">ج.م</span>
+            <span className="text-[10px] sm:text-xs font-bold">ر.س</span>
           </span>
           {p.discount && p.discount > 0 && (
             <span className="text-neutral-400 text-xs line-through font-light opacity-80">
@@ -80,7 +80,7 @@ export default function Sub9HorizontalList({
 
   return (
     <article
-      className="py-12 md:py-18 bg-[#fdfbf7]"
+      className="py-12 md:py-18 bg-[var(--bg)]"
       aria-labelledby={`sub-heading-${subSlug}`}
     >
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 flex flex-col gap-6 md:gap-8">

@@ -15,12 +15,13 @@ async function uploadToCloudinary(file: File, folder: string): Promise<string> {
     throw new Error("Cloudinary env variables missing");
   }
 
+  // 1. الضغط المحلي قبل الرفع (محافظين عليه لتسريع الرفع)
   const compressed = await imageCompression(file, {
-    maxSizeMB: 1,
-    maxWidthOrHeight: 1600,
+    maxSizeMB: 1.5, // رفعناها لـ 1.5 عشان نضمن أعلى تفاصيل للموبيليات الفخمة قبل ما كلاوديناري تتعامل
+    maxWidthOrHeight: 2000, // أبعاد مريحة جداً لعرض تفاصيل الـ Premium Furniture
     useWebWorker: true,
     fileType: "image/webp",
-    initialQuality: 0.85,
+    initialQuality: 0.9, // جودة بصرية أولية ممتازة
   });
 
   const formData = new FormData();
@@ -35,7 +36,14 @@ async function uploadToCloudinary(file: File, folder: string): Promise<string> {
 
   if (!res.ok) throw new Error("فشل رفع الصورة على Cloudinary");
   const data = await res.json();
-  return data.secure_url as string;
+
+  const rawUrl = data.secure_url as string;
+
+  // 2. السحر كله هنا: حقن معاملات الأوبتمايزر الذكي جوه رابط كلاوديناري المرجوع
+  // ده بيحول الرابط من شكل خام إلى شكل ديناميكي فوري مضغوط ومحول لـ WebP/AVIF تلقائياً
+  const optimizedUrl = rawUrl.replace("/upload/", "/upload/f_auto,q_auto/");
+
+  return optimizedUrl;
 }
 
 // ─── Types ────────────────────────────────────────────────────────────────────

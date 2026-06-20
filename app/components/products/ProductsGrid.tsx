@@ -1,18 +1,9 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import ProductCard from "./ProductCard";
 import { ProductCardData } from "@/utils/products";
 import { PackageOpen } from "lucide-react";
-
-/* ── نفس ألوان FilterDrawer بالظبط ─────────────────────────────────────── */
-const C = {
-  bg: "#F2E8D8",
-  surface: "#EAD9C5",
-  border: "#D6C4A8",
-  textDark: "#3D2B1A",
-  textMuted: "#8A6A48",
-};
 
 interface Props {
   products: ProductCardData[];
@@ -61,30 +52,30 @@ export default function ProductsGrid({
             ))}
           </ul>
         </div>
-      : /* Empty state */
+      : /* Empty state - تم تحديثه بالكامل ليعتمد على الـ CSS Variables */
         <div
           role="status"
           aria-label="لا توجد منتجات"
           className="flex flex-col items-center justify-center text-center px-6 py-20 rounded-2xl border"
           style={{
-            background: C.surface,
-            borderColor: C.border,
+            background: "var(--surface-2)",
+            borderColor: "var(--border-md)",
           }}
         >
           <PackageOpen
             aria-hidden="true"
             className="w-14 h-14 mb-4"
-            style={{ color: C.border }}
+            style={{ color: "var(--text-3)" }}
           />
           <p
             className="text-base font-bold mb-1.5"
-            style={{ color: C.textDark }}
+            style={{ color: "var(--text-1)" }}
           >
             لا توجد منتجات
           </p>
           <p
             className="text-sm max-w-xs leading-relaxed"
-            style={{ color: C.textMuted }}
+            style={{ color: "var(--text-2)" }}
           >
             لا توجد منتجات تطابق الفلاتر المحددة، جرّب تعديلها أو مسحها للاطلاع
             على بقية التشكيلة الفاخرة.

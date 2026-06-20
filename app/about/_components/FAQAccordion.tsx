@@ -63,8 +63,8 @@ export default function FAQAccordion({ items }: FAQAccordionProps) {
             className={[
               "rounded-2xl border transition-colors duration-200 overflow-hidden",
               isOpen ?
-                "border-[#c5a880]/60 bg-neutral-800"
-              : "border-neutral-700 bg-neutral-800/50 hover:border-neutral-600",
+                "border-[var(--border-strong)] bg-[var(--surface)]"
+              : "border-[var(--border)] bg-[var(--surface-2)] hover:border-[var(--border-md)]",
             ].join(" ")}
           >
             {/* ── Trigger ─────────────────────────────────────────────────── */}
@@ -78,13 +78,13 @@ export default function FAQAccordion({ items }: FAQAccordionProps) {
                 onKeyDown={(e) => handleKeyDown(e, index)}
                 aria-expanded={isOpen}
                 aria-controls={panelId}
-                className="w-full flex items-center justify-between gap-4 px-6 py-5 text-right cursor-pointer group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c5a880] focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900 rounded-2xl"
+                className="w-full flex items-center justify-between gap-4 px-6 py-5 text-right cursor-pointer group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] rounded-2xl"
               >
                 <span
                   className={[
                     "text-base md:text-[1.05rem] font-semibold leading-relaxed transition-colors duration-150",
-                    isOpen ? "text-[#c5a880]" : (
-                      "text-neutral-100 group-hover:text-[#c5a880]"
+                    isOpen ? "text-[var(--gold)]" : (
+                      "text-[var(--text-1)] group-hover:text-[var(--gold)]"
                     ),
                   ].join(" ")}
                 >
@@ -99,8 +99,8 @@ export default function FAQAccordion({ items }: FAQAccordionProps) {
                   className={[
                     "shrink-0 w-8 h-8 rounded-full border flex items-center justify-center text-xl leading-none select-none transition-colors duration-150",
                     isOpen ?
-                      "border-[#c5a880] text-[#c5a880]"
-                    : "border-neutral-600 text-neutral-400 group-hover:border-[#c5a880]/60 group-hover:text-[#c5a880]",
+                      "border-[var(--gold)] text-[var(--gold)]"
+                    : "border-[var(--border-md)] text-[var(--text-3)] group-hover:border-[var(--gold-bright)] group-hover:text-[var(--gold)]",
                   ].join(" ")}
                 >
                   +
@@ -121,8 +121,8 @@ export default function FAQAccordion({ items }: FAQAccordionProps) {
                   transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
                   className="overflow-hidden"
                 >
-                  <div className="border-t border-neutral-700/80 px-6 pt-4 pb-6">
-                    <p className="text-neutral-300 leading-[1.9] text-[0.95rem]">
+                  <div className="border-t border-[var(--border)] px-6 pt-4 pb-6">
+                    <p className="text-[var(--text-2)] leading-[1.9] text-[0.95rem]">
                       {item.answer}
                     </p>
                   </div>

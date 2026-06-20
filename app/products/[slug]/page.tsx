@@ -710,7 +710,8 @@ export default async function ProductPage({
       <HydrationBoundary state={dehydratedState}>
         {/* ⚠️ div وليس main — layout يوفر <main> مسبقاً */}
         <div
-          className="min-h-screen bg-[#fdfaf6]"
+          className="min-h-screen"
+          style={{ backgroundColor: "var(--bg)" }}
           dir="rtl"
           lang="ar"
           id="main-content"
@@ -718,7 +719,11 @@ export default async function ProductPage({
           {/* Skip to content — accessibility + SEO */}
           <a
             href="#product-detail"
-            className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:right-2 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#a07830] focus:text-white focus:rounded-lg focus:text-sm"
+            className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:right-2 focus:z-50 focus:px-4 focus:py-2 focus:rounded-lg focus:text-sm"
+            style={{
+              backgroundColor: "var(--cyan)",
+              color: "var(--text-inv)",
+            }}
           >
             الانتقال للمحتوى
           </a>
@@ -814,7 +819,7 @@ export default async function ProductPage({
               </div>
             </article>
 
-            <hr className="mt-14 border-[rgba(90,60,20,0.10)]" />
+            <hr className="mt-14" style={{ borderColor: "var(--border-md)" }} />
 
             <CommentSection
               productId={product.id}
@@ -824,7 +829,10 @@ export default async function ProductPage({
 
             {relatedProducts.length > 0 && (
               <>
-                <hr className="mt-14 border-[rgba(90,60,20,0.10)]" />
+                <hr
+                  className="mt-14"
+                  style={{ borderColor: "var(--border-md)" }}
+                />
                 <RelatedProducts
                   subCategoryId={product.subCategoryId}
                   excludeId={product.id}

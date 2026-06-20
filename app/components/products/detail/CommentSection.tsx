@@ -1,5 +1,3 @@
-"use client";
-
 import { MessageSquare } from "lucide-react";
 import { Session } from "next-auth";
 import CommentStats from "./CommentStats";
@@ -24,40 +22,56 @@ export default function CommentSection({
     >
       {/* ── Heading ── */}
       <div className="flex items-center gap-3 mb-8">
-        <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-[#f0e6d3] text-[#8a6520]">
-          <MessageSquare className="w-4.5 h-4.5" aria-hidden="true" />
+        <div
+          className="flex items-center justify-center w-9 h-9 rounded-xl"
+          style={{
+            backgroundColor: "var(--cyan-bg)",
+            color: "var(--cyan)",
+          }}
+        >
+          <MessageSquare className="w-4 h-4" aria-hidden="true" />
         </div>
+
         <h2
           id="comments-heading"
-          className="text-lg font-bold text-[#2c1f0e] tracking-wide"
+          className="text-lg font-bold tracking-wide"
+          style={{ color: "var(--text-1)" }}
         >
           التقييمات والتعليقات
         </h2>
+
         {commentCount > 0 && (
-          <span className="text-xs font-semibold text-[#8a6520] bg-[#f0e6d3] px-2.5 py-1 rounded-full border border-[#e2d0b0]">
+          <span
+            className="text-xs font-semibold px-2.5 py-1 rounded-full"
+            style={{
+              color: "var(--cyan)",
+              backgroundColor: "var(--cyan-bg)",
+              border: "1px solid var(--border-md)",
+            }}
+          >
             {commentCount}
           </span>
         )}
       </div>
 
-      <div className="h-px bg-gradient-to-r from-[#e2d0b0] via-[#c8a96e] to-[#e2d0b0] mb-7 rounded-full" />
+      {/* ── Divider ── */}
+      <div
+        className="h-px mb-7 rounded-full"
+        style={{ backgroundColor: "var(--border-md)" }}
+      />
 
-      {/* ── Container for Stats & AddComment (Grid 2 cols) ── */}
+      {/* ── Stats + AddComment Grid ── */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-        <div>
-          <CommentStats productId={productId} />
-        </div>
-        <div>
-          <AddComment productId={productId} session={session} />
-        </div>
+        <CommentStats productId={productId} />
+        <AddComment productId={productId} session={session} />
       </div>
 
       {/* ── Divider ── */}
-      <div className="h-px bg-[#ede3d4] mb-8" />
+      <div className="h-px mb-8" style={{ backgroundColor: "var(--border)" }} />
 
-      {/* ── List (Full width below) ── */}
+      {/* ── Comments List ── */}
       <div className="w-full">
-        <CommentsList productId={productId} session={session} />
+        <CommentsList productId={productId} />
       </div>
     </section>
   );

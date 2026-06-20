@@ -87,14 +87,14 @@ export default function QuickViewModal({
       className="fixed inset-0 z-50 flex items-center justify-center p-3 md:p-6"
       dir="rtl"
     >
-      {/* ─── Backdrop (تم الحفاظ عليه كمكون حركة نقي يراقب من الخارج) ─── */}
+      {/* ─── Backdrop (تم التحديث للرمادي المحايد العصري بدلاً من البني الداكن) ─── */}
       <motion.div
         key="backdrop"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.22 }}
-        className="fixed inset-0 bg-[#3D2B1F]/40 backdrop-blur-md transition-opacity duration-300"
+        className="fixed inset-0 bg-slate-900/40 backdrop-blur-md transition-opacity duration-300"
         onClick={onClose}
         aria-hidden="true"
       />
@@ -159,7 +159,7 @@ export default function QuickViewModal({
             >
               <Image
                 src={images[current]}
-                alt={`${product.name} — صورة ${current + 1} من ${total} — مؤسسة الريف`}
+                alt={`${product.name} — صورة ${current + 1} من ${total}`}
                 fill
                 sizes="(max-width: 768px) 100vw, 672px"
                 className="object-contain"

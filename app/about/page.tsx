@@ -493,50 +493,6 @@ export default function AboutPage() {
             </div>
 
             <div className="flex flex-col gap-6">
-              {/* <div className="grid grid-cols-2 gap-4">
-                {(
-                  [
-                    { value: "+XXXX", label: "عميل راضٍ", icon: "👥" },
-                    { value: "+XX", label: "سنة خبرة", icon: "🏆" },
-                    { value: "+XXX", label: "نموذج فريد", icon: "🛋️" },
-                    { value: "١٠٠٪", label: "ضمان الجودة", icon: "✅" },
-                  ] as const
-                ).map((badge) => (
-                  <div
-                    key={badge.label}
-                    className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-5 text-center hover:border-[var(--border-strong)] transition-colors"
-                  >
-                    <span className="text-3xl mb-2 block" aria-hidden="true">
-                      {badge.icon}
-                    </span>
-                    <p className="text-2xl md:text-3xl font-bold text-[var(--gold)] mb-1">
-                      {badge.value}
-                    </p>
-                    <p className="text-[var(--text-3)] text-sm">
-                      {badge.label}
-                    </p>
-                  </div>
-                ))}
-              </div> */}
-
-              {/* <div className="relative h-56 md:h-64 rounded-2xl overflow-hidden">
-                <Image
-                  src="/images/about/workshop.jpg"
-                  alt="ورشة تصنيع الأثاث الفاخر في موطن الريف الرياض بأيدي حرفيين متخصصين"
-                  fill
-                  loading="lazy"
-                  className="object-cover object-center"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                />
-                <div
-                  aria-hidden="true"
-                  className="absolute inset-0 bg-gradient-to-t from-[var(--bg)]/70 via-transparent to-transparent"
-                />
-                <p className="absolute bottom-4 right-4 text-sm text-[var(--text-2)] font-medium">
-                  الحرفية الأصيلة في كل تفصيل
-                </p>
-              </div> */}
-
               <div className="flex flex-wrap gap-3">
                 {[
                   "أخشاب طبيعية مستدامة",

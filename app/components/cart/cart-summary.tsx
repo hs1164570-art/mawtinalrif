@@ -111,7 +111,7 @@ export function CartSummary({
         border: "1px solid var(--border-md)",
         borderRadius: "20px",
         padding: "24px",
-        boxShadow: "0 2px 12px rgba(90,60,20,0.06)",
+        boxShadow: "var(--shadow-md)",
         display: "flex",
         flexDirection: "column",
         gap: "0",
@@ -268,7 +268,7 @@ export function CartSummary({
                     style={{
                       width: "100%",
                       padding: "9px 10px 9px 30px",
-                      border: `1px solid ${coupon.status === "invalid" ? "rgba(185,28,28,0.4)" : "var(--border-md)"}`,
+                      border: `1px solid ${coupon.status === "invalid" ? "rgba(224,49,49,0.4)" : "var(--border-md)"}`,
                       borderRadius: "10px",
                       background: "var(--bg)",
                       color: "var(--text-1)",
@@ -285,7 +285,7 @@ export function CartSummary({
                     onBlur={(e) => {
                       e.target.style.borderColor =
                         coupon.status === "invalid" ?
-                          "rgba(185,28,28,0.4)"
+                          "rgba(224,49,49,0.4)"
                         : "var(--border-md)";
                     }}
                   />
@@ -366,19 +366,18 @@ export function CartSummary({
           gap: "8px",
           letterSpacing: "0.01em",
           transition: "all 0.15s ease",
-          boxShadow: "0 4px 16px rgba(160,120,48,0.35)",
+          boxShadow: "0 4px 16px rgba(26,26,26,0.35)",
         }}
         onMouseEnter={(e) => {
           if (!isMutating) {
             e.currentTarget.style.background = "var(--gold-mid)";
-            e.currentTarget.style.boxShadow =
-              "0 6px 20px rgba(160,120,48,0.45)";
+            e.currentTarget.style.boxShadow = "0 6px 20px rgba(26,26,26,0.45)";
             e.currentTarget.style.transform = "translateY(-1px)";
           }
         }}
         onMouseLeave={(e) => {
           e.currentTarget.style.background = "var(--gold)";
-          e.currentTarget.style.boxShadow = "0 4px 16px rgba(160,120,48,0.35)";
+          e.currentTarget.style.boxShadow = "0 4px 16px rgba(26,26,26,0.35)";
           e.currentTarget.style.transform = "translateY(0)";
         }}
       >

@@ -72,12 +72,12 @@ export default function Navbar({ user, isAdmin }: NavbarProps) {
         className={[
           "sticky inset-x-0 top-0 z-50 transition-all duration-300 overflow-visible",
           scrolled ?
-            "bg-[#faf6f0] shadow-[0_4px_32px_rgba(61,43,31,0.08)]"
-          : "bg-[#faf6f0]",
+            "bg-[var(--bg)] shadow-[0_4px_32px_rgba(33,37,41,0.05)] border-b border-[var(--border)]"
+          : "bg-[var(--bg)]",
         ].join(" ")}
       >
-        {/* subtle gold border bottom */}
-        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[#b89a5a]/30 to-transparent pointer-events-none" />
+        {/* خط ذهبي ناعم تحت الهيدر مستوحى من الهوية الاستايلش */}
+        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[var(--gold-bright)]/30 to-transparent pointer-events-none" />
 
         <nav
           aria-label="التنقل الرئيسي"
@@ -85,13 +85,12 @@ export default function Navbar({ user, isAdmin }: NavbarProps) {
         >
           {/* الحاوية الرئيسية للشاشات الكبيرة والتابلت */}
           <div className="hidden md:flex flex-col py-3 overflow-visible w-full">
-            {/* السطر العلوي الثابت: اللوجو والأزرار مستحيل ينفصلوا أو ينزلوا تحت بعض */}
             <div className="flex items-center justify-between w-full overflow-visible relative z-10">
               {/* اللوجو في أقصى اليمين */}
               <div className="flex-shrink-0">
                 <Link
                   href="/"
-                  className="flex-shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#b89a5a]/50 rounded-lg"
+                  className="flex-shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold-mid)]/50 rounded-lg"
                 >
                   <Image
                     quality={95}
@@ -117,10 +116,10 @@ export default function Navbar({ user, isAdmin }: NavbarProps) {
               {/* الأزرار في أقصى اليسار متناسقة ومقابلة للوجو دائماً */}
               <div className="flex items-center gap-1 flex-shrink-0">
                 <CartDrawer>
-                  <button className="relative p-2.5 rounded-xl text-[#3d2b1f]/65 hover:text-[#3d2b1f] hover:bg-[#3d2b1f]/[0.05] transition-all duration-200">
+                  <button className="relative p-2.5 rounded-xl text-[var(--text-2)] hover:text-[var(--text-1)] hover:bg-[var(--bg-deep)] transition-all duration-200">
                     <ShoppingBag className="w-[21px] h-[21px]" />
                     {totalItems > 0 && (
-                      <span className="absolute top-1.5 left-1.5 min-w-[17px] h-[17px] px-0.5 text-[9px] font-bold rounded-full bg-[#b89a5a] text-[#faf6f0] flex items-center justify-center leading-none">
+                      <span className="absolute top-1.5 left-1.5 min-w-[17px] h-[17px] px-0.5 text-[9px] font-bold rounded-full bg-[var(--gold)] text-[var(--text-inv)] flex items-center justify-center leading-none">
                         {totalItems > 9 ? "9+" : totalItems}
                       </span>
                     )}
@@ -131,8 +130,8 @@ export default function Navbar({ user, isAdmin }: NavbarProps) {
               </div>
             </div>
 
-            {/* السطر السفلي للروابط: يظهر فقط في شاشات التابلت والشاشات المتوسطة لحماية الهيدر من الانفجار */}
-            <div className="flex xl:hidden flex-wrap items-center justify-center gap-x-4 gap-y-1 overflow-visible w-full border-t border-[#b89a5a]/5 pt-2 mt-2">
+            {/* السطر السفلي للروابط لشاشات التابلت والشاشات المتوسطة لحماية الهيدر من الانفجار */}
+            <div className="flex xl:hidden flex-wrap items-center justify-center gap-x-4 gap-y-1 overflow-visible w-full border-t border-[var(--border)] pt-2 mt-2">
               <NavLinks isAdmin={isAdmin} isDesktop={true} onClose={() => {}} />
             </div>
           </div>
@@ -152,10 +151,10 @@ export default function Navbar({ user, isAdmin }: NavbarProps) {
 
             <div className="flex items-center gap-0.5">
               <CartDrawer>
-                <button className="relative p-2.5 rounded-xl text-[#3d2b1f]/65 hover:text-[#3d2b1f]">
+                <button className="relative p-2.5 rounded-xl text-[var(--text-2)] hover:text-[var(--text-1)]">
                   <ShoppingBag className="w-[21px] h-[21px]" />
                   {totalItems > 0 && (
-                    <span className="absolute top-1.5 left-1.5 min-w-[17px] h-[17px] px-0.5 text-[9px] font-bold rounded-full bg-[#b89a5a] text-[#faf6f0] flex items-center justify-center leading-none">
+                    <span className="absolute top-1.5 left-1.5 min-w-[17px] h-[17px] px-0.5 text-[9px] font-bold rounded-full bg-[var(--gold)] text-[var(--text-inv)] flex items-center justify-center leading-none">
                       {totalItems > 9 ? "9+" : totalItems}
                     </span>
                   )}
@@ -166,7 +165,10 @@ export default function Navbar({ user, isAdmin }: NavbarProps) {
 
               <button
                 onClick={() => setMobileOpen((o) => !o)}
-                className="p-2.5 rounded-xl text-[#3d2b1f]/65 hover:text-[#3d2b1f]"
+                aria-expanded={mobileOpen}
+                aria-controls="mobile-menu"
+                aria-label={mobileOpen ? "إغلاق القائمة" : "فتح القائمة"}
+                className="p-2.5 rounded-xl text-[var(--text-2)] hover:text-[var(--text-1)]"
               >
                 {mobileOpen ?
                   <X className="w-5 h-5" />
@@ -177,23 +179,17 @@ export default function Navbar({ user, isAdmin }: NavbarProps) {
         </nav>
       </header>
 
-      {/* ── Spacer الديناميكي ─────────────────────────────────────────────── */}
-      {/* <div
-        className="h-[64px] md:h-auto md:pt-[115px] xl:md:pt-[85px]"
-        aria-hidden="true"
-      /> */}
-
       {/* ── Mobile menu panel (للموبايل فقط) ──────────────── */}
       <div
         id="mobile-menu"
         role="navigation"
-        aria-label="قائمة التنقل"
+        aria-label="قائمة التنقل للموبايل"
         aria-hidden={!mobileOpen}
         className={[
-          "md:hidden border-t border-[#b89a5a]/10 bg-[#faf6f0]",
-          "transition-[max-height,opacity] duration-300 ease-in-out overflow-hidden",
+          "fixed top-[64px] inset-x-0 z-50 md:hidden border-t border-[var(--border)] bg-[var(--bg)]",
+          "transition-[max-height,opacity] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden motion-reduce:transition-none",
           mobileOpen ?
-            "max-h-[calc(100dvh-64px)] opacity-100"
+            "max-h-[calc(100dvh-64px)] opacity-100 shadow-xl"
           : "max-h-0 opacity-0 pointer-events-none",
         ].join(" ")}
       >
@@ -202,7 +198,7 @@ export default function Navbar({ user, isAdmin }: NavbarProps) {
             <Link
               href="/admin"
               onClick={() => setMobileOpen(false)}
-              className="flex items-center gap-2.5 px-4 py-3 rounded-xl mb-2 text-sm font-semibold text-[#b89a5a] border border-[#b89a5a]/20 bg-[#b89a5a]/[0.04]"
+              className="flex items-center gap-2.5 px-4 py-3 rounded-xl mb-2 text-sm font-semibold text-[var(--gold-mid)] border border-[var(--gold-bright)]/20 bg-[var(--gold-bright)]/[0.03]"
             >
               <LayoutDashboard className="w-4 h-4" />
               لوحة التحكم
@@ -221,9 +217,9 @@ export default function Navbar({ user, isAdmin }: NavbarProps) {
         aria-hidden="true"
         onClick={() => setMobileOpen(false)}
         className={[
-          "sticky inset-0 z-40 md:hidden",
-          "bg-[#1c0e00]/30 backdrop-blur-[2px]",
-          "transition-opacity duration-300",
+          "fixed inset-0 z-40 md:hidden",
+          "bg-black/25 backdrop-blur-[1px]",
+          "transition-opacity duration-300 ease-in-out motion-reduce:transition-none",
           mobileOpen ? "opacity-100" : "opacity-0 pointer-events-none",
         ].join(" ")}
       />

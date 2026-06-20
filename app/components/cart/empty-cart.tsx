@@ -61,9 +61,10 @@ export function EmptyCart({ isAuthenticated }: EmptyCartProps) {
             lineHeight: 1.6,
           }}
         >
-          {isAuthenticated
-            ? "You haven't added anything yet. Browse our collection and find something you'll love."
-            : "Add items to your cart while browsing — they'll be saved here for you."}
+          {isAuthenticated ?
+            "You haven't added anything yet. Browse our collection and find something you'll love."
+          : "Add items to your cart while browsing — they'll be saved here for you."
+          }
         </p>
       </div>
 
@@ -80,7 +81,7 @@ export function EmptyCart({ isAuthenticated }: EmptyCartProps) {
           fontWeight: 700,
           fontSize: "0.88rem",
           textDecoration: "none",
-          boxShadow: "0 4px 14px rgba(160,120,48,0.30)",
+          boxShadow: "0 4px 14px rgba(26,26,26,0.30)",
           transition: "all 0.15s ease",
         }}
         onMouseEnter={(e) => {
@@ -100,7 +101,11 @@ export function EmptyCart({ isAuthenticated }: EmptyCartProps) {
         <p style={{ margin: 0, fontSize: "0.78rem", color: "var(--text-3)" }}>
           <Link
             href="/sign-in"
-            style={{ color: "var(--gold)", fontWeight: 600, textDecoration: "underline" }}
+            style={{
+              color: "var(--gold)",
+              fontWeight: 600,
+              textDecoration: "underline",
+            }}
           >
             Sign in
           </Link>{" "}

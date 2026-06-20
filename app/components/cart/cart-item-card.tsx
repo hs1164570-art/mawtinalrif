@@ -41,7 +41,7 @@ export function CartItemCard({
         gap: "14px",
         opacity: isPending ? 0.6 : 1,
         transition: "opacity 0.2s ease",
-        boxShadow: "0 1px 4px rgba(90,60,20,0.05)",
+        boxShadow: "var(--shadow-sm)",
       }}
     >
       {/* Image */}
@@ -74,7 +74,7 @@ export function CartItemCard({
                 alignItems: "center",
                 justifyContent: "center",
                 fontSize: "10px",
-                color: "#fff",
+                color: "var(--text-inv)",
                 fontWeight: 700,
                 letterSpacing: "0.05em",
               }}
@@ -138,8 +138,8 @@ export function CartItemCard({
               transition: "all 0.15s ease",
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = "rgba(185,28,28,0.08)";
-              e.currentTarget.style.borderColor = "rgba(185,28,28,0.3)";
+              e.currentTarget.style.background = "rgba(224,49,49,0.08)";
+              e.currentTarget.style.borderColor = "rgba(224,49,49,0.3)";
               e.currentTarget.style.color = "var(--red)";
             }}
             onMouseLeave={(e) => {
@@ -159,7 +159,7 @@ export function CartItemCard({
               display: "flex",
               alignItems: "center",
               gap: "4px",
-              color: "#c2410c",
+              color: "var(--red)",
               fontSize: "0.72rem",
               fontWeight: 500,
             }}
@@ -201,7 +201,7 @@ export function CartItemCard({
           {!!product.discount && (
             <span
               style={{
-                background: "rgba(160,120,48,0.12)",
+                background: "rgba(26,26,26,0.12)",
                 color: "var(--gold)",
                 fontSize: "0.68rem",
                 fontWeight: 700,

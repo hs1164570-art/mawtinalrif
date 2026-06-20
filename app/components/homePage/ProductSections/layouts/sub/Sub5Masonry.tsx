@@ -23,11 +23,11 @@ export default function Sub5Masonry({
 
   return (
     <article
-      className="relative py-12 md:py-28 bg-[#fdfbf7] overflow-hidden"
+      className="relative py-12 md:py-28 bg-[var(--bg)] overflow-hidden"
       aria-labelledby={`sub-heading-${subSlug}`}
     >
       {/* خلفية ضوئية ذهبية ناعمة */}
-      <div className="absolute -bottom-10 left-0 w-[250px] md:w-[500px] h-[250px] md:h-[500px] bg-gradient-to-tr from-[#f5ebd7]/40 to-transparent rounded-full blur-[80px] md:blur-[120px] pointer-events-none z-0" />
+      <div className="absolute -bottom-10 left-0 w-[250px] md:w-[500px] h-[250px] md:h-[500px] bg-gradient-to-tr from-[var(--border-strong)]/40 to-transparent rounded-full blur-[80px] md:blur-[120px] pointer-events-none z-0" />
 
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 relative z-10 flex flex-col gap-8 md:gap-16">
         {/* هيدر القسم الراقي */}
@@ -44,7 +44,7 @@ export default function Sub5Masonry({
           <div className="lg:col-span-5 flex flex-col justify-between">
             <Link
               href={`/products/${tall.slug}`}
-              className="group relative w-full aspect-[4/5] lg:h-full rounded-[2rem] md:rounded-[2.5rem] overflow-hidden border border-[#846a24]/10 shadow-[0_15px_35px_rgba(0,0,0,0.01)] hover:shadow-[0_25px_60px_rgba(132,106,36,0.08)] transition-all duration-700 block bg-[#ebe7df]"
+              className="group relative w-full aspect-[4/5] lg:h-full rounded-[2rem] md:rounded-[2.5rem] overflow-hidden border border-[var(--gold)]/10 shadow-[0_15px_35px_rgba(0,0,0,0.01)] hover:shadow-[0_25px_60px_rgba(26,26,26,0.08)] transition-all duration-700 block bg-[var(--bg-deep)]"
             >
               <Image
                 src={tall.image}
@@ -58,16 +58,16 @@ export default function Sub5Masonry({
               <div className="absolute inset-0 bg-black/[0.02]" />
 
               {/* بطاقة عائمة زجاجية */}
-              <div className="absolute bottom-4 inset-x-4 bg-white/70 backdrop-blur-md p-3.5 md:p-4 rounded-[1.5rem] md:rounded-[1.8rem] border border-white/40 flex justify-between items-center">
+              <div className="absolute bottom-4 inset-x-4 bg-[var(--surface)]/70 backdrop-blur-md p-3.5 md:p-4 rounded-[1.5rem] md:rounded-[1.8rem] border border-[var(--surface)]/40 flex justify-between items-center">
                 <div className="flex flex-col text-right">
-                  <span className="text-[#846a24] text-[9px] md:text-[10px] font-bold tracking-widest mb-0.5 uppercase">
+                  <span className="text-[var(--gold)] text-[9px] md:text-[10px] font-bold tracking-widest mb-0.5 uppercase">
                     القطعة الرئيسية
                   </span>
-                  <p className="text-[#2c2212] font-black text-xs md:text-base line-clamp-1">
+                  <p className="text-[var(--text-1)] font-black text-xs md:text-base line-clamp-1">
                     {tall.name}
                   </p>
                 </div>
-                <span className="bg-black text-white p-2 md:p-2.5 rounded-full shadow-md">
+                <span className="bg-[var(--gold)] text-[var(--text-inv)] p-2 md:p-2.5 rounded-full shadow-md">
                   <svg
                     className="w-3.5 h-3.5 md:w-4 md:h-4 transform rotate-180"
                     fill="none"
@@ -94,7 +94,7 @@ export default function Sub5Masonry({
             {stackItems[0] && (
               <Link
                 href={`/products/${stackItems[0].slug}`}
-                className="group relative w-[75%] sm:w-[48%] lg:w-full aspect-[3/4] rounded-[2rem] overflow-hidden bg-white border border-[#846a24]/5 shadow-[0_15px_40px_rgba(0,0,0,0.02)] transition-all duration-700 block shrink-0 snap-start snap-always"
+                className="group relative w-[75%] sm:w-[48%] lg:w-full aspect-[3/4] rounded-[2rem] overflow-hidden bg-[var(--surface)] border border-[var(--gold)]/5 shadow-[0_15px_40px_rgba(0,0,0,0.02)] transition-all duration-700 block shrink-0 snap-start snap-always"
               >
                 <Image
                   src={stackItems[0].image}
@@ -106,7 +106,7 @@ export default function Sub5Masonry({
                   loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500 p-4 flex flex-col justify-end text-right">
-                  <p className="text-white font-bold text-xs md:text-sm">
+                  <p className="text-[var(--text-inv)] font-bold text-xs md:text-sm">
                     {stackItems[0].name}
                   </p>
                 </div>
@@ -120,7 +120,7 @@ export default function Sub5Masonry({
                 <Link
                   key={p.slug}
                   href={`/products/${p.slug}`}
-                  className="group relative w-[235px] sm:w-[280px] lg:w-full aspect-[3/4] rounded-[2rem] overflow-hidden bg-white border border-[#846a24]/5 shadow-[0_15px_40px_rgba(0,0,0,0.02)] transition-all duration-700 block shrink-0 snap-start snap-always"
+                  className="group relative w-[235px] sm:w-[280px] lg:w-full aspect-[3/4] rounded-[2rem] overflow-hidden bg-[var(--surface)] border border-[var(--gold)]/5 shadow-[0_15px_40px_rgba(0,0,0,0.02)] transition-all duration-700 block shrink-0 snap-start snap-always"
                 >
                   <Image
                     src={p.image}
@@ -132,7 +132,7 @@ export default function Sub5Masonry({
                     loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500 p-4 flex flex-col justify-end text-right">
-                    <p className="text-white font-bold text-xs md:text-sm">
+                    <p className="text-[var(--text-inv)] font-bold text-xs md:text-sm">
                       {p.name}
                     </p>
                   </div>

@@ -65,7 +65,7 @@ export default async function middleware(
   const userRole = token?.role;
 
   // --- 🔒 نظام الحماية والتوجيه (Auth Rules) ---
-  console.log("this is token ", token, "uder role ", userRole, isLoggedIn);
+  // console.log("this is token ", token, "uder role ", userRole, isLoggedIn);
   // منع المستخدم المسجل من دخول صفحات الـ Auth (مثل Login / Register)
   if (path.startsWith("/auth")) {
     if (isLoggedIn) {

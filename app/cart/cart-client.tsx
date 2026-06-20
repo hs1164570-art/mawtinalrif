@@ -16,24 +16,31 @@ interface CartClientProps {
   isAuthenticated: boolean;
 }
 
+/* ── تم إعادة هيكلة المتغيرات لتعكس النظام المحايد والنظيف المتفق عليه ── */
 const CSS_VARS = `
   :root {
-    --bg: #f8f4ec;
-    --bg-deep: #ede8dc;
+    --bg: #f8f9fa;
+    --bg-deep: #f1f3f5;
     --surface: #ffffff;
-    --surface-2: #fffdf8;
-    --border: rgba(90,60,20,0.10);
-    --border-md: rgba(90,60,20,0.18);
-    --border-strong: rgba(90,60,20,0.32);
-    --gold: #a07830;
-    --gold-mid: #b89040;
-    --gold-bright: #d0a820;
-    --gold-bg: rgba(160,120,48,0.07);
-    --text-1: #181008;
-    --text-2: #483820;
-    --text-3: #806840;
+    --surface-2: #fafbfa;
+    --border: rgba(33, 37, 41, 0.06);
+    --border-md: rgba(33, 37, 41, 0.12);
+    --border-strong: rgba(33, 37, 41, 0.25);
+    
+    /* توجيه مسميات الـ gold والأسماء المقترنة بها إلى الأسود والتون التفاعلي الجديد */
+    --gold: #1a1a1a;
+    --gold-mid: #212529;
+    --gold-bright: #495057;
+    --gold-bg: rgba(0, 0, 0, 0.06);
+    
+    /* درجات النصوص المحايدة عالية القراءة */
+    --text-1: #1a1a1a;
+    --text-2: #495057;
+    --text-3: #868e96;
     --text-inv: #ffffff;
-    --red: #b91c1c;
+    
+    /* الأحمر التفاعلي للخصومات والإجراءات القوية */
+    --red: #e03131;
   }
 `;
 
@@ -105,7 +112,7 @@ export function CartClient({
         display: "flex",
         alignItems: "center",
         gap: "12px",
-        background: "rgba(160,120,48,0.07)",
+        background: "var(--gold-bg)",
         border: "1px solid var(--border-md)",
         borderRadius: "12px",
         padding: "12px 16px",
@@ -275,8 +282,8 @@ function CartPageShell({
                 }}
                 onMouseEnter={(e) => {
                   if (!isMutating) {
-                    e.currentTarget.style.background = "rgba(185,28,28,0.06)";
-                    e.currentTarget.style.borderColor = "rgba(185,28,28,0.3)";
+                    e.currentTarget.style.background = "rgba(224,49,49,0.06)";
+                    e.currentTarget.style.borderColor = "rgba(224,49,49,0.3)";
                     e.currentTarget.style.color = "var(--red)";
                   }
                 }}
@@ -343,7 +350,7 @@ function CartItemSkeleton() {
           background: "var(--bg-deep)",
           animation: "pulse 1.5s ease-in-out infinite",
         }}
-      />
+      ></div>
       <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
         <div
           style={{

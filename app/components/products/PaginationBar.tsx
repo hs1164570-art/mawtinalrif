@@ -1,33 +1,37 @@
-'use client'
+"use client";
 
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface Props {
-  currentPage:  number
-  totalPages:   number
-  onPageChange: (page: number) => void
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
 }
 
-function getPages(current: number, total: number): (number | '…')[] {
-  if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1)
+function getPages(current: number, total: number): (number | "…")[] {
+  if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
 
-  const pages: (number | '…')[] = [1]
+  const pages: (number | "…")[] = [1];
 
-  if (current > 3)             pages.push('…')
-  if (current > 2)             pages.push(current - 1)
-  if (current !== 1 && current !== total) pages.push(current)
-  if (current < total - 1)     pages.push(current + 1)
-  if (current < total - 2)     pages.push('…')
+  if (current > 3) pages.push("…");
+  if (current > 2) pages.push(current - 1);
+  if (current !== 1 && current !== total) pages.push(current);
+  if (current < total - 1) pages.push(current + 1);
+  if (current < total - 2) pages.push("…");
 
-  pages.push(total)
+  pages.push(total);
 
-  return [...new Set(pages)]
+  return [...new Set(pages)];
 }
 
-export default function PaginationBar({ currentPage, totalPages, onPageChange }: Props) {
-  if (totalPages <= 1) return null
+export default function PaginationBar({
+  currentPage,
+  totalPages,
+  onPageChange,
+}: Props) {
+  if (totalPages <= 1) return null;
 
-  const pages = getPages(currentPage, totalPages)
+  const pages = getPages(currentPage, totalPages);
 
   return (
     <nav
@@ -48,7 +52,7 @@ export default function PaginationBar({ currentPage, totalPages, onPageChange }:
 
       {/* Pages */}
       {pages.map((p, i) =>
-        p === '…' ? (
+        p === "…" ?
           <span
             key={`ellipsis-${i}`}
             className="w-10 h-10 flex items-center justify-center text-[var(--text-3)] text-sm select-none"
@@ -56,22 +60,20 @@ export default function PaginationBar({ currentPage, totalPages, onPageChange }:
           >
             …
           </span>
-        ) : (
-          <button
+        : <button
             key={p}
             type="button"
             onClick={() => onPageChange(p as number)}
             aria-label={`الصفحة ${p}`}
-            aria-current={p === currentPage ? 'page' : undefined}
+            aria-current={p === currentPage ? "page" : undefined}
             className={`w-10 h-10 flex items-center justify-center rounded-xl text-sm font-medium transition-all focus-visible:ring-2 focus-visible:ring-[var(--gold)] focus-visible:ring-offset-1 ${
-              p === currentPage
-                ? 'bg-[var(--gold)] text-[var(--text-inv)] shadow-md scale-110'
-                : 'border border-[var(--border-md)] bg-[var(--surface)] text-[var(--text-2)] hover:bg-[var(--bg-deep)] hover:text-[var(--gold)]'
+              p === currentPage ?
+                "bg-[var(--gold)] text-[var(--text-inv)] shadow-md scale-110"
+              : "border border-[var(--border-md)] bg-[var(--surface)] text-[var(--text-2)] hover:bg-[var(--bg-deep)] hover:text-[var(--gold)]"
             }`}
           >
-            {(p as number).toLocaleString('ar-SA')}
-          </button>
-        )
+            {(p as number).toLocaleString("ar-SA")}
+          </button>,
       )}
 
       {/* ✅ Next */}
@@ -90,5 +92,5 @@ export default function PaginationBar({ currentPage, totalPages, onPageChange }:
         صفحة {currentPage} من {totalPages}
       </span>
     </nav>
-  )
+  );
 }

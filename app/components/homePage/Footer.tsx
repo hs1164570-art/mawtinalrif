@@ -11,8 +11,7 @@ import { DOMAIN } from "@/lib/constants";
 import { FaTiktok, FaSnapchat, FaPinterest, FaXTwitter } from "react-icons/fa6";
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Palette — 2 lightness-degrees lighter than the site's CSS variables
-// (+4 HSL lightness pts per "degree")
+// Palette — مبنية بالكامل من متغيرات اللون العامة الجديدة (رمادي محايد + سيان تفاعلي)
 // ─────────────────────────────────────────────────────────────────────────────
 
 // ── Lazy-load the map iframe (keeps Lighthouse score clean) ──────────────────
@@ -21,9 +20,9 @@ const MapEmbed = dynamic(() => import("./MapEmbed"), {
   loading: () => (
     <div
       className="w-full h-52 rounded-xl animate-pulse flex items-center justify-center"
-      style={{ background: "#ece4d7" }}
+      style={{ background: "var(--bg-deep)" }}
     >
-      <span className="text-sm font-arabic" style={{ color: "#8e7548" }}>
+      <span className="text-sm font-arabic" style={{ color: "var(--text-3)" }}>
         Refetching map…
       </span>
     </div>
@@ -140,7 +139,7 @@ const TabbyIcon = () => (
     />
     <path
       className="st0"
-      d="M22.7,58.7L5.3,61.4v4.4l17.4-2.7C22.7,63.1,22.7,58.7,22.7,58.7z M22.7,65.2L5.3,67.9v4.2l17.4-2.7 C22.7,69.4,22.7,65.2,22.7,65.2z M42.3,67.2C42,62.3,39,59.4,34,59.4c-2.9,0-5.2,1.1-6.9,3.2c-1.6,2.1-2.5,5.2-2.5,8.9 c0,3.7,0.8,6.8,2.5,8.9c1.6,2.1,4,3.2,6.9,3.2c5,0,8.1-2.9,8.3-7.9v7.4h6.2V59.9l-6.2,1L42.3,67.2L42.3,67.2z M42.6,71.5 c0,4.4-2.3,7.2-5.8,7.2c-3.6,0-5.8-2.7-5.8-7.2c0-4.5,2.2-7.2,5.8-7.2c1.8,0,3.3,0.7,4.3,2C42.1,67.6,42.6,69.4,42.6,71.5 C42.6,71.5,42.6,71.5,42.6,71.5z M66.6,59.4c-5,0-8.1,2.9-8.3,7.8V53.1l-6.2,1v29.1h6.2v-7.4c0.2,4.9,3.3,7.9,8.3,7.9 c5.9,0,9.4-4.5,9.4-12.1S72.5,59.4,66.6,59.4z M63.8,78.7c-3.5,0-5.8-2.8-5.8-7.2c0-2.1,0.5-3.9,1.5-5.2c1-1.3,2.5-2,4.3-2 c3.6,0,5.8,2.7,5.8,7.2C69.6,76,67.4,78.7,63.8,78.7L63.8,78.7z M92.9,59.4c-5,0-8.1,2.9-8.3,7.8V53.1l-6.2,1v29.1h6.2v-7.4 c0.2,4.9,3.3,7.9,8.3,7.9c5.9,0,9.4-4.5,9.4-12.1S98.7,59.4,92.9,59.4L92.9,59.4z M90.1,78.7c-3.5,0-5.8-2.8-5.8-7.2 c0-2.1,0.5-3.9,1.5-5.2c1-1.3,2.5-2,4.3-2c3.6,0,5.8,2.7,5.8,7.2C95.9,76,93.7,78.7,90.1,78.7L90.1,78.7z M102.3,59.9h6.6l5.4,23.3 h-5.9C108.3,83.1,102.3,59.9,102.3,59.9z M131.4,62.3v-1.9h-0.8V60h2v0.4h-0.8v1.9H131.4z M132.8,62.3V60h0.8l0.4,1.1 c0.1,0.3,0.1,0.4,0.2,0.5c0-0.1,0.1-0.2,0.2-0.5l0.4-1.1h0.8v2.3H135v-1.8l-0.6,1.8h-0.4l-0.6-1.8v1.8L132.8,62.3L132.8,62.3z"
+      d="M22.7,58.7L5.3,61.4v4.4l17.4-2.7C22.7,63.1,22.7,58.7,22.7,58.7z M22.7,65.2L5.3,67.9v4.2l17.4 -2.7C22.7,69.4,22.7,65.2,22.7,65.2z M42.3,67.2C42,62.3,39,59.4,34,59.4c-2.9,0-5.2,1.1-6.9,3.2c-1.6,2.1-2.5,5.2-2.5,8.9 c0,3.7,0.8,6.8,2.5,8.9c1.6,2.1,4,3.2,6.9,3.2c5,0,8.1-2.9,8.3-7.9v7.4h6.2V59.9l-6.2,1L42.3,67.2L42.3,67.2z M42.6,71.5 c0,4.4-2.3,7.2-5.8,7.2c-3.6,0-5.8-2.7-5.8-7.2c0-4.5,2.2-7.2,5.8-7.2c1.8,0,3.3,0.7,4.3,2C42.1,67.6,42.6,69.4,42.6,71.5 C42.6,71.5,42.6,71.5,42.6,71.5z M66.6,59.4c-5,0-8.1,2.9-8.3,7.8V53.1l-6.2,1v29.1h6.2v-7.4c0.2,4.9,3.3,7.9,8.3,7.9 c5.9,0,9.4-4.5,9.4-12.1S72.5,59.4,66.6,59.4z M63.8,78.7c-3.5,0-5.8-2.8-5.8-7.2c0-2.1,0.5-3.9,1.5-5.2c1-1.3,2.5-2,4.3-2 c3.6,0,5.8,2.7,5.8,7.2C69.6,76,67.4,78.7,63.8,78.7L63.8,78.7z M92.9,59.4c-5,0-8.1,2.9-8.3,7.8V53.1l-6.2,1v29.1h6.2v-7.4 c0.2,4.9,3.3,7.9,8.3,7.9c5.9,0,9.4-4.5,9.4-12.1S98.7,59.4,92.9,59.4L92.9,59.4z M90.1,78.7c-3.5,0-5.8-2.8-5.8-7.2 c0-2.1,0.5-3.9,1.5-5.2c1-1.3,2.5-2,4.3-2c3.6,0,5.8,2.7,5.8,7.2C95.9,76,93.7,78.7,90.1,78.7L90.1,78.7z M102.3,59.9h6.6l5.4,23.3 h-5.9C108.3,83.1,102.3,59.9,102.3,59.9z M131.4,62.3v-1.9h-0.8V60h2v0.4h-0.8v1.9H131.4z M132.8,62.3V60h0.8l0.4,1.1 c0.1,0.3,0.1,0.4,0.2,0.5c0-0.1,0.1-0.2,0.2-0.5l0.4-1.1h0.8v2.3H135v-1.8l-0.6,1.8h-0.4l-0.6-1.8v1.8L132.8,62.3L132.8,62.3z"
     />
   </svg>
 );
@@ -215,7 +214,7 @@ function SocialBadge({
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
-      className="flex items-center justify-center w-9 h-9 rounded-xl shadow-sm transition-transform duration-200 hover:scale-110 hover:shadow-md"
+      className="flex items-center justify-center w-9 h-9 rounded-xl shadow-[var(--shadow-sm)] transition-transform duration-200 hover:scale-110 hover:shadow-[var(--shadow-md)]"
       style={{ background }}
     >
       {children}
@@ -261,15 +260,15 @@ export default function Footer() {
     <footer
       dir="rtl"
       className="font-arabic mt-auto"
-      style={{ background: "#ece4d7" }}
+      style={{ background: "var(--bg-deep)" }}
       aria-label="تذييل الصفحة"
     >
-      {/* ── Top gold accent stripe ─────────────────────────────────────────── */}
+      {/* ── Top accent stripe ─────────────────────────────────────────── */}
       <div
         className="h-[3px] w-full"
         style={{
           background:
-            "linear-gradient(90deg, #b18535 0%, #c19a4e 40%, #ddb327 70%, #b18535 100%)",
+            "linear-gradient(90deg, var(--cyan) 0%, var(--cyan-bright) 50%, var(--cyan) 100%)",
         }}
         aria-hidden="true"
       />
@@ -296,11 +295,11 @@ export default function Footer() {
               <nav aria-label="روابط موطن الريف">
                 <h3
                   className="text-xs font-semibold uppercase tracking-widest mb-5"
-                  style={{ color: "#b18535" }}
+                  style={{ color: "var(--text-3)" }}
                 >
                   <span
                     className="block pb-2"
-                    style={{ borderBottom: "1px solid rgba(84,66,38,0.18)" }}
+                    style={{ borderBottom: "1px solid var(--border-md)" }}
                   >
                     حول موطن الريف
                   </span>
@@ -311,11 +310,11 @@ export default function Footer() {
                       <Link
                         href={link.href}
                         className="text-sm flex items-center gap-2 transition-opacity duration-200 hover:opacity-60"
-                        style={{ color: "#544226" }}
+                        style={{ color: "var(--text-2)" }}
                       >
                         <span
                           className="w-1.5 h-1.5 rounded-full shrink-0"
-                          style={{ background: "#b18535" }}
+                          style={{ background: "var(--text-3)" }}
                           aria-hidden="true"
                         />
                         {link.label}
@@ -328,11 +327,11 @@ export default function Footer() {
               <nav aria-label="تصفح الفئات">
                 <h3
                   className="text-xs font-semibold uppercase tracking-widest mb-5"
-                  style={{ color: "#b18535" }}
+                  style={{ color: "var(--text-3)" }}
                 >
                   <span
                     className="block pb-2"
-                    style={{ borderBottom: "1px solid rgba(84,66,38,0.18)" }}
+                    style={{ borderBottom: "1px solid var(--border-md)" }}
                   >
                     روابط سريعة
                   </span>
@@ -349,13 +348,13 @@ export default function Footer() {
                             "text-sm flex items-center gap-2 transition-opacity duration-200 hover:opacity-60",
                             isHidden ? "sr-only" : "",
                           ].join(" ")}
-                          style={{ color: "#544226" }}
+                          style={{ color: "var(--text-2)" }}
                           tabIndex={isHidden ? -1 : 0}
                           aria-hidden={isHidden || undefined}
                         >
                           <span
                             className="w-1.5 h-1.5 rounded-full shrink-0"
-                            style={{ background: "#b18535" }}
+                            style={{ background: "var(--text-3)" }}
                             aria-hidden="true"
                           />
                           {cat.name}
@@ -374,13 +373,15 @@ export default function Footer() {
                                 <Link
                                   href={`/products/${cat.slug}/${sub.slug}`}
                                   className="text-xs flex items-center gap-1.5 transition-opacity duration-200 hover:opacity-60"
-                                  style={{ color: "#8e7548" }}
+                                  style={{ color: "var(--text-3)" }}
                                   tabIndex={isHidden ? -1 : 0}
                                   aria-hidden={isHidden || undefined}
                                 >
                                   <span
                                     className="w-1 h-1 rounded-full shrink-0"
-                                    style={{ background: "#c19a4e" }}
+                                    style={{
+                                      background: "var(--border-strong)",
+                                    }}
                                     aria-hidden="true"
                                   />
                                   {sub.name}
@@ -399,7 +400,7 @@ export default function Footer() {
                     type="button"
                     onClick={() => setShowAllCategories((prev) => !prev)}
                     className="mt-4 text-xs underline underline-offset-2 transition-opacity duration-200 hover:opacity-60 cursor-pointer"
-                    style={{ color: "#b18535" }}
+                    style={{ color: "var(--cyan)" }}
                     aria-expanded={showAllCategories}
                   >
                     {showAllCategories ? "عرض أقل ▲" : "عرض المزيد ▼"}
@@ -413,19 +414,19 @@ export default function Footer() {
           <div className="flex flex-col gap-8">
             <h3
               className="text-xs font-semibold uppercase tracking-widest"
-              style={{ color: "#b18535" }}
+              style={{ color: "var(--text-3)" }}
             >
               <span
                 className="block pb-2"
-                style={{ borderBottom: "1px solid rgba(84,66,38,0.18)" }}
+                style={{ borderBottom: "1px solid var(--border-md)" }}
               >
                 موقعنا وتواصل معنا
               </span>
             </h3>
 
             <div
-              className="rounded-xl overflow-hidden shadow-sm"
-              style={{ outline: "1px solid rgba(84,66,38,0.18)" }}
+              className="rounded-xl overflow-hidden shadow-[var(--shadow-sm)]"
+              style={{ outline: "1px solid var(--border-md)" }}
             >
               <MapEmbed />
             </div>
@@ -436,15 +437,15 @@ export default function Footer() {
                   <a
                     href={`tel:${CONTACT.phone}`}
                     className="text-sm flex items-center gap-2.5 transition-opacity duration-200 hover:opacity-60"
-                    style={{ color: "#544226" }}
+                    style={{ color: "var(--text-2)" }}
                     aria-label={`اتصل بنا على ${CONTACT.phone}`}
                   >
                     <span
                       className="flex items-center justify-center w-7 h-7 rounded-lg"
                       style={{
-                        background: "#fefdfb",
-                        color: "#b18535",
-                        border: "1px solid rgba(84,66,38,0.18)",
+                        background: "var(--surface)",
+                        color: "var(--cyan)",
+                        border: "1px solid var(--border-md)",
                       }}
                     >
                       <PhoneIcon />
@@ -459,15 +460,15 @@ export default function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-sm flex items-center gap-2.5 transition-opacity duration-200 hover:opacity-60"
-                    style={{ color: "#544226" }}
+                    style={{ color: "var(--text-2)" }}
                     aria-label={`تواصل عبر واتساب ${CONTACT.whatsappDisplay}`}
                   >
                     <span
                       className="flex items-center justify-center w-7 h-7 rounded-lg"
                       style={{
-                        background: "#fefdfb",
+                        background: "var(--surface)",
                         color: "#25D366",
-                        border: "1px solid rgba(84,66,38,0.18)",
+                        border: "1px solid var(--border-md)",
                       }}
                     >
                       <WhatsAppIcon />
@@ -480,15 +481,15 @@ export default function Footer() {
                   <a
                     href={`mailto:${CONTACT.email}`}
                     className="text-sm flex items-center gap-2.5 transition-opacity duration-200 hover:opacity-60"
-                    style={{ color: "#544226" }}
+                    style={{ color: "var(--text-2)" }}
                     aria-label={`راسلنا على ${CONTACT.email}`}
                   >
                     <span
                       className="flex items-center justify-center w-7 h-7 rounded-lg"
                       style={{
-                        background: "#fefdfb",
-                        color: "#b18535",
-                        border: "1px solid rgba(84,66,38,0.18)",
+                        background: "var(--surface)",
+                        color: "var(--cyan)",
+                        border: "1px solid var(--border-md)",
                       }}
                     >
                       <EmailIcon />
@@ -502,13 +503,13 @@ export default function Footer() {
             {/* ── Socials + Payment ───────────────────────────────────────── */}
             <div
               className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 pt-4"
-              style={{ borderTop: "1px solid rgba(84,66,38,0.14)" }}
+              style={{ borderTop: "1px solid var(--border)" }}
             >
-              {/* Social links — each badge in its own real app color */}
+              {/* Social links — each badge keeps its own real app brand color */}
               <div>
                 <p
                   className="text-xs mb-3 font-medium"
-                  style={{ color: "#8e7548" }}
+                  style={{ color: "var(--text-3)" }}
                 >
                   تابعنا على
                 </p>
@@ -562,12 +563,15 @@ export default function Footer() {
 
               {/* Payment badges — real brand logos */}
               <div className="flex flex-col items-start sm:items-end gap-2">
-                <p className="text-xs font-medium" style={{ color: "#8e7548" }}>
+                <p
+                  className="text-xs font-medium"
+                  style={{ color: "var(--text-3)" }}
+                >
                   طرق الدفع الآمنة
                 </p>
                 <div
-                  className="bg-white rounded-xl px-3.5 py-2 shadow-sm flex items-center gap-4 h-9"
-                  style={{ border: "1px solid rgba(84,66,38,0.14)" }}
+                  className="bg-[var(--surface)] rounded-xl px-3.5 py-2 shadow-[var(--shadow-sm)] flex items-center gap-4 h-9"
+                  style={{ border: "1px solid var(--border)" }}
                 >
                   {/* تمارا — Local SVG from public folder */}
                   <Image
@@ -594,15 +598,15 @@ export default function Footer() {
       </div>
 
       {/* ── Bottom copyright bar ──────────────────────────────────────────── */}
-      <div style={{ borderTop: "1px solid rgba(84,66,38,0.14)" }}>
+      <div style={{ borderTop: "1px solid var(--border)" }}>
         <div
           className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs"
-          style={{ color: "#8e7548" }}
+          style={{ color: "var(--text-3)" }}
         >
           <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
             <p>
               © {currentYear}{" "}
-              <span className="font-medium" style={{ color: "#544226" }}>
+              <span className="font-medium" style={{ color: "var(--text-2)" }}>
                 موطن الريف
               </span>
               . جميع الحقوق محفوظة لموطن الريف.
@@ -629,7 +633,7 @@ export default function Footer() {
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-1.5 transition-opacity duration-200 hover:opacity-70"
-            style={{ color: "#8e7548" }}
+            style={{ color: "var(--text-3)" }}
             aria-label="Powered by Ebrahim Abozaid — Portfolio"
           >
             <span>

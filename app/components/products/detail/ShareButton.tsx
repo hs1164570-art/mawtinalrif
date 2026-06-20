@@ -14,9 +14,9 @@ export default function ShareButton({ title, description, slug }: Props) {
   const [copied, setCopied] = useState(false);
 
   const shareUrl =
-    typeof window !== "undefined"
-      ? `${window.location.origin}/products/${slug}`
-      : `/products/${slug}`;
+    typeof window !== "undefined" ?
+      `${window.location.origin}/products/${slug}`
+    : `/products/${slug}`;
 
   const handleShare = async () => {
     const shareData = {
@@ -57,19 +57,22 @@ export default function ShareButton({ title, description, slug }: Props) {
     <button
       onClick={handleShare}
       aria-label="مشاركة المنتج"
-      className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-[rgba(90,60,20,0.15)] bg-white text-[#483820] text-sm font-medium hover:bg-[#fdf9f4] hover:border-[rgba(90,60,20,0.28)] hover:text-[#a07830] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#a07830]"
+      className="flex items-center gap-2 px-4 py-2.5 rounded-xl border bg-white text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2"
+      style={{
+        borderColor: "var(--border-strong)",
+        color: "var(--text-2)",
+      }}
     >
-      {copied ? (
+      {copied ?
         <>
           <Check className="w-4 h-4 text-green-600" aria-hidden="true" />
           <span className="text-green-600">تم النسخ</span>
         </>
-      ) : (
-        <>
+      : <>
           <Share2 className="w-4 h-4" aria-hidden="true" />
           <span>مشاركة</span>
         </>
-      )}
+      }
     </button>
   );
 }

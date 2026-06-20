@@ -7,6 +7,7 @@ import { ChevronRight, ChevronLeft, Star, ShoppingCart } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import type { RelatedProduct } from "@/utils/product";
+
 interface Props {
   subCategoryId: string;
   excludeId: string;
@@ -44,7 +45,6 @@ export default function RelatedProducts({ subCategoryId, excludeId }: Props) {
 
   const products = data?.data ?? [];
 
-  // RTL-aware scroll: in RTL, scrollBy(-ve) = forward
   const scrollBy = (dir: "next" | "prev") => {
     const el = scrollRef.current;
     if (!el) return;
@@ -61,7 +61,11 @@ export default function RelatedProducts({ subCategoryId, excludeId }: Props) {
     <section aria-labelledby="related-heading" className="mt-16">
       {/* ── Header ─────────────────────────────────────────────────── */}
       <div className="flex items-center justify-between mb-6">
-        <h2 id="related-heading" className="text-xl font-bold text-[#181008]">
+        <h2
+          id="related-heading"
+          className="text-xl font-bold"
+          style={{ color: "var(--text-1)" }}
+        >
           منتجات مشابهة
         </h2>
 
@@ -69,14 +73,22 @@ export default function RelatedProducts({ subCategoryId, excludeId }: Props) {
           <button
             onClick={() => scrollBy("prev")}
             aria-label="السابق"
-            className="w-9 h-9 flex items-center justify-center rounded-full border border-[rgba(90,60,20,0.15)] text-[#483820] bg-white hover:bg-[#fdf9f4] hover:border-[rgba(90,60,20,0.28)] hover:text-[#a07830] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#a07830]"
+            className="w-9 h-9 flex items-center justify-center rounded-full border bg-white transition-all focus-visible:outline-none focus-visible:ring-2"
+            style={{
+              borderColor: "var(--border-strong)",
+              color: "var(--text-2)",
+            }}
           >
             <ChevronRight className="w-4 h-4" aria-hidden="true" />
           </button>
           <button
             onClick={() => scrollBy("next")}
             aria-label="التالي"
-            className="w-9 h-9 flex items-center justify-center rounded-full border border-[rgba(90,60,20,0.15)] text-[#483820] bg-white hover:bg-[#fdf9f4] hover:border-[rgba(90,60,20,0.28)] hover:text-[#a07830] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#a07830]"
+            className="w-9 h-9 flex items-center justify-center rounded-full border bg-white transition-all focus-visible:outline-none focus-visible:ring-2"
+            style={{
+              borderColor: "var(--border-strong)",
+              color: "var(--text-2)",
+            }}
           >
             <ChevronLeft className="w-4 h-4" aria-hidden="true" />
           </button>
@@ -95,12 +107,22 @@ export default function RelatedProducts({ subCategoryId, excludeId }: Props) {
           [...Array(4)].map((_, i) => (
             <div
               key={i}
-              className="flex-shrink-0 w-[220px] sm:w-[240px] rounded-2xl border border-[rgba(90,60,20,0.08)] bg-white overflow-hidden animate-pulse"
+              className="flex-shrink-0 w-[220px] sm:w-[240px] rounded-2xl border bg-white overflow-hidden animate-pulse"
+              style={{ borderColor: "var(--border-md)" }}
             >
-              <div className="aspect-square bg-[rgba(90,60,20,0.06)]" />
+              <div
+                className="aspect-square"
+                style={{ backgroundColor: "var(--bg-deep)" }}
+              />
               <div className="p-3 space-y-2">
-                <div className="h-3 w-3/4 bg-[rgba(90,60,20,0.07)] rounded" />
-                <div className="h-3 w-1/2 bg-[rgba(90,60,20,0.06)] rounded" />
+                <div
+                  className="h-3 w-3/4 rounded"
+                  style={{ backgroundColor: "var(--border-strong)" }}
+                />
+                <div
+                  className="h-3 w-1/2 rounded"
+                  style={{ backgroundColor: "var(--border-md)" }}
+                />
               </div>
             </div>
           ))
@@ -117,11 +139,18 @@ export default function RelatedProducts({ subCategoryId, excludeId }: Props) {
               >
                 <Link
                   href={`/products/${product.slug}`}
-                  className="group block rounded-2xl border border-[rgba(90,60,20,0.10)] bg-white overflow-hidden hover:border-[rgba(90,60,20,0.22)] hover:shadow-md transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#a07830]"
+                  className="group block rounded-2xl border bg-white overflow-hidden transition-all duration-200 focus-visible:outline-none focus-visible:ring-2"
+                  style={{
+                    borderColor: "var(--border-md)",
+                    boxShadow: "var(--shadow-sm)",
+                  }}
                   aria-label={product.name}
                 >
                   {/* Image */}
-                  <div className="relative aspect-square bg-[#fdfaf4] overflow-hidden">
+                  <div
+                    className="relative aspect-square overflow-hidden"
+                    style={{ backgroundColor: "var(--bg)" }}
+                  >
                     <Image
                       src={product.image}
                       alt={product.name}
@@ -132,7 +161,10 @@ export default function RelatedProducts({ subCategoryId, excludeId }: Props) {
                       loading="lazy"
                     />
                     {product.discount && product.discount > 0 && (
-                      <span className="absolute top-2 right-2 text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-[#b91c1c] text-white">
+                      <span
+                        className="absolute top-2 right-2 text-[10px] font-bold px-1.5 py-0.5 rounded-full text-white"
+                        style={{ backgroundColor: "var(--red)" }}
+                      >
                         -{product.discount}%
                       </span>
                     )}
@@ -140,24 +172,37 @@ export default function RelatedProducts({ subCategoryId, excludeId }: Props) {
 
                   {/* Info */}
                   <div className="p-3">
-                    <p className="text-sm font-semibold text-[#181008] line-clamp-2 leading-snug mb-2 group-hover:text-[#a07830] transition-colors">
+                    <p
+                      className="text-sm font-semibold line-clamp-2 leading-snug mb-2 transition-colors"
+                      style={{ color: "var(--text-1)" }}
+                    >
                       {product.name}
                     </p>
 
                     <div className="flex items-center justify-between gap-1">
                       <div className="flex flex-col">
-                        <span className="text-sm font-bold text-[#a07830]">
+                        <span
+                          className="text-sm font-bold"
+                          style={{ color: "var(--text-1)" }}
+                        >
                           {formatSAR(effective)}
                         </span>
                         {product.discount && product.discount > 0 && (
-                          <span className="text-[11px] text-[#806840] line-through">
+                          <span
+                            className="text-[11px] line-through"
+                            style={{ color: "var(--text-3)" }}
+                          >
                             {formatSAR(product.price)}
                           </span>
                         )}
                       </div>
 
                       <div
-                        className="w-8 h-8 flex items-center justify-center rounded-lg bg-[rgba(160,120,48,0.08)] text-[#a07830] group-hover:bg-[#a07830] group-hover:text-white transition-all duration-200"
+                        className="w-8 h-8 flex items-center justify-center rounded-lg transition-all duration-200"
+                        style={{
+                          backgroundColor: "var(--cyan-bg)",
+                          color: "var(--cyan)",
+                        }}
                         aria-hidden="true"
                       >
                         <ShoppingCart className="w-4 h-4" />
