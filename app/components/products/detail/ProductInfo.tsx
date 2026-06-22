@@ -189,9 +189,7 @@ export default function ProductInfo({ product, session }: Props) {
           description={plainDescription || undefined}
           slug={product.slug}
         />
-        {product.category?.parent?.slug !== "Wardrobes" ?
-          <ProductWhatsAppButton product={product} />
-        : <div></div>}
+        <ProductWhatsAppButton product={product} />
       </div>
 
       {/* ── Divider ──────────────────────────────────────────────────── */}

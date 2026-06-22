@@ -812,7 +812,6 @@ export default async function ProductPage({
                 </div>
                 <div>
                   <ProductInfo product={product} session={session} />
-                  <ProductWhatsAppButton product={product} price={price} />
                 </div>
               </div>
             </article>
