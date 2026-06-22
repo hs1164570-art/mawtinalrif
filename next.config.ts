@@ -7,11 +7,11 @@ const withAnalyzer = withBundleAnalyzer({
 
 const cspHeader = `
 default-src 'self';
-script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.paypal.com https://www.sandbox.paypal.com https://js.stripe.com https://www.gstatic.com https://*.vercel-scripts.com;
+script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.paypal.com https://www.sandbox.paypal.com https://js.stripe.com https://www.gstatic.com https://*.vercel-scripts.com https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com;
 style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-img-src 'self' blob: data: https://bwmvrztnbjayktocsdvc.supabase.co https://*.supabase.co https://res.cloudinary.com https://images.unsplash.com https://images.pexels.com https://source.unsplash.com avatars.githubusercontent.com lh3.googleusercontent.com via.placeholder.com placehold.co picsum.photos https://*.picsum.photos https://www.paypalobjects.com https://i.pravatar.cc;
+img-src 'self' blob: data: https://bwmvrztnbjayktocsdvc.supabase.co https://*.supabase.co https://res.cloudinary.com https://images.unsplash.com https://images.pexels.com https://source.unsplash.com avatars.githubusercontent.com lh3.googleusercontent.com via.placeholder.com placehold.co picsum.photos https://*.picsum.photos https://www.paypalobjects.com https://i.pravatar.cc https://*.google-analytics.com https://*.googletagmanager.com;
 font-src 'self' data: https://fonts.gstatic.com;
-connect-src 'self' https://bwmvrztnbjayktocsdvc.supabase.co https://*.supabase.co https://res.cloudinary.com https://images.unsplash.com https://images.pexels.com https://source.unsplash.com https://www.mawtinalriyf.com https://*.googleapis.com https://*.firebaseio.com https://api.cloudinary.com https://www.paypal.com https://www.sandbox.paypal.com https://api.apify.com https://*.vercel-analytics.com https://*.vercel-storage.com;
+connect-src 'self' https://bwmvrztnbjayktocsdvc.supabase.co https://*.supabase.co https://res.cloudinary.com https://images.unsplash.com https://images.pexels.com https://source.unsplash.com https://www.mawtinalriyf.com https://*.googleapis.com https://*.firebaseio.com https://api.cloudinary.com https://www.paypal.com https://www.sandbox.paypal.com https://api.apify.com https://*.vercel-analytics.com https://*.vercel-storage.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com;
 frame-src 'self' https://www.paypal.com https://www.sandbox.paypal.com https://js.stripe.com https://www.google.com https://accounts.google.com;
 object-src 'none';
 base-uri 'self';

@@ -50,10 +50,12 @@ import type {
 } from "./types";
 
 type IRunReportRequest = protos.google.analytics.data.v1beta.IRunReportRequest;
-type IRunRealtimeReportRequest = protos.google.analytics.data.v1beta.IRunRealtimeReportRequest;
+type IRunRealtimeReportRequest =
+  protos.google.analytics.data.v1beta.IRunRealtimeReportRequest;
 type IRow = protos.google.analytics.data.v1beta.IRow;
 
-export const GA4_PROPERTY_ID = process.env.GA_PROPERTY_ID || process.env.GA4_PROPERTY_ID || "";
+export const GA4_PROPERTY_ID =
+  process.env.GA_PROPERTY_ID || process.env.GA4_PROPERTY_ID || "";
 
 let _client: BetaAnalyticsDataClient | null = null;
 
@@ -72,7 +74,7 @@ export function getGA4Client(): BetaAnalyticsDataClient {
     _client = new BetaAnalyticsDataClient({ keyFilename });
   } else {
     throw new Error(
-      "GA4 credentials are not configured. Set GA_CLIENT_EMAIL + GA_PRIVATE_KEY, or GOOGLE_APPLICATION_CREDENTIALS, in your environment."
+      "GA4 credentials are not configured. Set GA_CLIENT_EMAIL + GA_PRIVATE_KEY, or GOOGLE_APPLICATION_CREDENTIALS, in your environment.",
     );
   }
   return _client;
@@ -86,7 +88,9 @@ export function propertyPath(): string {
 }
 
 export function isGA4Configured(): boolean {
-  const hasKey = !!(process.env.GA_CLIENT_EMAIL && process.env.GA_PRIVATE_KEY) || !!process.env.GOOGLE_APPLICATION_CREDENTIALS;
+  const hasKey =
+    !!(process.env.GA_CLIENT_EMAIL && process.env.GA_PRIVATE_KEY) ||
+    !!process.env.GOOGLE_APPLICATION_CREDENTIALS;
   return !!GA4_PROPERTY_ID && hasKey;
 }
 
@@ -121,17 +125,27 @@ async function safeRunReport(request: IRunReportRequest): Promise<IRow[]> {
     const [response] = await getGA4Client().runReport(request);
     return response.rows ?? [];
   } catch (err) {
-    console.error("[GA4] runReport failed:", request.dimensions?.map((d) => d.name), err);
+    console.error(
+      "[GA4] runReport failed:",
+      request.dimensions?.map((d) => d.name),
+      err,
+    );
     return [];
   }
 }
 
-async function safeRunRealtimeReport(request: IRunRealtimeReportRequest): Promise<IRow[]> {
+async function safeRunRealtimeReport(
+  request: IRunRealtimeReportRequest,
+): Promise<IRow[]> {
   try {
     const [response] = await getGA4Client().runRealtimeReport(request);
     return response.rows ?? [];
   } catch (err) {
-    console.error("[GA4] runRealtimeReport failed:", request.dimensions?.map((d) => d.name), err);
+    console.error(
+      "[GA4] runRealtimeReport failed:",
+      request.dimensions?.map((d) => d.name),
+      err,
+    );
     return [];
   }
 }
@@ -144,58 +158,80 @@ function dateRangeFor(range: DateRange) {
 // Users report
 // ──────────────────────────────────────────────────────────────────────────
 
-export async function getUsersReportData(range: DateRange): Promise<UsersReportResponse> {
+export async function getUsersReportData(
+  range: DateRange,
+): Promise<UsersReportResponse> {
   const property = propertyPath();
   const dateRanges = dateRangeFor(range);
 
-  const [totalsRows, geoRows, langRows, demoRows, trendRows, channelRows] = await Promise.all([
-    safeRunReport({
-      property,
-      dateRanges,
-      dimensions: [],
-      metrics: [{ name: "totalUsers" }, { name: "newUsers" }, { name: "userEngagementDuration" }],
-    }),
-    safeRunReport({
-      property,
-      dateRanges,
-      dimensions: [{ name: "country" }, { name: "countryId" }, { name: "city" }, { name: "region" }, { name: "continent" }],
-      metrics: [{ name: "totalUsers" }],
-      orderBys: [{ metric: { metricName: "totalUsers" }, desc: true }],
-      limit: 20,
-    }),
-    safeRunReport({
-      property,
-      dateRanges,
-      dimensions: [{ name: "language" }],
-      metrics: [{ name: "totalUsers" }],
-      orderBys: [{ metric: { metricName: "totalUsers" }, desc: true }],
-      limit: 10,
-    }),
-    safeRunReport({
-      property,
-      dateRanges,
-      dimensions: [{ name: "userAgeBracket" }, { name: "userGender" }, { name: "newVsReturning" }],
-      metrics: [{ name: "totalUsers" }],
-    }),
-    safeRunReport({
-      property,
-      dateRanges,
-      dimensions: [{ name: "date" }],
-      metrics: [{ name: "active1DayUsers" }, { name: "active7DayUsers" }, { name: "active28DayUsers" }],
-      orderBys: [{ dimension: { dimensionName: "date" } }],
-    }),
-    safeRunReport({
-      property,
-      dateRanges,
-      dimensions: [{ name: "sessionDefaultChannelGroup" }],
-      metrics: [{ name: "totalUsers" }],
-      orderBys: [{ metric: { metricName: "totalUsers" }, desc: true }],
-    }),
-  ]);
+  const [totalsRows, geoRows, langRows, demoRows, trendRows, channelRows] =
+    await Promise.all([
+      safeRunReport({
+        property,
+        dateRanges,
+        dimensions: [],
+        metrics: [
+          { name: "totalUsers" },
+          { name: "newUsers" },
+          { name: "userEngagementDuration" },
+        ],
+      }),
+      safeRunReport({
+        property,
+        dateRanges,
+        dimensions: [
+          { name: "country" },
+          { name: "countryId" },
+          { name: "city" },
+          { name: "region" },
+          { name: "continent" },
+        ],
+        metrics: [{ name: "totalUsers" }],
+        orderBys: [{ metric: { metricName: "totalUsers" }, desc: true }],
+        limit: 20,
+      }),
+      safeRunReport({
+        property,
+        dateRanges,
+        dimensions: [{ name: "language" }],
+        metrics: [{ name: "totalUsers" }],
+        orderBys: [{ metric: { metricName: "totalUsers" }, desc: true }],
+        limit: 10,
+      }),
+      safeRunReport({
+        property,
+        dateRanges,
+        dimensions: [
+          { name: "userAgeBracket" },
+          { name: "userGender" },
+          { name: "newVsReturning" },
+        ],
+        metrics: [{ name: "totalUsers" }],
+      }),
+      safeRunReport({
+        property,
+        dateRanges,
+        dimensions: [{ name: "date" }],
+        metrics: [
+          { name: "active1DayUsers" },
+          { name: "active7DayUsers" },
+          { name: "active28DayUsers" },
+        ],
+        orderBys: [{ dimension: { dimensionName: "date" } }],
+      }),
+      safeRunReport({
+        property,
+        dateRanges,
+        dimensions: [{ name: "sessionDefaultChannelGroup" }],
+        metrics: [{ name: "totalUsers" }],
+        orderBys: [{ metric: { metricName: "totalUsers" }, desc: true }],
+      }),
+    ]);
 
   const totalUsers = totalsRows[0] ? num(totalsRows[0], "metric", 0) : 0;
   const newUsers = totalsRows[0] ? num(totalsRows[0], "metric", 1) : 0;
-  const engagementDurationTotal = totalsRows[0] ? num(totalsRows[0], "metric", 2) : 0;
+  const engagementDurationTotal =
+    totalsRows[0] ? num(totalsRows[0], "metric", 2) : 0;
 
   const geo: UserGeoRow[] = geoRows.map((r) => ({
     country: val(r, "dimension", 0),
@@ -218,7 +254,12 @@ export async function getUsersReportData(range: DateRange): Promise<UsersReportR
     const newVsReturning = val(r, "dimension", 2);
     const count = num(r, "metric", 0);
     const key = `${ageGroup}__${gender}`;
-    const row = demoMap.get(key) ?? { ageGroup, gender, newUsers: 0, returningUsers: 0 };
+    const row = demoMap.get(key) ?? {
+      ageGroup,
+      gender,
+      newUsers: 0,
+      returningUsers: 0,
+    };
     if (newVsReturning === "new") row.newUsers += count;
     else if (newVsReturning === "returning") row.returningUsers += count;
     demoMap.set(key, row);
@@ -233,13 +274,20 @@ export async function getUsersReportData(range: DateRange): Promise<UsersReportR
   }));
 
   const latest = activeUsersTrend[activeUsersTrend.length - 1];
-  const ratios: EngagementRatios = latest
-    ? {
+  const ratios: EngagementRatios =
+    latest ?
+      {
         dau: latest.active1Day,
         wau: latest.active7Day,
         mau: latest.active28Day,
-        dauWauRatio: latest.active7Day > 0 ? (latest.active1Day / latest.active7Day) * 100 : 0,
-        dauMauRatio: latest.active28Day > 0 ? (latest.active1Day / latest.active28Day) * 100 : 0,
+        dauWauRatio:
+          latest.active7Day > 0 ?
+            (latest.active1Day / latest.active7Day) * 100
+          : 0,
+        dauMauRatio:
+          latest.active28Day > 0 ?
+            (latest.active1Day / latest.active28Day) * 100
+          : 0,
       }
     : { dau: 0, wau: 0, mau: 0, dauWauRatio: 0, dauMauRatio: 0 };
 
@@ -258,7 +306,8 @@ export async function getUsersReportData(range: DateRange): Promise<UsersReportR
     totalUsers,
     newUsers,
     returningUsers: Math.max(0, totalUsers - newUsers),
-    avgEngagementDurationSec: totalUsers > 0 ? engagementDurationTotal / totalUsers : 0,
+    avgEngagementDurationSec:
+      totalUsers > 0 ? engagementDurationTotal / totalUsers : 0,
     geo,
     languages,
     demographics,
@@ -269,7 +318,9 @@ export async function getUsersReportData(range: DateRange): Promise<UsersReportR
   };
 }
 
-async function getWeeklyCohortRetention(range: DateRange): Promise<CohortRow[]> {
+async function getWeeklyCohortRetention(
+  range: DateRange,
+): Promise<CohortRow[]> {
   try {
     const [response] = await getGA4Client().runReport({
       property: propertyPath(),
@@ -316,74 +367,91 @@ async function getWeeklyCohortRetention(range: DateRange): Promise<CohortRow[]> 
 // Sessions / Acquisition / Campaigns report
 // ──────────────────────────────────────────────────────────────────────────
 
-function campaignQuality(c: { engagementRate: number; bounceRate: number }): CampaignRow["quality"] {
+function campaignQuality(c: {
+  engagementRate: number;
+  bounceRate: number;
+}): CampaignRow["quality"] {
   if (c.engagementRate >= 60 && c.bounceRate <= 40) return "good";
   if (c.engagementRate < 45 || c.bounceRate > 55) return "poor";
   return "average";
 }
 
-export async function getSessionsReportData(range: DateRange): Promise<SessionsReportResponse> {
+export async function getSessionsReportData(
+  range: DateRange,
+): Promise<SessionsReportResponse> {
   const property = propertyPath();
   const dateRanges = dateRangeFor(range);
 
-  const [sourceRows, campaignRows, firstVisitRows, bounceTrendRows] = await Promise.all([
-    safeRunReport({
-      property,
-      dateRanges,
-      dimensions: [{ name: "sessionSource" }, { name: "sessionMedium" }, { name: "sessionDefaultChannelGroup" }],
-      metrics: [
-        { name: "sessions" },
-        { name: "sessionsPerUser" },
-        { name: "bounceRate" },
-        { name: "engagementRate" },
-        { name: "engagedSessions" },
-        { name: "averageSessionDuration" },
-      ],
-      orderBys: [{ metric: { metricName: "sessions" }, desc: true }],
-      limit: 25,
-    }),
-    safeRunReport({
-      property,
-      dateRanges,
-      dimensions: [{ name: "sessionCampaignName" }, { name: "sessionSource" }, { name: "sessionMedium" }],
-      metrics: [
-        { name: "sessions" },
-        { name: "bounceRate" },
-        { name: "engagementRate" },
-        { name: "averageSessionDuration" },
-        { name: "sessionsPerUser" },
-      ],
-      dimensionFilter: {
-        notExpression: {
-          filter: { fieldName: "sessionCampaignName", stringFilter: { value: "(not set)" } },
+  const [sourceRows, campaignRows, firstVisitRows, bounceTrendRows] =
+    await Promise.all([
+      safeRunReport({
+        property,
+        dateRanges,
+        dimensions: [
+          { name: "sessionSource" },
+          { name: "sessionMedium" },
+          { name: "sessionDefaultChannelGroup" },
+        ],
+        metrics: [
+          { name: "sessions" },
+          { name: "sessionsPerUser" },
+          { name: "bounceRate" },
+          { name: "engagementRate" },
+          { name: "engagedSessions" },
+          { name: "averageSessionDuration" },
+        ],
+        orderBys: [{ metric: { metricName: "sessions" }, desc: true }],
+        limit: 25,
+      }),
+      safeRunReport({
+        property,
+        dateRanges,
+        dimensions: [
+          { name: "sessionCampaignName" },
+          { name: "sessionSource" },
+          { name: "sessionMedium" },
+        ],
+        metrics: [
+          { name: "sessions" },
+          { name: "bounceRate" },
+          { name: "engagementRate" },
+          { name: "averageSessionDuration" },
+          { name: "sessionsPerUser" },
+        ],
+        dimensionFilter: {
+          notExpression: {
+            filter: {
+              fieldName: "sessionCampaignName",
+              stringFilter: { value: "(not set)" },
+            },
+          },
         },
-      },
-      orderBys: [{ metric: { metricName: "sessions" }, desc: true }],
-      limit: 25,
-    }),
-    safeRunReport({
-      property,
-      dateRanges,
-      dimensions: [
-        { name: "firstUserSource" },
-        { name: "firstUserMedium" },
-        { name: "firstUserCampaignName" },
-        { name: "firstUserGoogleAdsKeyword" },
-        { name: "firstUserManualAdContent" },
-        { name: "firstUserSourcePlatform" },
-      ],
-      metrics: [{ name: "totalUsers" }],
-      orderBys: [{ metric: { metricName: "totalUsers" }, desc: true }],
-      limit: 15,
-    }),
-    safeRunReport({
-      property,
-      dateRanges,
-      dimensions: [{ name: "date" }],
-      metrics: [{ name: "bounceRate" }],
-      orderBys: [{ dimension: { dimensionName: "date" } }],
-    }),
-  ]);
+        orderBys: [{ metric: { metricName: "sessions" }, desc: true }],
+        limit: 25,
+      }),
+      safeRunReport({
+        property,
+        dateRanges,
+        dimensions: [
+          { name: "firstUserSource" },
+          { name: "firstUserMedium" },
+          { name: "firstUserCampaignName" },
+          { name: "firstUserGoogleAdsKeyword" },
+          { name: "firstUserManualAdContent" },
+          { name: "firstUserSourcePlatform" },
+        ],
+        metrics: [{ name: "totalUsers" }],
+        orderBys: [{ metric: { metricName: "totalUsers" }, desc: true }],
+        limit: 15,
+      }),
+      safeRunReport({
+        property,
+        dateRanges,
+        dimensions: [{ name: "date" }],
+        metrics: [{ name: "bounceRate" }],
+        orderBys: [{ dimension: { dimensionName: "date" } }],
+      }),
+    ]);
 
   const sources: SessionSourceRow[] = sourceRows.map((r) => ({
     source: val(r, "dimension", 0),
@@ -412,7 +480,10 @@ export async function getSessionsReportData(range: DateRange): Promise<SessionsR
   });
 
   // Trend lines for the top 5 campaigns by total sessions.
-  const top5Names = [...campaigns].sort((a, b) => b.sessions - a.sessions).slice(0, 5).map((c) => c.campaignName);
+  const top5Names = [...campaigns]
+    .sort((a, b) => b.sessions - a.sessions)
+    .slice(0, 5)
+    .map((c) => c.campaignName);
   let campaignTrend: CampaignTrendPoint[] = [];
   if (top5Names.length > 0) {
     const trendRows = await safeRunReport({
@@ -421,7 +492,10 @@ export async function getSessionsReportData(range: DateRange): Promise<SessionsR
       dimensions: [{ name: "date" }, { name: "sessionCampaignName" }],
       metrics: [{ name: "sessions" }],
       dimensionFilter: {
-        filter: { fieldName: "sessionCampaignName", inListFilter: { values: top5Names } },
+        filter: {
+          fieldName: "sessionCampaignName",
+          inListFilter: { values: top5Names },
+        },
       },
       orderBys: [{ dimension: { dimensionName: "date" } }],
     });
@@ -436,15 +510,17 @@ export async function getSessionsReportData(range: DateRange): Promise<SessionsR
     campaignTrend = Array.from(byDate.values());
   }
 
-  const firstVisitAttribution: FirstVisitAttributionRow[] = firstVisitRows.map((r) => ({
-    firstSource: val(r, "dimension", 0),
-    firstMedium: val(r, "dimension", 1),
-    firstCampaign: val(r, "dimension", 2),
-    firstKeyword: val(r, "dimension", 3),
-    firstAdContent: val(r, "dimension", 4),
-    firstSourcePlatform: val(r, "dimension", 5),
-    users: num(r, "metric", 0),
-  }));
+  const firstVisitAttribution: FirstVisitAttributionRow[] = firstVisitRows.map(
+    (r) => ({
+      firstSource: val(r, "dimension", 0),
+      firstMedium: val(r, "dimension", 1),
+      firstCampaign: val(r, "dimension", 2),
+      firstKeyword: val(r, "dimension", 3),
+      firstAdContent: val(r, "dimension", 4),
+      firstSourcePlatform: val(r, "dimension", 5),
+      users: num(r, "metric", 0),
+    }),
+  );
 
   const totalSessions = sources.reduce((s, r) => s + r.sessions, 0);
   const knownMediumSessions = sources
@@ -454,8 +530,16 @@ export async function getSessionsReportData(range: DateRange): Promise<SessionsR
 
   const funnel = [
     { stage: "Source" as const, label: "كل المصادر", value: totalSessions },
-    { stage: "Medium" as const, label: "وسيط معروف", value: knownMediumSessions },
-    { stage: "Campaign" as const, label: "ضمن حملة محددة", value: campaignSessions },
+    {
+      stage: "Medium" as const,
+      label: "وسيط معروف",
+      value: knownMediumSessions,
+    },
+    {
+      stage: "Campaign" as const,
+      label: "ضمن حملة محددة",
+      value: campaignSessions,
+    },
   ];
 
   const bounceRateTrend = bounceTrendRows.map((r) => ({
@@ -464,24 +548,46 @@ export async function getSessionsReportData(range: DateRange): Promise<SessionsR
   }));
 
   const channelMap = new Map<string, number>();
-  sources.forEach((s) => channelMap.set(s.defaultChannelGroup, (channelMap.get(s.defaultChannelGroup) ?? 0) + s.sessions));
-  const channelTreemap = Array.from(channelMap.entries()).map(([name, size]) => ({ name, size }));
+  sources.forEach((s) =>
+    channelMap.set(
+      s.defaultChannelGroup,
+      (channelMap.get(s.defaultChannelGroup) ?? 0) + s.sessions,
+    ),
+  );
+  const channelTreemap = Array.from(channelMap.entries()).map(
+    ([name, size]) => ({ name, size }),
+  );
 
-  const sourceBubbleMap = new Map<string, { sessions: number; engagementSum: number; bounceSum: number; count: number }>();
+  const sourceBubbleMap = new Map<
+    string,
+    {
+      sessions: number;
+      engagementSum: number;
+      bounceSum: number;
+      count: number;
+    }
+  >();
   sources.forEach((s) => {
-    const cur = sourceBubbleMap.get(s.source) ?? { sessions: 0, engagementSum: 0, bounceSum: 0, count: 0 };
+    const cur = sourceBubbleMap.get(s.source) ?? {
+      sessions: 0,
+      engagementSum: 0,
+      bounceSum: 0,
+      count: 0,
+    };
     cur.sessions += s.sessions;
     cur.engagementSum += s.engagementRate * s.sessions;
     cur.bounceSum += s.bounceRate * s.sessions;
     cur.count += s.sessions;
     sourceBubbleMap.set(s.source, cur);
   });
-  const sourceBubbles = Array.from(sourceBubbleMap.entries()).map(([source, v]) => ({
-    source,
-    sessions: v.sessions,
-    engagementRate: v.count > 0 ? v.engagementSum / v.count : 0,
-    bounceRate: v.count > 0 ? v.bounceSum / v.count : 0,
-  }));
+  const sourceBubbles = Array.from(sourceBubbleMap.entries()).map(
+    ([source, v]) => ({
+      source,
+      sessions: v.sessions,
+      engagementRate: v.count > 0 ? v.engagementSum / v.count : 0,
+      bounceRate: v.count > 0 ? v.bounceSum / v.count : 0,
+    }),
+  );
 
   return {
     totalSessions,
@@ -500,49 +606,60 @@ export async function getSessionsReportData(range: DateRange): Promise<SessionsR
 // Pages & Events report
 // ──────────────────────────────────────────────────────────────────────────
 
-export async function getPagesReportData(range: DateRange): Promise<PagesReportResponse> {
+export async function getPagesReportData(
+  range: DateRange,
+): Promise<PagesReportResponse> {
   const property = propertyPath();
   const dateRanges = dateRangeFor(range);
 
-  const [totalsRows, topPagesRows, landingRows, contentGroupRows, eventRows] = await Promise.all([
-    safeRunReport({
-      property,
-      dateRanges,
-      dimensions: [],
-      metrics: [{ name: "screenPageViews" }, { name: "screenPageViewsPerSession" }, { name: "screenPageViewsPerUser" }],
-    }),
-    safeRunReport({
-      property,
-      dateRanges,
-      dimensions: [{ name: "pagePath" }, { name: "pageTitle" }],
-      metrics: [{ name: "screenPageViews" }, { name: "screenPageViewsPerSession" }, { name: "screenPageViewsPerUser" }],
-      orderBys: [{ metric: { metricName: "screenPageViews" }, desc: true }],
-      limit: 10,
-    }),
-    safeRunReport({
-      property,
-      dateRanges,
-      dimensions: [{ name: "landingPage" }],
-      metrics: [{ name: "sessions" }],
-      orderBys: [{ metric: { metricName: "sessions" }, desc: true }],
-      limit: 10,
-    }),
-    safeRunReport({
-      property,
-      dateRanges,
-      dimensions: [{ name: "contentGroup" }],
-      metrics: [{ name: "screenPageViews" }],
-      orderBys: [{ metric: { metricName: "screenPageViews" }, desc: true }],
-    }),
-    safeRunReport({
-      property,
-      dateRanges,
-      dimensions: [{ name: "eventName" }],
-      metrics: [{ name: "eventCount" }],
-      orderBys: [{ metric: { metricName: "eventCount" }, desc: true }],
-      limit: 12,
-    }),
-  ]);
+  const [totalsRows, topPagesRows, landingRows, contentGroupRows, eventRows] =
+    await Promise.all([
+      safeRunReport({
+        property,
+        dateRanges,
+        dimensions: [],
+        metrics: [
+          { name: "screenPageViews" },
+          { name: "screenPageViewsPerSession" },
+          { name: "screenPageViewsPerUser" },
+        ],
+      }),
+      safeRunReport({
+        property,
+        dateRanges,
+        dimensions: [{ name: "pagePath" }, { name: "pageTitle" }],
+        metrics: [
+          { name: "screenPageViews" },
+          { name: "screenPageViewsPerSession" },
+          { name: "screenPageViewsPerUser" },
+        ],
+        orderBys: [{ metric: { metricName: "screenPageViews" }, desc: true }],
+        limit: 10,
+      }),
+      safeRunReport({
+        property,
+        dateRanges,
+        dimensions: [{ name: "landingPage" }],
+        metrics: [{ name: "sessions" }],
+        orderBys: [{ metric: { metricName: "sessions" }, desc: true }],
+        limit: 10,
+      }),
+      safeRunReport({
+        property,
+        dateRanges,
+        dimensions: [{ name: "contentGroup" }],
+        metrics: [{ name: "screenPageViews" }],
+        orderBys: [{ metric: { metricName: "screenPageViews" }, desc: true }],
+      }),
+      safeRunReport({
+        property,
+        dateRanges,
+        dimensions: [{ name: "eventName" }],
+        metrics: [{ name: "eventCount" }],
+        orderBys: [{ metric: { metricName: "eventCount" }, desc: true }],
+        limit: 12,
+      }),
+    ]);
 
   const topPagePaths = topPagesRows.map((r) => val(r, "dimension", 0));
   let sparklineByPath = new Map<string, number[]>();
@@ -552,7 +669,12 @@ export async function getPagesReportData(range: DateRange): Promise<PagesReportR
       dateRanges,
       dimensions: [{ name: "date" }, { name: "pagePath" }],
       metrics: [{ name: "screenPageViews" }],
-      dimensionFilter: { filter: { fieldName: "pagePath", inListFilter: { values: topPagePaths } } },
+      dimensionFilter: {
+        filter: {
+          fieldName: "pagePath",
+          inListFilter: { values: topPagePaths },
+        },
+      },
       orderBys: [{ dimension: { dimensionName: "date" } }],
     });
     const byPath = new Map<string, number[]>();
@@ -603,7 +725,11 @@ export async function getPagesReportData(range: DateRange): Promise<PagesReportR
       const landingPath = val(l, "dimension", 0);
       const destTitle = val(d, "dimension", 1);
       if (landingPath !== val(d, "dimension", 0)) {
-        flow.push({ source: landingPath, target: destTitle, value: Math.round(num(d, "metric", 0) / topLandings.length) });
+        flow.push({
+          source: landingPath,
+          target: destTitle,
+          value: Math.round(num(d, "metric", 0) / topLandings.length),
+        });
       }
     });
   });
@@ -620,8 +746,14 @@ export async function getPagesReportData(range: DateRange): Promise<PagesReportR
 
   return {
     totalViews: totalsRows[0] ? num(totalsRows[0], "metric", 0) : 0,
-    viewsPerSession: totalsRows[0] ? Math.round(num(totalsRows[0], "metric", 1) * 100) / 100 : 0,
-    viewsPerUser: totalsRows[0] ? Math.round(num(totalsRows[0], "metric", 2) * 100) / 100 : 0,
+    viewsPerSession:
+      totalsRows[0] ?
+        Math.round(num(totalsRows[0], "metric", 1) * 100) / 100
+      : 0,
+    viewsPerUser:
+      totalsRows[0] ?
+        Math.round(num(totalsRows[0], "metric", 2) * 100) / 100
+      : 0,
     topPages,
     landingVsExit,
     flow,
@@ -634,7 +766,9 @@ export async function getPagesReportData(range: DateRange): Promise<PagesReportR
 // Technology report
 // ──────────────────────────────────────────────────────────────────────────
 
-export async function getTechReportData(range: DateRange): Promise<TechReportResponse> {
+export async function getTechReportData(
+  range: DateRange,
+): Promise<TechReportResponse> {
   const property = propertyPath();
   const dateRanges = dateRangeFor(range);
 
@@ -653,7 +787,10 @@ export async function getTechReportData(range: DateRange): Promise<TechReportRes
     safeRunReport({
       property,
       dateRanges,
-      dimensions: [{ name: "operatingSystem" }, { name: "operatingSystemVersion" }],
+      dimensions: [
+        { name: "operatingSystem" },
+        { name: "operatingSystemVersion" },
+      ],
       metrics: [{ name: "sessions" }],
       orderBys: [{ metric: { metricName: "sessions" }, desc: true }],
       limit: 10,
@@ -686,10 +823,19 @@ export async function getTechReportData(range: DateRange): Promise<TechReportRes
 
   const devices: DeviceCategoryRow[] = deviceRows
     .map((r) => ({
-      deviceCategory: val(r, "dimension", 0).toLowerCase() as DeviceCategoryRow["deviceCategory"],
+      deviceCategory: val(
+        r,
+        "dimension",
+        0,
+      ).toLowerCase() as DeviceCategoryRow["deviceCategory"],
       sessions: num(r, "metric", 0),
     }))
-    .filter((d) => d.deviceCategory === "mobile" || d.deviceCategory === "desktop" || d.deviceCategory === "tablet");
+    .filter(
+      (d) =>
+        d.deviceCategory === "mobile" ||
+        d.deviceCategory === "desktop" ||
+        d.deviceCategory === "tablet",
+    );
 
   // GA4's "dayOfWeek" dimension returns "0".."6" where 0 = Sunday, matching
   // our existing 0–6 schema directly.
@@ -712,7 +858,12 @@ export async function getRealtimeData(): Promise<RealtimeReportResponse> {
   const [totalsRows, byLocationRows, minuteRows] = await Promise.all([
     safeRunRealtimeReport({
       property,
-      metrics: [{ name: "activeUsers" }, { name: "eventCount" }, { name: "conversions" }, { name: "screenPageViews" }],
+      metrics: [
+        { name: "activeUsers" },
+        { name: "eventCount" },
+        { name: "conversions" },
+        { name: "screenPageViews" },
+      ],
     }),
     safeRunRealtimeReport({
       property,
@@ -724,7 +875,6 @@ export async function getRealtimeData(): Promise<RealtimeReportResponse> {
         { name: "city" },
         { name: "deviceCategory" },
         { name: "unifiedScreenName" },
-        { name: "platform" },
       ],
       metrics: [{ name: "activeUsers" }],
       orderBys: [{ metric: { metricName: "activeUsers" }, desc: true }],
@@ -751,7 +901,10 @@ export async function getRealtimeData(): Promise<RealtimeReportResponse> {
   }));
 
   const last30Minutes: RealtimeMinutePoint[] = minuteRows
-    .map((r) => ({ minutesAgo: Number(val(r, "dimension", 0)), activeUsers: num(r, "metric", 0) }))
+    .map((r) => ({
+      minutesAgo: Number(val(r, "dimension", 0)),
+      activeUsers: num(r, "metric", 0),
+    }))
     .sort((a, b) => b.minutesAgo - a.minutesAgo);
 
   return {
