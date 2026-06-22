@@ -1,3 +1,4 @@
+// SalesTreemap.tsx
 "use client";
 
 import { Treemap, ResponsiveContainer, Tooltip } from "recharts";
@@ -8,7 +9,6 @@ import type { ProductKPI } from "../../_shared/types";
 const truncate = (s: string, n = 16) =>
   s.length > n ? s.slice(0, n) + "…" : s;
 
-// Custom content renderer for treemap cells
 const CustomContent = (props: any) => {
   const { x, y, width, height, name, value, index, depth } = props;
 
@@ -34,7 +34,7 @@ const CustomContent = (props: any) => {
         y={y + 1}
         width={width - 2}
         height={(height - 2) / 2}
-        style={{ fill: "#FFFFFF", opacity: 0.08 }}
+        style={{ fill: "var(--text-inv)", opacity: 0.08 }}
         rx={6}
         ry={6}
       />
@@ -46,7 +46,7 @@ const CustomContent = (props: any) => {
             textAnchor="middle"
             dominantBaseline="middle"
             style={{
-              fill: "#FFFFFF",
+              fill: "var(--text-inv)",
               fontSize: Math.min(12, width / 8),
               fontWeight: 600,
             }}
@@ -59,7 +59,7 @@ const CustomContent = (props: any) => {
               y={y + height / 2 + 12}
               textAnchor="middle"
               dominantBaseline="middle"
-              style={{ fill: "rgba(255,255,255,0.75)", fontSize: 10 }}
+              style={{ fill: "var(--text-inv)", opacity: 0.75, fontSize: 10 }}
             >
               {value?.toLocaleString("en-US")}
             </text>
@@ -75,12 +75,12 @@ const CustomTooltip = ({ active, payload }: any) => {
   const { name, value } = payload[0].payload;
   return (
     <div
-      className="bg-white border border-[#EDE5D8] rounded-xl p-3 shadow-lg text-right"
+      className="bg-[var(--surface)] border border-[var(--border-md)] rounded-xl p-3 shadow-[var(--shadow-md)] text-right"
       dir="rtl"
     >
-      <p className="text-xs text-[#A89585] mb-1">المنتج</p>
-      <p className="text-sm font-bold text-[#3D2B1F] mb-1">{name}</p>
-      <p className="text-xs text-[#6A9E7F] font-medium">
+      <p className="text-xs text-[var(--text-3)] mb-1">المنتج</p>
+      <p className="text-sm font-bold text-[var(--text-1)] mb-1">{name}</p>
+      <p className="text-xs font-medium" style={{ color: PALETTE.sage }}>
         {value?.toLocaleString("en-US")} مبيعة
       </p>
     </div>
@@ -105,7 +105,7 @@ export default function SalesTreemap({ data }: { data: ProductKPI[] }) {
       minHeight={280}
     >
       {isEmpty ?
-        <div className="flex items-center justify-center h-72 text-sm text-[#A89585]">
+        <div className="flex items-center justify-center h-72 text-sm text-[var(--text-3)]">
           لا توجد بيانات مبيعات
         </div>
       : <ResponsiveContainer width="100%" height={280}>

@@ -35,6 +35,9 @@ import ProductGallery from "@/app/components/products/detail/ProductGallery";
 import ProductInfo from "@/app/components/products/detail/ProductInfo";
 import type { CommentStatsData, CommentWithUser } from "@/utils/product";
 import { unstable_cache } from "next/cache";
+import { WardrobeOrderForm } from "@/app/components/products/detail/WardrobeOrderForm";
+import { ProductWhatsAppButton } from "@/app/components/products/detail/ProductWhatsAppButton";
+import getQueryClient from "@/lib/getQueryClient";
 
 const CommentSection = dynamic(
   () => import("@/app/components/products/detail/CommentSection"),
@@ -536,7 +539,7 @@ export async function generateMetadata({
     // ── Canonical + hreflang ──────────────────────────────────────────────
     alternates: {
       canonical: url,
-      languages: { "ar-SA": url },
+      languages: { "en-US": url },
     },
 
     // ── Open Graph ────────────────────────────────────────────────────────
@@ -605,7 +608,7 @@ export async function generateMetadata({
       "geo.position": "24.7136;46.6753",
       ICBM: "24.7136, 46.6753",
       // Language + freshness
-      "content-language": "ar-SA",
+      "content-language": "en-US",
       "article:modified_time": new Date(product.updatedAt).toISOString(),
       "article:published_time": new Date(product.createdAt).toISOString(),
     },
@@ -637,9 +640,7 @@ export default async function ProductPage({
 
   const price = calcEffectivePrice(product.price, product.discount);
 
-  const queryClient = new QueryClient({
-    defaultOptions: { queries: { staleTime: 5 * 60 * 1000 } },
-  });
+  const queryClient = getQueryClient();
 
   await Promise.all([
     queryClient.prefetchQuery({
@@ -678,7 +679,6 @@ export default async function ProductPage({
     "commentStats",
     product.id,
   ]);
-
   return (
     <>
       {/* ✅ WebSite JSON-LD محذوف — layout.tsx يوفره تلقائياً على كل صفحة */}
@@ -775,10 +775,7 @@ export default async function ProductPage({
                     : "https://schema.org/OutOfStock"
                   }
                 />
-                <link
-                  itemProp="url"
-                  href={`${BASE_URL}/products/${product.slug}`}
-                />
+                <link itemProp="url" href={`${BASE_URL}/products/${product}`} />
                 <meta itemProp="seller" content={BRAND_AR} />
                 <meta
                   itemProp="areaServed"
@@ -815,9 +812,16 @@ export default async function ProductPage({
                 </div>
                 <div>
                   <ProductInfo product={product} session={session} />
+                  <ProductWhatsAppButton product={product} price={price} />
                 </div>
               </div>
             </article>
+
+            {/* ══ نموذج طلب خزانة مخصصة لقسم Wardrobes ══════════════════ */}
+            {/* ══ غير ذلك: زرار واتساب عام لباقي المنتجات ══════════════ */}
+            {product.category?.parent?.slug === "Wardrobes" ?
+              <WardrobeOrderForm product={product} />
+            : <div></div>}
 
             <hr className="mt-14" style={{ borderColor: "var(--border-md)" }} />
 

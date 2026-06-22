@@ -1,19 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import {
-  Star,
-  Package,
-  ChevronDown,
-  Truck,
-  Shield,
-  RotateCcw,
-} from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { Star, Package, ChevronDown } from "lucide-react";
 import { Session } from "next-auth";
 import CartActions from "./CartActions";
 import ShareButton from "./ShareButton";
+
 import type { ProductDetail } from "@/utils/product";
+import descriptionStyles from "./ProductDescription.module.css";
+import {
+  sanitizeDescriptionHtml,
+  stripHtmlToPlainText,
+} from "@/utils/sanitize-html";
+import { ProductWhatsAppButton } from "./ProductWhatsAppButton";
 
 interface Props {
   product: ProductDetail;
@@ -21,6 +20,10 @@ interface Props {
 }
 
 const formatSAR = (n: number) => n.toLocaleString("en-SA");
+
+// ارتفاع الحالة المطوية بالبكسل (تقريبًا ٤ سطور) — رقم تقريبي مناسب
+// لمحتوى HTML متعدد العناصر (عناوين/قوائم/فقرات)، وليس عدّ سطور دقيق.
+const COLLAPSED_HEIGHT = 112;
 
 export default function ProductInfo({ product, session }: Props) {
   const [descExpanded, setDescExpanded] = useState(false);
@@ -30,7 +33,10 @@ export default function ProductInfo({ product, session }: Props) {
       Math.round(product.price - (product.price * product.discount) / 100)
     : product.price;
 
-  const hasLongDesc = product.description && product.description.length > 200;
+  // ── الوصف: تطهير دفاعي ثالث وقت العرض (طبقة مستقلة عن السيرفر والعميل) ──
+  const safeDescriptionHtml = sanitizeDescriptionHtml(product.description);
+  const plainDescription = stripHtmlToPlainText(product.description);
+  const hasLongDesc = plainDescription.length > 200;
 
   const cartItem = {
     productId: product.id,
@@ -180,16 +186,19 @@ export default function ProductInfo({ product, session }: Props) {
       <div className="flex items-center gap-2">
         <ShareButton
           title={product.name}
-          description={product.description ?? undefined}
+          description={plainDescription || undefined}
           slug={product.slug}
         />
+        {product.category?.parent?.slug !== "Wardrobes" ?
+          <ProductWhatsAppButton product={product} />
+        : <div></div>}
       </div>
 
       {/* ── Divider ──────────────────────────────────────────────────── */}
       <hr style={{ borderColor: "var(--border)" }} />
 
       {/* ── Description ──────────────────────────────────────────────── */}
-      {product.description && (
+      {safeDescriptionHtml && (
         <div>
           <h2
             className="text-sm font-semibold mb-2"
@@ -198,20 +207,26 @@ export default function ProductInfo({ product, session }: Props) {
             وصف المنتج
           </h2>
           <div className="relative">
-            <AnimatePresence initial={false}>
-              <motion.p
-                key={descExpanded ? "expanded" : "collapsed"}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className={[
-                  "text-sm leading-relaxed",
-                  !descExpanded && hasLongDesc ? "line-clamp-4" : "",
-                ].join(" ")}
-                style={{ color: "var(--text-2)" }}
-              >
-                {product.description}
-              </motion.p>
-            </AnimatePresence>
+            {/*
+              الوصف بقى HTML غني (عناوين/قوائم/تنسيقات) جاي من محرر الأدمن،
+              ومش نص عادي — فبدل line-clamp (اللي بيتعامل مع سطور نص بس
+              ومش موثوق مع عناصر block متعددة)، بنستخدم max-height + overflow
+              مع transition سلس، وهو أكثر موثوقية لمحتوى HTML متنوع.
+            */}
+            <div
+              className={[
+                descriptionStyles.content,
+                "text-sm leading-relaxed overflow-hidden transition-[max-height] duration-300 ease-in-out",
+              ].join(" ")}
+              style={{
+                color: "var(--text-2)",
+                maxHeight:
+                  !descExpanded && hasLongDesc ? COLLAPSED_HEIGHT : 4000,
+              }}
+              // الـ HTML ده متطهّر 3 مرات (عميل + سيرفر + هنا وقت العرض) قبل
+              // ما يوصل لـ dangerouslySetInnerHTML.
+              dangerouslySetInnerHTML={{ __html: safeDescriptionHtml }}
+            />
 
             {hasLongDesc && (
               <button
@@ -233,56 +248,6 @@ export default function ProductInfo({ product, session }: Props) {
           </div>
         </div>
       )}
-
-      {/* ── Delivery perks ───────────────────────────────────────────── */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 mt-1">
-        {[
-          {
-            icon: Truck,
-            title: "توصيل للرياض",
-            sub: "خلال 2-5 أيام عمل",
-          },
-          {
-            icon: Shield,
-            title: "ضمان الجودة",
-            sub: "أثاث أصلي 100%",
-          },
-          {
-            icon: RotateCcw,
-            title: "إرجاع مجاني",
-            sub: "خلال 7 أيام",
-          },
-        ].map(({ icon: Icon, title, sub }) => (
-          <div
-            key={title}
-            className="flex items-start gap-2.5 p-3 rounded-xl"
-            style={{
-              backgroundColor: "var(--surface-2)",
-              border: "1px solid var(--border)",
-            }}
-          >
-            <Icon
-              className="w-4 h-4 mt-0.5 flex-shrink-0"
-              style={{ color: "var(--cyan)" }}
-              aria-hidden="true"
-            />
-            <div>
-              <p
-                className="text-xs font-semibold"
-                style={{ color: "var(--text-1)" }}
-              >
-                {title}
-              </p>
-              <p
-                className="text-[11px] mt-0.5"
-                style={{ color: "var(--text-3)" }}
-              >
-                {sub}
-              </p>
-            </div>
-          </div>
-        ))}
-      </div>
     </div>
   );
 }

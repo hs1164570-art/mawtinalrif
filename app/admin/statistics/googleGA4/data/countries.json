@@ -1,0 +1,212 @@
+[
+  {
+    "code": "SA",
+    "name_en": "Saudi Arabia",
+    "name_ar": "السعودية",
+    "lat": 23.8859,
+    "lng": 45.0792
+  },
+  {
+    "code": "AE",
+    "name_en": "United Arab Emirates",
+    "name_ar": "الإمارات",
+    "lat": 23.4241,
+    "lng": 53.8478
+  },
+  {
+    "code": "EG",
+    "name_en": "Egypt",
+    "name_ar": "مصر",
+    "lat": 26.8206,
+    "lng": 30.8025
+  },
+  {
+    "code": "KW",
+    "name_en": "Kuwait",
+    "name_ar": "الكويت",
+    "lat": 29.3117,
+    "lng": 47.4818
+  },
+  {
+    "code": "QA",
+    "name_en": "Qatar",
+    "name_ar": "قطر",
+    "lat": 25.3548,
+    "lng": 51.1839
+  },
+  {
+    "code": "BH",
+    "name_en": "Bahrain",
+    "name_ar": "البحرين",
+    "lat": 26.0667,
+    "lng": 50.5577
+  },
+  {
+    "code": "OM",
+    "name_en": "Oman",
+    "name_ar": "عمان",
+    "lat": 21.4735,
+    "lng": 55.9754
+  },
+  {
+    "code": "JO",
+    "name_en": "Jordan",
+    "name_ar": "الأردن",
+    "lat": 30.5852,
+    "lng": 36.2384
+  },
+  {
+    "code": "LB",
+    "name_en": "Lebanon",
+    "name_ar": "لبنان",
+    "lat": 33.8547,
+    "lng": 35.8623
+  },
+  {
+    "code": "IQ",
+    "name_en": "Iraq",
+    "name_ar": "العراق",
+    "lat": 33.2232,
+    "lng": 43.6793
+  },
+  {
+    "code": "MA",
+    "name_en": "Morocco",
+    "name_ar": "المغرب",
+    "lat": 31.7917,
+    "lng": -7.0926
+  },
+  {
+    "code": "TN",
+    "name_en": "Tunisia",
+    "name_ar": "تونس",
+    "lat": 33.8869,
+    "lng": 9.5375
+  },
+  {
+    "code": "DZ",
+    "name_en": "Algeria",
+    "name_ar": "الجزائر",
+    "lat": 28.0339,
+    "lng": 1.6596
+  },
+  {
+    "code": "SD",
+    "name_en": "Sudan",
+    "name_ar": "السودان",
+    "lat": 12.8628,
+    "lng": 30.2176
+  },
+  {
+    "code": "LY",
+    "name_en": "Libya",
+    "name_ar": "ليبيا",
+    "lat": 26.3351,
+    "lng": 17.2283
+  },
+  {
+    "code": "YE",
+    "name_en": "Yemen",
+    "name_ar": "اليمن",
+    "lat": 15.5527,
+    "lng": 48.5164
+  },
+  {
+    "code": "PS",
+    "name_en": "Palestine",
+    "name_ar": "فلسطين",
+    "lat": 31.9522,
+    "lng": 35.2332
+  },
+  {
+    "code": "SY",
+    "name_en": "Syria",
+    "name_ar": "سوريا",
+    "lat": 34.8021,
+    "lng": 38.9968
+  },
+  {
+    "code": "US",
+    "name_en": "United States",
+    "name_ar": "الولايات المتحدة",
+    "lat": 37.0902,
+    "lng": -95.7129
+  },
+  {
+    "code": "GB",
+    "name_en": "United Kingdom",
+    "name_ar": "المملكة المتحدة",
+    "lat": 55.3781,
+    "lng": -3.436
+  },
+  {
+    "code": "FR",
+    "name_en": "France",
+    "name_ar": "فرنسا",
+    "lat": 46.2276,
+    "lng": 2.2137
+  },
+  {
+    "code": "DE",
+    "name_en": "Germany",
+    "name_ar": "ألمانيا",
+    "lat": 51.1657,
+    "lng": 10.4515
+  },
+  {
+    "code": "TR",
+    "name_en": "Turkey",
+    "name_ar": "تركيا",
+    "lat": 38.9637,
+    "lng": 35.2433
+  },
+  {
+    "code": "IN",
+    "name_en": "India",
+    "name_ar": "الهند",
+    "lat": 20.5937,
+    "lng": 78.9629
+  },
+  {
+    "code": "PK",
+    "name_en": "Pakistan",
+    "name_ar": "باكستان",
+    "lat": 30.3753,
+    "lng": 69.3451
+  },
+  {
+    "code": "PH",
+    "name_en": "Philippines",
+    "name_ar": "الفلبين",
+    "lat": 12.8797,
+    "lng": 121.774
+  },
+  {
+    "code": "ID",
+    "name_en": "Indonesia",
+    "name_ar": "إندونيسيا",
+    "lat": -0.7893,
+    "lng": 113.9213
+  },
+  {
+    "code": "MY",
+    "name_en": "Malaysia",
+    "name_ar": "ماليزيا",
+    "lat": 4.2105,
+    "lng": 101.9758
+  },
+  {
+    "code": "CA",
+    "name_en": "Canada",
+    "name_ar": "كندا",
+    "lat": 56.1304,
+    "lng": -106.3468
+  },
+  {
+    "code": "AU",
+    "name_en": "Australia",
+    "name_ar": "أستراليا",
+    "lat": -25.2744,
+    "lng": 133.7751
+  }
+]

@@ -39,16 +39,15 @@ async function fetchCategories(): Promise<Category[]> {
   if (!res.ok) throw new Error("فشل في جلب الفئات");
   return res.json();
 }
+
 async function deleteProduct(id: string) {
   const res = await fetch(`/api/admin/products?id=${id}`, {
     method: "DELETE",
   });
-
   if (!res.ok) {
     const err = await res.json();
     throw new Error(err.message || "فشل في حذف المنتج");
   }
-  // console.log(res);
   return res.json();
 }
 
@@ -56,20 +55,41 @@ async function deleteProduct(id: string) {
 function StockBadge({ count, inStock }: { count: number; inStock: boolean }) {
   if (!inStock)
     return (
-      <span className="inline-flex items-center gap-1 px-2 py-[2px] rounded-[20px] bg-[#FBF0EE] border border-[#E8C3BB] text-[#C4614A] text-[0.75rem] font-medium">
+      <span
+        className="inline-flex items-center gap-1 px-2 py-[2px] rounded-[20px] text-[0.75rem] font-medium"
+        style={{
+          background: "color-mix(in srgb, var(--red) 8%, white)",
+          border: "1px solid color-mix(in srgb, var(--red) 22%, white)",
+          color: "var(--red)",
+        }}
+      >
         <XCircle size={11} />
         نفد
       </span>
     );
   if (count <= LOW_STOCK_THRESHOLD)
     return (
-      <span className="inline-flex items-center gap-1 px-2 py-[2px] rounded-[20px] bg-[#FBF6EC] border border-[#DDD0B0] text-[#B89A5A] text-[0.75rem] font-medium">
+      <span
+        className="inline-flex items-center gap-1 px-2 py-[2px] rounded-[20px] text-[0.75rem] font-medium"
+        style={{
+          background: "var(--bg)",
+          border: "1px solid var(--border-md)",
+          color: "var(--text-2)",
+        }}
+      >
         <AlertTriangle size={11} />
         {count} قطعة
       </span>
     );
   return (
-    <span className="inline-flex items-center gap-1 px-2 py-[2px] rounded-[20px] bg-[#EEF7F2] border border-[#B3D5C3] text-[#6A9E7F] text-[0.75rem] font-medium">
+    <span
+      className="inline-flex items-center gap-1 px-2 py-[2px] rounded-[20px] text-[0.75rem] font-medium"
+      style={{
+        background: "var(--cyan-bg)",
+        border: "1px solid color-mix(in srgb, var(--cyan) 28%, white)",
+        color: "var(--cyan)",
+      }}
+    >
       <CheckCircle size={11} />
       {count} قطعة
     </span>
@@ -146,8 +166,6 @@ export function ProductsClient({ initialParams }: ProductsClientProps) {
     gcTime: Infinity,
   });
 
-  const allSubCategories = categories.flatMap((c) => c.children ?? []);
-
   const deleteMutation = useMutation({
     mutationFn: deleteProduct,
 
@@ -155,7 +173,6 @@ export function ProductsClient({ initialParams }: ProductsClientProps) {
       await qc.cancelQueries({ queryKey: ["admin-products"] });
       const previousProducts = qc.getQueryData(["admin-products", params]);
 
-      // التحديث اللحظي للكاش
       qc.setQueryData(["admin-products", params], (old: any) => {
         if (!old) return old;
         return {
@@ -179,13 +196,11 @@ export function ProductsClient({ initialParams }: ProductsClientProps) {
     },
 
     onSuccess: () => {
-      // 💡 انقلهم هنا! كدا بمجرد الـ DELETE ما يرجع 200 (في ثانيتين) المودال هيقفل والـ Toast هيظهر فوراً
       toast.success("تم حذف المنتج بنجاح");
       setDeleteConfirm(null);
     },
 
     onSettled: () => {
-      // دي هتشتغل في الخلفية، لو ضربت 403 مش هتعلق الـ UI لأن المودال اتقفل خلاص والـ Toast ظهر
       qc.invalidateQueries({ queryKey: ["admin-products"], exact: false });
     },
   });
@@ -206,14 +221,24 @@ export function ProductsClient({ initialParams }: ProductsClientProps) {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="bg-[#FBF6EC] border-[1.5px] border-[#DDD0B0] rounded-[12px] px-5 py-[0.875rem] mb-5 flex items-center gap-3"
+            className="rounded-[12px] px-5 py-[0.875rem] mb-5 flex items-center gap-3"
+            style={{
+              background: "var(--bg)",
+              border: "1.5px solid var(--border-md)",
+            }}
           >
-            <AlertTriangle size={18} color="#B89A5A" />
+            <AlertTriangle size={18} style={{ color: "var(--text-2)" }} />
             <div className="flex-1">
-              <span className="text-[#6B4C3B] font-semibold text-[0.875rem]">
+              <span
+                className="font-semibold text-[0.875rem]"
+                style={{ color: "var(--text-1)" }}
+              >
                 تنبيه المخزون:&nbsp;
               </span>
-              <span className="text-[#6B4C3B] text-[0.875rem]">
+              <span
+                className="text-[0.875rem]"
+                style={{ color: "var(--text-2)" }}
+              >
                 {lowStockProducts.length} منتج بمخزون منخفض (أقل من{" "}
                 {LOW_STOCK_THRESHOLD} قطعة)
               </span>
@@ -222,13 +247,21 @@ export function ProductsClient({ initialParams }: ProductsClientProps) {
               {lowStockProducts.slice(0, 3).map((p) => (
                 <span
                   key={p.id}
-                  className="bg-white border border-[#DDD0B0] rounded-[6px] px-2 py-[2px] text-[0.75rem] text-[#6B4C3B]"
+                  className="rounded-[6px] px-2 py-[2px] text-[0.75rem]"
+                  style={{
+                    background: "var(--surface)",
+                    border: "1px solid var(--border-md)",
+                    color: "var(--text-2)",
+                  }}
                 >
                   {p.name} ({p.countStock})
                 </span>
               ))}
               {lowStockProducts.length > 3 && (
-                <span className="text-[0.75rem] text-[#A89585]">
+                <span
+                  className="text-[0.75rem]"
+                  style={{ color: "var(--text-3)" }}
+                >
                   +{lowStockProducts.length - 3} آخرين
                 </span>
               )}
@@ -240,11 +273,17 @@ export function ProductsClient({ initialParams }: ProductsClientProps) {
       {/* ─── Header ─────────────────────────────────────────────── */}
       <div className="flex items-center justify-between mb-5 flex-wrap gap-3">
         <div>
-          <h2 className="m-0 text-[#3D2B1F] font-bold text-[1.3rem]">
+          <h2
+            className="m-0 font-bold text-[1.3rem]"
+            style={{ color: "var(--text-1)" }}
+          >
             المنتجات
           </h2>
           {meta && (
-            <p className="mt-1 mb-0 text-[#A89585] text-[0.82rem]">
+            <p
+              className="mt-1 mb-0 text-[0.82rem]"
+              style={{ color: "var(--text-3)" }}
+            >
               {meta.totalCount} منتج إجمالي
             </p>
           )}
@@ -255,7 +294,13 @@ export function ProductsClient({ initialParams }: ProductsClientProps) {
             setEditProduct(null);
             setDrawerOpen(true);
           }}
-          className="inline-flex items-center gap-2 px-5 py-[0.625rem] rounded-[10px] border-none bg-gradient-to-br from-[#B89A5A] to-[#8C7340] text-[#FAF7F2] font-semibold text-[0.875rem] cursor-pointer shadow-[0_4px_12px_rgba(184,154,90,0.35)] font-inherit"
+          className="inline-flex items-center gap-2 px-5 py-[0.625rem] rounded-[10px] border-none font-semibold text-[0.875rem] cursor-pointer font-inherit"
+          style={{
+            background:
+              "linear-gradient(135deg, var(--gold) 0%, var(--gold-mid) 100%)",
+            color: "var(--text-inv)",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.25)",
+          }}
         >
           <Plus size={16} />
           إضافة منتج
@@ -263,20 +308,31 @@ export function ProductsClient({ initialParams }: ProductsClientProps) {
       </div>
 
       {/* ─── Filters ────────────────────────────────────────────── */}
-      <div className="bg-white border-[1.5px] border-[#EDE5D8] rounded-[14px] p-4 mb-5 flex gap-3 flex-wrap items-center">
+      <div
+        className="rounded-[14px] p-4 mb-5 flex gap-3 flex-wrap items-center"
+        style={{
+          background: "var(--surface)",
+          border: "1.5px solid var(--border)",
+        }}
+      >
         {/* Search */}
         <div className="relative flex-[1_1_220px] min-w-[180px]">
           <Search
             size={15}
-            color="#A89585"
             className="absolute top-1/2 right-3 -translate-y-1/2"
+            style={{ color: "var(--text-3)" }}
           />
           <input
             type="search"
             placeholder="بحث في المنتجات..."
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
-            className="w-full pr-9 pl-3 py-2 rounded-[9px] border-[1.5px] border-[#EDE5D8] bg-[#FAF7F2] text-[#3D2B1F] text-[0.875rem] outline-none font-inherit box-border"
+            className="w-full pr-9 pl-3 py-2 rounded-[9px] text-[0.875rem] outline-none font-inherit box-border"
+            style={{
+              border: "1.5px solid var(--border-md)",
+              background: "var(--bg)",
+              color: "var(--text-1)",
+            }}
           />
         </div>
 
@@ -287,7 +343,12 @@ export function ProductsClient({ initialParams }: ProductsClientProps) {
             setCategory(e.target.value || null);
             setPage(1);
           }}
-          className="px-[0.875rem] py-2 rounded-[9px] border-[1.5px] border-[#EDE5D8] bg-[#FAF7F2] text-[#3D2B1F] text-[0.875rem] cursor-pointer font-inherit min-w-[150px] outline-none"
+          className="px-[0.875rem] py-2 rounded-[9px] text-[0.875rem] cursor-pointer font-inherit min-w-[150px] outline-none"
+          style={{
+            border: "1.5px solid var(--border-md)",
+            background: "var(--bg)",
+            color: "var(--text-1)",
+          }}
           aria-label="تصفية حسب الفئة"
         >
           <option value="">كل الفئات</option>
@@ -309,7 +370,12 @@ export function ProductsClient({ initialParams }: ProductsClientProps) {
             setSort(e.target.value);
             setPage(1);
           }}
-          className="px-[0.875rem] py-2 rounded-[9px] border-[1.5px] border-[#EDE5D8] bg-[#FAF7F2] text-[#3D2B1F] text-[0.875rem] cursor-pointer font-inherit outline-none"
+          className="px-[0.875rem] py-2 rounded-[9px] text-[0.875rem] cursor-pointer font-inherit outline-none"
+          style={{
+            border: "1.5px solid var(--border-md)",
+            background: "var(--bg)",
+            color: "var(--text-1)",
+          }}
           aria-label="ترتيب حسب"
         >
           <option value="newest">الأحدث</option>
@@ -320,7 +386,12 @@ export function ProductsClient({ initialParams }: ProductsClientProps) {
         {/* Refresh */}
         <button
           onClick={() => qc.invalidateQueries({ queryKey: ["admin-products"] })}
-          className="w-[38px] h-[38px] rounded-[9px] border-[1.5px] border-[#EDE5D8] bg-[#FAF7F2] cursor-pointer flex items-center justify-center text-[#6B4C3B]"
+          className="w-[38px] h-[38px] rounded-[9px] cursor-pointer flex items-center justify-center"
+          style={{
+            border: "1.5px solid var(--border-md)",
+            background: "var(--bg)",
+            color: "var(--text-2)",
+          }}
           aria-label="تحديث"
         >
           <RefreshCw size={15} className={isFetching ? "animate-spin" : ""} />
@@ -328,23 +399,36 @@ export function ProductsClient({ initialParams }: ProductsClientProps) {
       </div>
 
       {/* ─── Table ──────────────────────────────────────────────── */}
-      <div className="bg-white border-[1.5px] border-[#EDE5D8] rounded-[16px] overflow-hidden">
+      <div
+        className="rounded-[16px] overflow-hidden"
+        style={{ border: "1.5px solid var(--border)" }}
+      >
         {isLoading && (
-          <div className="py-16 text-center text-[#A89585] text-[0.9rem]">
+          <div
+            className="py-16 text-center text-[0.9rem]"
+            style={{ color: "var(--text-3)" }}
+          >
             جاري التحميل...
           </div>
         )}
 
         {error && (
-          <div className="py-16 text-center text-[#C4614A] text-[0.9rem]">
+          <div
+            className="py-16 text-center text-[0.9rem]"
+            style={{ color: "var(--red)" }}
+          >
             خطأ: {(error as Error).message}
           </div>
         )}
 
         {!isLoading && !error && products.length === 0 && (
           <div className="py-16 text-center">
-            <Package size={40} color="#EDE5D8" className="mx-auto mb-4" />
-            <div className="text-[#A89585] text-[0.9rem]">
+            <Package
+              size={40}
+              className="mx-auto mb-4"
+              style={{ color: "var(--border-strong)" }}
+            />
+            <div className="text-[0.9rem]" style={{ color: "var(--text-3)" }}>
               لا توجد منتجات مطابقة
             </div>
           </div>
@@ -352,9 +436,17 @@ export function ProductsClient({ initialParams }: ProductsClientProps) {
 
         {!isLoading && products.length > 0 && (
           <div className="overflow-x-auto">
-            <table className="w-full border-collapse">
+            <table
+              className="w-full border-collapse"
+              style={{ background: "var(--surface)" }}
+            >
               <thead>
-                <tr className="bg-[#FAF7F2] border-b-[1.5px] border-[#EDE5D8]">
+                <tr
+                  style={{
+                    background: "var(--bg)",
+                    borderBottom: "1.5px solid var(--border-md)",
+                  }}
+                >
                   {[
                     "المنتج",
                     "الفئة",
@@ -366,7 +458,8 @@ export function ProductsClient({ initialParams }: ProductsClientProps) {
                   ].map((h) => (
                     <th
                       key={h}
-                      className="px-4 py-3.5 text-right text-[#A89585] font-semibold text-[0.78rem] uppercase tracking-[0.06em] whitespace-nowrap"
+                      className="px-4 py-3.5 text-right font-semibold text-[0.78rem] uppercase tracking-[0.06em] whitespace-nowrap"
+                      style={{ color: "var(--text-3)" }}
                     >
                       {h}
                     </th>
@@ -381,12 +474,25 @@ export function ProductsClient({ initialParams }: ProductsClientProps) {
                       initial={{ opacity: 0, y: 6 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: idx * 0.03 }}
-                      className="border-b border-[#F5EFE6] transition-colors duration-150 hover:bg-[#FAF7F2]"
+                      className="transition-colors duration-150"
+                      style={{ borderBottom: "1px solid var(--border)" }}
+                      onMouseEnter={(e) =>
+                        (e.currentTarget.style.background = "var(--bg)")
+                      }
+                      onMouseLeave={(e) =>
+                        (e.currentTarget.style.background = "transparent")
+                      }
                     >
                       {/* Product name + image */}
                       <td className="px-4 py-[0.875rem]">
                         <div className="flex items-center gap-3">
-                          <div className="w-12 h-12 rounded-[10px] overflow-hidden border border-[#EDE5D8] shrink-0 bg-[#F5EFE6]">
+                          <div
+                            className="w-12 h-12 rounded-[10px] overflow-hidden shrink-0"
+                            style={{
+                              border: "1px solid var(--border-md)",
+                              background: "var(--bg-deep)",
+                            }}
+                          >
                             {product.image && (
                               <Image
                                 src={product.image}
@@ -398,10 +504,16 @@ export function ProductsClient({ initialParams }: ProductsClientProps) {
                             )}
                           </div>
                           <div>
-                            <div className="text-[#3D2B1F] font-semibold text-[0.875rem] max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap">
+                            <div
+                              className="font-semibold text-[0.875rem] max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap"
+                              style={{ color: "var(--text-1)" }}
+                            >
                               {product.name}
                             </div>
-                            <div className="text-[#A89585] text-[0.75rem] mt-0.5">
+                            <div
+                              className="text-[0.75rem] mt-0.5"
+                              style={{ color: "var(--text-3)" }}
+                            >
                               {product.slug}
                             </div>
                           </div>
@@ -410,7 +522,13 @@ export function ProductsClient({ initialParams }: ProductsClientProps) {
 
                       {/* Category */}
                       <td className="px-4 py-[0.875rem]">
-                        <span className="inline-flex items-center gap-1 px-[10px] py-[3px] bg-[#F5EFE6] rounded-[20px] text-[#6B4C3B] text-[0.78rem] font-medium">
+                        <span
+                          className="inline-flex items-center gap-1 px-[10px] py-[3px] rounded-[20px] text-[0.78rem] font-medium"
+                          style={{
+                            background: "var(--bg-deep)",
+                            color: "var(--text-2)",
+                          }}
+                        >
                           <Tag size={11} />
                           {product.category?.name ?? "—"}
                         </span>
@@ -418,11 +536,21 @@ export function ProductsClient({ initialParams }: ProductsClientProps) {
 
                       {/* Price */}
                       <td className="px-4 py-[0.875rem]">
-                        <div className="text-[#3D2B1F] font-semibold text-[0.875rem]">
+                        <div
+                          className="font-semibold text-[0.875rem]"
+                          style={{ color: "var(--text-1)" }}
+                        >
                           {product.price.toLocaleString("en-US")} ر.س
                         </div>
                         {product.discount && product.discount > 0 ?
-                          <div className="inline-flex items-center gap-[3px] px-1.5 py-[1px] bg-[#EEF7F2] rounded-[4px] text-[#6A9E7F] text-[0.7rem] mt-0.5">
+                          <div
+                            className="inline-flex items-center gap-[3px] px-1.5 py-[1px] rounded-[4px] text-[0.7rem] mt-0.5"
+                            style={{
+                              background:
+                                "color-mix(in srgb, var(--red) 9%, white)",
+                              color: "var(--red)",
+                            }}
+                          >
                             خصم {product.discount}%
                           </div>
                         : null}
@@ -430,10 +558,16 @@ export function ProductsClient({ initialParams }: ProductsClientProps) {
 
                       {/* Cost */}
                       <td className="px-4 py-[0.875rem]">
-                        <div className="text-[#A89585] text-[0.875rem]">
+                        <div
+                          className="text-[0.875rem]"
+                          style={{ color: "var(--text-3)" }}
+                        >
                           {product.costPrice.toLocaleString("en-US")} ر.س
                         </div>
-                        <div className="text-[#6A9E7F] text-[0.75rem] mt-0.5">
+                        <div
+                          className="text-[0.75rem] mt-0.5"
+                          style={{ color: "var(--cyan)" }}
+                        >
                           ربح:{" "}
                           {(product.price - product.costPrice).toLocaleString(
                             "en-US",
@@ -453,10 +587,16 @@ export function ProductsClient({ initialParams }: ProductsClientProps) {
                       {/* Status */}
                       <td className="px-4 py-[0.875rem]">
                         {product.inStock ?
-                          <span className="text-[#6A9E7F] text-[0.82rem] font-medium">
+                          <span
+                            className="text-[0.82rem] font-medium"
+                            style={{ color: "var(--cyan)" }}
+                          >
                             متاح
                           </span>
-                        : <span className="text-[#C4614A] text-[0.82rem] font-medium">
+                        : <span
+                            className="text-[0.82rem] font-medium"
+                            style={{ color: "var(--red)" }}
+                          >
                             غير متاح
                           </span>
                         }
@@ -470,14 +610,45 @@ export function ProductsClient({ initialParams }: ProductsClientProps) {
                               setEditProduct(product);
                               setDrawerOpen(true);
                             }}
-                            className="w-[34px] h-[34px] rounded-[8px] border border-[#EDE5D8] bg-[#FAF7F2] cursor-pointer flex items-center justify-center text-[#6B4C3B] transition-all duration-150 hover:border-[#B89A5A] hover:text-[#B89A5A]"
+                            className="w-[34px] h-[34px] rounded-[8px] cursor-pointer flex items-center justify-center transition-all duration-150"
+                            style={{
+                              border: "1px solid var(--border-md)",
+                              background: "var(--bg)",
+                              color: "var(--text-2)",
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.borderColor = "var(--gold)";
+                              e.currentTarget.style.color = "var(--gold)";
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.borderColor =
+                                "var(--border-md)";
+                              e.currentTarget.style.color = "var(--text-2)";
+                            }}
                             aria-label={`تعديل ${product.name}`}
                           >
                             <Pencil size={14} />
                           </button>
                           <button
                             onClick={() => setDeleteConfirm(product)}
-                            className="w-[34px] h-[34px] rounded-[8px] border border-[#EDE5D8] bg-[#FAF7F2] cursor-pointer flex items-center justify-center text-[#A89585] transition-all duration-150 hover:border-[#C4614A] hover:text-[#C4614A] hover:bg-[#FBF0EE]"
+                            className="w-[34px] h-[34px] rounded-[8px] cursor-pointer flex items-center justify-center transition-all duration-150"
+                            style={{
+                              border: "1px solid var(--border-md)",
+                              background: "var(--bg)",
+                              color: "var(--text-3)",
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.borderColor = "var(--red)";
+                              e.currentTarget.style.color = "var(--red)";
+                              e.currentTarget.style.background =
+                                "color-mix(in srgb, var(--red) 8%, white)";
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.borderColor =
+                                "var(--border-md)";
+                              e.currentTarget.style.color = "var(--text-3)";
+                              e.currentTarget.style.background = "var(--bg)";
+                            }}
                             aria-label={`حذف ${product.name}`}
                           >
                             <Trash2 size={14} />
@@ -495,8 +666,14 @@ export function ProductsClient({ initialParams }: ProductsClientProps) {
 
       {/* ─── Pagination ─────────────────────────────────────────── */}
       {meta && meta.totalPages > 1 && (
-        <div className="flex items-center justify-between mt-5 px-5 py-[0.875rem] bg-white border-[1.5px] border-[#EDE5D8] rounded-[12px] flex-wrap gap-3">
-          <span className="text-[#A89585] text-[0.82rem]">
+        <div
+          className="flex items-center justify-between mt-5 px-5 py-[0.875rem] rounded-[12px] flex-wrap gap-3"
+          style={{
+            background: "var(--surface)",
+            border: "1.5px solid var(--border)",
+          }}
+        >
+          <span className="text-[0.82rem]" style={{ color: "var(--text-3)" }}>
             صفحة {meta.currentPage} من {meta.totalPages} — {meta.totalCount}{" "}
             منتج
           </span>
@@ -504,11 +681,13 @@ export function ProductsClient({ initialParams }: ProductsClientProps) {
             <button
               onClick={() => setPage((p) => Math.max(1, (p ?? 1) - 1))}
               disabled={page <= 1}
-              className="w-9 h-9 rounded-[8px] border-[1.5px] border-[#EDE5D8] flex items-center justify-center transition-all"
+              className="w-9 h-9 rounded-[8px] flex items-center justify-center transition-all"
               style={{
-                background: page <= 1 ? "#FAF7F2" : "#FFFFFF",
-                color: page <= 1 ? "#C9B9AD" : "#3D2B1F",
+                border: "1.5px solid var(--border-md)",
+                background: page <= 1 ? "var(--bg)" : "var(--surface)",
+                color: page <= 1 ? "var(--text-3)" : "var(--text-1)",
                 cursor: page <= 1 ? "not-allowed" : "pointer",
+                opacity: page <= 1 ? 0.45 : 1,
               }}
               aria-label="الصفحة السابقة"
             >
@@ -522,14 +701,17 @@ export function ProductsClient({ initialParams }: ProductsClientProps) {
                 <button
                   key={p}
                   onClick={() => setPage(p)}
-                  className="w-9 h-9 rounded-[8px] border-[1.5px] cursor-pointer text-[0.875rem] font-inherit transition-all"
+                  className="w-9 h-9 rounded-[8px] cursor-pointer text-[0.875rem] font-inherit transition-all"
                   style={{
-                    borderColor: active ? "#B89A5A" : "#EDE5D8",
+                    border:
+                      active ?
+                        "1.5px solid var(--gold)"
+                      : "1.5px solid var(--border-md)",
                     background:
                       active ?
-                        "linear-gradient(135deg, #B89A5A 0%, #8C7340 100%)"
-                      : "#FFFFFF",
-                    color: active ? "#FAF7F2" : "#3D2B1F",
+                        "linear-gradient(135deg, var(--gold) 0%, var(--gold-mid) 100%)"
+                      : "var(--surface)",
+                    color: active ? "var(--text-inv)" : "var(--text-1)",
                     fontWeight: active ? 600 : 400,
                   }}
                 >
@@ -543,11 +725,15 @@ export function ProductsClient({ initialParams }: ProductsClientProps) {
                 setPage((p) => Math.min(meta.totalPages, (p ?? 1) + 1))
               }
               disabled={page >= meta.totalPages}
-              className="w-9 h-9 rounded-[8px] border-[1.5px] border-[#EDE5D8] flex items-center justify-center transition-all"
+              className="w-9 h-9 rounded-[8px] flex items-center justify-center transition-all"
               style={{
-                background: page >= meta.totalPages ? "#FAF7F2" : "#FFFFFF",
-                color: page >= meta.totalPages ? "#C9B9AD" : "#3D2B1F",
+                border: "1.5px solid var(--border-md)",
+                background:
+                  page >= meta.totalPages ? "var(--bg)" : "var(--surface)",
+                color:
+                  page >= meta.totalPages ? "var(--text-3)" : "var(--text-1)",
                 cursor: page >= meta.totalPages ? "not-allowed" : "pointer",
+                opacity: page >= meta.totalPages ? 0.45 : 1,
               }}
               aria-label="الصفحة التالية"
             >
@@ -588,32 +774,57 @@ export function ProductsClient({ initialParams }: ProductsClientProps) {
               initial={{ scale: 0.95, y: 10 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.95, y: 10 }}
-              className="relative bg-white rounded-[20px] p-8 max-w-[420px] w-full shadow-[0_24px_64px_rgba(0,0,0,0.15)]"
+              className="relative rounded-[20px] p-8 max-w-[420px] w-full"
+              style={{
+                background: "var(--surface)",
+                boxShadow: "var(--shadow-md)",
+              }}
             >
-              <div className="w-14 h-14 rounded-[14px] bg-[#FBF0EE] border-[1.5px] border-[#E8C3BB] flex items-center justify-center mx-auto mb-5">
-                <Trash2 size={24} color="#C4614A" />
+              <div
+                className="w-14 h-14 rounded-[14px] flex items-center justify-center mx-auto mb-5"
+                style={{
+                  background: "color-mix(in srgb, var(--red) 8%, white)",
+                  border:
+                    "1.5px solid color-mix(in srgb, var(--red) 22%, white)",
+                }}
+              >
+                <Trash2 size={24} style={{ color: "var(--red)" }} />
               </div>
-              <h3 className="text-center text-[#3D2B1F] font-bold text-[1.1rem] mt-0 mb-[0.625rem]">
+              <h3
+                className="text-center font-bold text-[1.1rem] mt-0 mb-[0.625rem]"
+                style={{ color: "var(--text-1)" }}
+              >
                 حذف المنتج
               </h3>
-              <p className="text-center text-[#6B4C3B] text-[0.9rem] mt-0 mb-6 leading-[1.5]">
+              <p
+                className="text-center text-[0.9rem] mt-0 mb-6 leading-[1.5]"
+                style={{ color: "var(--text-2)" }}
+              >
                 هل أنت متأكد من حذف <strong>"{deleteConfirm.name}"</strong>؟ لا
                 يمكن التراجع عن هذا الإجراء.
               </p>
               <div className="flex gap-3">
                 <button
                   onClick={() => setDeleteConfirm(null)}
-                  className="flex-1 py-3 rounded-[10px] border-[1.5px] border-[#EDE5D8] bg-[#FAF7F2] text-[#3D2B1F] font-medium cursor-pointer text-[0.9rem] font-inherit"
+                  className="flex-1 py-3 rounded-[10px] font-medium cursor-pointer text-[0.9rem] font-inherit"
+                  style={{
+                    border: "1.5px solid var(--border-md)",
+                    background: "var(--bg)",
+                    color: "var(--text-1)",
+                  }}
                 >
                   إلغاء
                 </button>
                 <button
                   onClick={() => deleteMutation.mutate(deleteConfirm.id)}
                   disabled={deleteMutation.isPending}
-                  className="flex-1 py-3 rounded-[10px] border-none text-white font-semibold text-[0.9rem] font-inherit transition-colors"
+                  className="flex-1 py-3 rounded-[10px] border-none font-semibold text-[0.9rem] font-inherit transition-colors"
                   style={{
                     background:
-                      deleteMutation.isPending ? "#E8C3BB" : "#C4614A",
+                      deleteMutation.isPending ?
+                        "color-mix(in srgb, var(--red) 50%, white)"
+                      : "var(--red)",
+                    color: "var(--text-inv)",
                     cursor:
                       deleteMutation.isPending ? "not-allowed" : "pointer",
                   }}

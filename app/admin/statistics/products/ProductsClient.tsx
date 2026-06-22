@@ -1,3 +1,4 @@
+// ProductsClient.tsx
 "use client";
 
 import { Suspense, lazy, useEffect } from "react";
@@ -6,6 +7,7 @@ import hotkeys from "hotkeys-js";
 import { ShoppingBag } from "lucide-react";
 import { useAnalyticsFilters } from "../_shared/hooks/useAnalyticsFilters";
 import { productsQueryOptions } from "../_lib/queryOptions";
+import { PALETTE } from "../_shared/constants";
 import FilterBar from "../_shared/components/FilterBar";
 import DataExporter from "../_shared/components/DataExporter";
 import ProductKpiCards from "./ProductKpiCards";
@@ -17,9 +19,9 @@ const SalesTreemap = lazy(() => import("./charts/SalesTreemap"));
 const ConversionBar = lazy(() => import("./charts/ConversionBar"));
 
 const Skel = ({ h = 280 }: { h?: number }) => (
-  <div className="bg-white rounded-2xl border border-[#EDE5D8] p-5 animate-pulse">
-    <div className="h-4 bg-[#F5EFE6] rounded w-40 mb-4" />
-    <div className="bg-[#FAF7F2] rounded-xl" style={{ height: h }} />
+  <div className="bg-[var(--surface)] rounded-2xl border border-[var(--border-md)] p-5 animate-pulse">
+    <div className="h-4 bg-[var(--bg-deep)] rounded w-40 mb-4" />
+    <div className="bg-[var(--surface-2)] rounded-xl" style={{ height: h }} />
   </div>
 );
 
@@ -62,17 +64,26 @@ export default function ProductsClient({
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="p-2 rounded-xl bg-[#6A9E7F]/10 text-[#6A9E7F]">
+            <span
+              className="p-2 rounded-xl"
+              style={{
+                backgroundColor: `${PALETTE.sage}1A`,
+                color: PALETTE.sage,
+              }}
+            >
               <ShoppingBag size={18} />
             </span>
-            <h1 className="text-xl font-bold text-[#3D2B1F]">
+            <h1 className="text-xl font-bold text-[var(--text-1)]">
               المنتجات والمبيعات
             </h1>
             {isStale && (
-              <span className="h-2 w-2 rounded-full bg-[#6A9E7F] animate-pulse" />
+              <span
+                className="h-2 w-2 rounded-full animate-pulse"
+                style={{ background: PALETTE.sage }}
+              />
             )}
           </div>
-          <p className="text-sm text-[#A89585] mr-10">
+          <p className="text-sm text-[var(--text-3)] mr-10">
             المشاهدات والسلة والتحويل البيعي
           </p>
         </div>
@@ -93,7 +104,7 @@ export default function ProductsClient({
           {[...Array(3)].map((_, i) => (
             <div
               key={i}
-              className="bg-white rounded-2xl border border-[#EDE5D8] p-5 animate-pulse h-28"
+              className="bg-[var(--surface)] rounded-2xl border border-[var(--border-md)] p-5 animate-pulse h-28"
             />
           ))}
         </div>

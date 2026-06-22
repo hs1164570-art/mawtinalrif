@@ -345,7 +345,7 @@ export async function generateMetadata({
     // ── Canonical + hreflang ──────────────────────────────────────────────
     alternates: {
       canonical: canonicalUrl,
-      languages: { "ar-SA": canonicalUrl },
+      languages: { "en-US": canonicalUrl },
     },
 
     // ── Geo + Language meta ───────────────────────────────────────────────
@@ -354,7 +354,7 @@ export async function generateMetadata({
       "geo.placename": "الرياض",
       "geo.position": "24.7136;46.6753",
       ICBM: "24.7136, 46.6753",
-      "content-language": "ar-SA",
+      "content-language": "en-US",
       language: "Arabic",
       rating: "general",
       "revisit-after": "7 days",

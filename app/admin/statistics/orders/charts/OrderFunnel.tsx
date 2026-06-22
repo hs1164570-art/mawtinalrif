@@ -1,5 +1,5 @@
+// OrderFunnel.tsx
 "use client";
-
 import {
   FunnelChart,
   Funnel,
@@ -9,41 +9,36 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import ChartWrapper from "../../_shared/components/ChartWrapper";
-
 interface StatusPoint {
   name: string;
   value: number;
   color: string;
 }
-
 const CustomTooltip = ({ active, payload }: any) => {
   if (!active || !payload?.length) return null;
   const { name, value, color } = payload[0].payload;
   return (
     <div
-      className="bg-white border border-[#EDE5D8] rounded-xl p-3 shadow-lg text-right"
+      className="bg-[var(--surface)] border border-[var(--border-md)] rounded-xl p-3 shadow-[var(--shadow-md)] text-right"
       dir="rtl"
     >
       <div className="flex items-center gap-2 mb-1">
         <span className="w-2 h-2 rounded-full" style={{ background: color }} />
-        <span className="text-xs font-medium text-[#3D2B1F]">{name}</span>
+        <span className="text-xs font-medium text-[var(--text-1)]">{name}</span>
       </div>
-      <p className="text-base font-bold text-[#3D2B1F] tabular-nums">
+      <p className="text-base font-bold text-[var(--text-1)] tabular-nums">
         {value.toLocaleString("en-US")} طلب
       </p>
     </div>
   );
 };
-
 export default function OrderFunnel({
   statusDistribution,
 }: {
   statusDistribution: StatusPoint[];
 }) {
-  // Sort by value desc so funnel goes large → small
   const sorted = [...statusDistribution].sort((a, b) => b.value - a.value);
   const isEmpty = sorted.every((s) => s.value === 0);
-
   return (
     <ChartWrapper
       title="قمع حالات الطلبات"
@@ -53,7 +48,7 @@ export default function OrderFunnel({
       minHeight={280}
     >
       {isEmpty ?
-        <div className="flex items-center justify-center h-72 text-sm text-[#A89585]">
+        <div className="flex items-center justify-center h-72 text-sm text-[var(--text-3)]">
           لا توجد طلبات في هذه الفترة
         </div>
       : <ResponsiveContainer width="100%" height={280}>
@@ -69,14 +64,14 @@ export default function OrderFunnel({
               ))}
               <LabelList
                 position="right"
-                fill="#3D2B1F"
+                fill="var(--text-1)"
                 stroke="none"
                 dataKey="name"
                 style={{ fontSize: 11, fontWeight: 500 }}
               />
               <LabelList
                 position="center"
-                fill="#FFFFFF"
+                fill="var(--text-inv)"
                 stroke="none"
                 dataKey="value"
                 style={{ fontSize: 12, fontWeight: 700 }}

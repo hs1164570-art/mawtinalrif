@@ -217,7 +217,7 @@ export const metadata: Metadata = {
     "geo.position": "24.6565151;46.7939716",
     ICBM: "24.6565151, 46.7939716",
     // Language
-    "content-language": "ar-SA",
+    "content-language": "en-US",
     language: "Arabic",
     // General
     rating: "general",

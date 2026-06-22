@@ -41,36 +41,67 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 
   return (
     <div
-      className="bg-white border border-[#EDE5D8] rounded-xl p-3 shadow-lg text-right min-w-[160px]"
+      className="rounded-xl p-3 text-right min-w-[160px]"
+      style={{
+        background: "var(--surface)",
+        border: "1px solid var(--border-md)",
+        boxShadow: "var(--shadow-md)",
+      }}
       dir="rtl"
     >
-      <p className="text-xs text-[#A89585] mb-2 font-medium">
+      <p
+        className="text-xs mb-2 font-medium"
+        style={{ color: "var(--text-3)" }}
+      >
         {fmtDate(label)}
       </p>
       {revenue && (
         <div className="flex items-center justify-between gap-4 mb-1">
-          <span className="flex items-center gap-1.5 text-xs text-[#6B4C3B]">
-            <span className="w-2.5 h-2.5 rounded-sm bg-[#B89A5A]" />
+          <span
+            className="flex items-center gap-1.5 text-xs"
+            style={{ color: "var(--text-2)" }}
+          >
+            <span
+              className="w-2.5 h-2.5 rounded-sm"
+              style={{ background: "var(--gold)" }}
+            />
             المبيعات
           </span>
-          <span className="text-xs font-bold text-[#3D2B1F] tabular-nums">
+          <span
+            className="text-xs font-bold tabular-nums"
+            style={{ color: "var(--text-1)" }}
+          >
             {fmtK(revenue.value)}ر.س
           </span>
         </div>
       )}
       {profit && (
         <div className="flex items-center justify-between gap-4 mb-1">
-          <span className="flex items-center gap-1.5 text-xs text-[#6B4C3B]">
-            <span className="w-2.5 h-1.5 rounded-full bg-[#6A9E7F]" />
+          <span
+            className="flex items-center gap-1.5 text-xs"
+            style={{ color: "var(--text-2)" }}
+          >
+            <span
+              className="w-2.5 h-1.5 rounded-full"
+              style={{ background: "var(--cyan)" }}
+            />
             الأرباح
           </span>
-          <span className="text-xs font-bold text-[#3D2B1F] tabular-nums">
+          <span
+            className="text-xs font-bold tabular-nums"
+            style={{ color: "var(--text-1)" }}
+          >
             {fmtK(profit.value)}ر.س
           </span>
         </div>
       )}
-      <div className="pt-1 mt-1 border-t border-[#EDE5D8]">
-        <span className="text-[10px] text-[#A89585]">الهامش: {margin}%</span>
+      <div
+        className="pt-1 mt-1"
+        style={{ borderTop: "1px solid var(--border-md)" }}
+      >
+        <span className="text-[10px]" style={{ color: "var(--text-3)" }}>
+          الهامش: {margin}%
+        </span>
       </div>
     </div>
   );

@@ -66,7 +66,7 @@ export function OrderStatusModal({ order, onClose }: OrderStatusModalProps) {
       <motion.div
         className="fixed inset-0"
         style={{
-          background: "rgba(61,43,31,0.45)",
+          background: "var(--gold-bg)",
           backdropFilter: "blur(6px)",
         }}
         onClick={onClose}
@@ -78,40 +78,40 @@ export function OrderStatusModal({ order, onClose }: OrderStatusModalProps) {
         animate={{ scale: 1, y: 0 }}
         exit={{ scale: 0.95, y: 12 }}
         transition={{ type: "spring", damping: 25, stiffness: 300 }}
-        className="relative bg-white rounded-3xl w-full max-w-[480px] overflow-hidden"
-        style={{ boxShadow: "0 32px 80px rgba(61,43,31,0.2)" }}
+        className="relative bg-[var(--surface)] rounded-3xl w-full max-w-[480px] overflow-hidden"
+        style={{ boxShadow: "var(--shadow-md)" }}
       >
         {/* Header */}
         <div
           className="p-6 flex items-start gap-4"
           style={{
-            background: "#FAF7F2",
-            borderBottom: "1.5px solid #EDE5D8",
+            background: "var(--bg)",
+            borderBottom: "1.5px solid var(--border-md)",
           }}
         >
           <div
             className="w-12 h-12 rounded-[13px] flex items-center justify-center shrink-0"
             style={{
-              background: "linear-gradient(135deg,#B89A5A,#8C7340)",
-              boxShadow: "0 4px 12px rgba(184,154,90,0.3)",
+              background: "linear-gradient(135deg,var(--gold),var(--gold-mid))",
+              boxShadow: "var(--shadow-md)",
             }}
           >
-            <ShoppingBag size={22} color="#FAF7F2" />
+            <ShoppingBag size={22} color="var(--text-inv)" />
           </div>
 
           <div className="flex-1">
             <h3
               className="font-bold text-[1.05rem] mb-1.5"
-              style={{ color: "#3D2B1F" }}
+              style={{ color: "var(--text-1)" }}
             >
               تحديث حالة الطلب
             </h3>
             <div className="flex gap-2.5 flex-wrap items-center">
               <span
-                className="bg-white rounded-md px-2 py-0.5 text-xs font-mono ltr"
+                className="bg-[var(--surface)] rounded-md px-2 py-0.5 text-xs font-mono ltr"
                 style={{
-                  border: "1px solid #EDE5D8",
-                  color: "#6B4C3B",
+                  border: "1px solid var(--border-md)",
+                  color: "var(--text-2)",
                 }}
               >
                 #{order.id.slice(-8).toUpperCase()}
@@ -131,10 +131,10 @@ export function OrderStatusModal({ order, onClose }: OrderStatusModalProps) {
 
           <button
             onClick={onClose}
-            className="w-[34px] h-[34px] rounded-lg bg-white flex items-center justify-center cursor-pointer"
+            className="w-[34px] h-[34px] rounded-lg bg-[var(--surface)] flex items-center justify-center cursor-pointer"
             style={{
-              border: "1.5px solid #EDE5D8",
-              color: "#A89585",
+              border: "1.5px solid var(--border-md)",
+              color: "var(--text-3)",
             }}
             aria-label="إغلاق"
           >
@@ -144,7 +144,7 @@ export function OrderStatusModal({ order, onClose }: OrderStatusModalProps) {
 
         {/* Status options */}
         <div className="p-5">
-          <p className="text-[0.82rem] mb-4" style={{ color: "#A89585" }}>
+          <p className="text-[0.82rem] mb-4" style={{ color: "var(--text-3)" }}>
             اختر الحالة الجديدة للطلب:
           </p>
           <div className="grid grid-cols-2 gap-2.5">
@@ -161,11 +161,11 @@ export function OrderStatusModal({ order, onClose }: OrderStatusModalProps) {
                   onClick={() => setSelected(status)}
                   className="p-3.5 rounded-xl cursor-pointer text-right relative font-[inherit] transition-all duration-[180ms]"
                   style={{
-                    border: `2px solid ${isSelected ? cfg.border : "#EDE5D8"}`,
+                    border: `2px solid ${isSelected ? cfg.border : "var(--border-md)"}`,
                     background:
                       isSelected ? cfg.bg
-                      : isCurrent ? "#FAF7F2"
-                      : "#FFFFFF",
+                      : isCurrent ? "var(--bg)"
+                      : "var(--surface)",
                     outline: isSelected ? `2px solid ${cfg.color}` : "none",
                     outlineOffset: 1,
                   }}
@@ -180,7 +180,7 @@ export function OrderStatusModal({ order, onClose }: OrderStatusModalProps) {
                     >
                       <CheckCircle
                         size={13}
-                        color="#FFFFFF"
+                        color="var(--text-inv)"
                         strokeWidth={2.5}
                       />
                     </div>
@@ -190,7 +190,7 @@ export function OrderStatusModal({ order, onClose }: OrderStatusModalProps) {
                   <div
                     className="text-sm"
                     style={{
-                      color: isSelected ? cfg.color : "#3D2B1F",
+                      color: isSelected ? cfg.color : "var(--text-1)",
                       fontWeight: isSelected ? 700 : 500,
                     }}
                   >
@@ -199,7 +199,7 @@ export function OrderStatusModal({ order, onClose }: OrderStatusModalProps) {
                   {isCurrent && (
                     <div
                       className="mt-0.5 text-[0.7rem] flex items-center gap-1"
-                      style={{ color: "#A89585" }}
+                      style={{ color: "var(--text-3)" }}
                     >
                       الحالة الحالية
                     </div>
@@ -214,12 +214,15 @@ export function OrderStatusModal({ order, onClose }: OrderStatusModalProps) {
         <div
           className="px-5 py-4 flex gap-3 items-center"
           style={{
-            borderTop: "1.5px solid #EDE5D8",
-            background: "#FAF7F2",
+            borderTop: "1.5px solid var(--border-md)",
+            background: "var(--bg)",
           }}
         >
           {hasChanged && (
-            <div className="flex-1 text-[0.8rem]" style={{ color: "#6B4C3B" }}>
+            <div
+              className="flex-1 text-[0.8rem]"
+              style={{ color: "var(--text-2)" }}
+            >
               ستتغير إلى:{" "}
               <strong style={{ color: ORDER_STATUS_CONFIG[selected].color }}>
                 {ORDER_STATUS_CONFIG[selected].label}
@@ -227,17 +230,20 @@ export function OrderStatusModal({ order, onClose }: OrderStatusModalProps) {
             </div>
           )}
           {!hasChanged && (
-            <div className="flex-1 text-[0.8rem]" style={{ color: "#A89585" }}>
+            <div
+              className="flex-1 text-[0.8rem]"
+              style={{ color: "var(--text-3)" }}
+            >
               اختر حالة مختلفة للتحديث
             </div>
           )}
 
           <button
             onClick={onClose}
-            className="px-5 py-2.5 rounded-[10px] bg-white font-medium cursor-pointer text-sm font-[inherit]"
+            className="px-5 py-2.5 rounded-[10px] bg-[var(--surface)] font-medium cursor-pointer text-sm font-[inherit]"
             style={{
-              border: "1.5px solid #EDE5D8",
-              color: "#3D2B1F",
+              border: "1.5px solid var(--border-md)",
+              color: "var(--text-1)",
             }}
           >
             إلغاء
@@ -254,15 +260,13 @@ export function OrderStatusModal({ order, onClose }: OrderStatusModalProps) {
             style={{
               background:
                 !hasChanged || mutation.isPending ?
-                  "#DDD0B0"
-                : "linear-gradient(135deg,#B89A5A,#8C7340)",
-              color: "#FAF7F2",
+                  "var(--border-md)"
+                : "linear-gradient(135deg,var(--gold),var(--gold-mid))",
+              color: "var(--text-inv)",
               cursor:
                 !hasChanged || mutation.isPending ? "not-allowed" : "pointer",
               boxShadow:
-                hasChanged && !mutation.isPending ?
-                  "0 4px 12px rgba(184,154,90,0.35)"
-                : "none",
+                hasChanged && !mutation.isPending ? "var(--shadow-md)" : "none",
             }}
           >
             {mutation.isPending ? "جاري التحديث..." : "تأكيد التحديث"}

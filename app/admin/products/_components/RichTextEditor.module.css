@@ -1,0 +1,130 @@
+.content {
+  min-height: 220px;
+  max-height: 480px;
+  overflow-y: auto;
+  padding: 14px 16px;
+  outline: none;
+  font-size: 0.92rem;
+  line-height: 1.85;
+  color: #3d2b1f;
+}
+
+.content p {
+  margin: 0 0 0.75em;
+}
+
+.content h1 {
+  font-size: 1.6em;
+  font-weight: 700;
+  margin: 0.6em 0 0.4em;
+}
+.content h2 {
+  font-size: 1.35em;
+  font-weight: 700;
+  margin: 0.6em 0 0.4em;
+}
+.content h3 {
+  font-size: 1.15em;
+  font-weight: 700;
+  margin: 0.5em 0 0.35em;
+}
+.content h4,
+.content h5,
+.content h6 {
+  font-weight: 700;
+  margin: 0.5em 0 0.3em;
+}
+
+.content ul,
+.content ol {
+  padding-inline-start: 1.4em;
+  margin: 0 0 0.75em;
+}
+.content ul {
+  list-style: disc;
+}
+.content ol {
+  list-style: decimal;
+}
+.content li {
+  margin: 0.2em 0;
+}
+
+.content blockquote {
+  border-inline-start: 3px solid #b89a5a;
+  padding-inline-start: 0.9em;
+  color: #8c7340;
+  margin: 0.6em 0;
+}
+
+.content pre {
+  background: #3d2b1f;
+  color: #faf7f2;
+  padding: 0.8em 1em;
+  border-radius: 8px;
+  overflow-x: auto;
+  direction: ltr;
+  text-align: left;
+  font-size: 0.85em;
+  margin: 0.6em 0;
+}
+
+.content code {
+  background: #faf7f2;
+  border: 1px solid #ede5d8;
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+  font-size: 0.85em;
+  direction: ltr;
+}
+
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.content hr {
+  border: none;
+  border-top: 1.5px solid #ede5d8;
+  margin: 1em 0;
+}
+
+.content a {
+  color: #b89a5a;
+  text-decoration: underline;
+}
+
+.content ul[data-type="taskList"] {
+  list-style: none;
+  padding-inline-start: 0.2em;
+}
+.content ul[data-type="taskList"] li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5em;
+}
+.content ul[data-type="taskList"] li > label {
+  margin-top: 0.2em;
+}
+.content ul[data-type="taskList"] input[type="checkbox"] {
+  accent-color: #b89a5a;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.content sub {
+  font-size: 0.75em;
+}
+.content sup {
+  font-size: 0.75em;
+}
+
+.content p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: #a89585;
+  float: inline-start;
+  pointer-events: none;
+  height: 0;
+}

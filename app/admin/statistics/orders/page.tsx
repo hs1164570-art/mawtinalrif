@@ -1,7 +1,7 @@
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import getQueryClient from "@/lib/getQueryClient";
 import { ordersQueryOptions } from "../_lib/queryOptions";
-import OrdersClient from "./OrdersClient";
+import OrdersAnalyticsClient from "./OrdersAnalyticsClient";
 
 interface Props {
   searchParams: Promise<Record<string, string>>;
@@ -28,7 +28,7 @@ export default async function OrdersPage({ searchParams }: Props) {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <OrdersClient initialKey={key} />
+      <OrdersAnalyticsClient initialKey={key} />
     </HydrationBoundary>
   );
 }

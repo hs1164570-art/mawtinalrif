@@ -1,3 +1,4 @@
+// AdminLayout.tsx
 import type { Metadata } from "next";
 import { Cairo } from "next/font/google";
 import { AdminSidebar } from "./_components/AdminSidebar";
@@ -27,7 +28,7 @@ export default function AdminLayout({
   return (
     <div
       dir="rtl"
-      className={`${cairo.variable} font-sans bg-[#FAF7F2] min-h-screen flex overflow-hidden`}
+      className={`${cairo.variable} font-sans bg-[var(--surface-2)] min-h-screen flex overflow-hidden`}
       style={{ fontFamily: "var(--font-cairo), 'Segoe UI', sans-serif" }}
     >
       {/* Command Menu - Portal, renders over everything */}

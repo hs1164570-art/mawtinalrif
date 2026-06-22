@@ -148,13 +148,13 @@ export function ImageUploader(props: ImageUploaderProps) {
 
   // Dropzone border/bg are dynamic so we keep style for those
   const dropzoneBorder =
-    isDragActive ? "#B89A5A"
-    : error ? "#C4614A"
-    : "#EDE5D8";
+    isDragActive ? "var(--gold)"
+    : error ? "var(--red)"
+    : "var(--border-md)";
   const dropzoneBg =
-    isDragActive ? "#FBF6EC"
-    : uploading ? "#FAF7F2"
-    : "#FDFAF7";
+    isDragActive ? "var(--gold-bg)"
+    : uploading ? "var(--bg)"
+    : "var(--surface-3)";
 
   return (
     <div>
@@ -174,39 +174,43 @@ export function ImageUploader(props: ImageUploaderProps) {
           <div className="flex flex-col items-center gap-2">
             {uploading ?
               <>
-                <Loader2 size={28} color="#B89A5A" className="animate-spin" />
-                <p className="text-[#B89A5A] font-semibold text-[0.875rem] m-0">
+                <Loader2
+                  size={28}
+                  color="var(--gold)"
+                  className="animate-spin"
+                />
+                <p className="text-[var(--gold)] font-semibold text-[0.875rem] m-0">
                   جاري الرفع... {uploadProgress}%
                 </p>
-                <div className="w-full max-w-[200px] h-1 bg-[#EDE5D8] rounded overflow-hidden">
+                <div className="w-full max-w-[200px] h-1 bg-[var(--border-md)] rounded overflow-hidden">
                   <div
-                    className="h-full bg-gradient-to-r from-[#B89A5A] to-[#8C7340] rounded transition-[width] duration-300 ease-out"
+                    className="h-full bg-gradient-to-r from-[var(--gold)] to-[var(--gold-mid)] rounded transition-[width] duration-300 ease-out"
                     style={{ width: `${uploadProgress}%` }}
                   />
                 </div>
-                <p className="text-[#A89585] text-[0.75rem] m-0">
+                <p className="text-[var(--text-3)] text-[0.75rem] m-0">
                   يتم الضغط والرفع — لحظة من فضلك
                 </p>
               </>
             : isDragActive ?
               <>
-                <Upload size={28} color="#B89A5A" />
-                <p className="text-[#B89A5A] font-semibold text-[0.875rem] m-0">
+                <Upload size={28} color="var(--gold)" />
+                <p className="text-[var(--gold)] font-semibold text-[0.875rem] m-0">
                   أفلت الصور هنا
                 </p>
               </>
             : <>
-                <div className="w-12 h-12 rounded-[12px] bg-[#F5EFE6] border-[1.5px] border-[#EDE5D8] flex items-center justify-center text-[#B89A5A]">
+                <div className="w-12 h-12 rounded-[12px] bg-[var(--bg-deep)] border-[1.5px] border-[var(--border-md)] flex items-center justify-center text-[var(--gold)]">
                   <ImageIcon size={22} />
                 </div>
-                <p className="text-[#3D2B1F] font-semibold text-[0.875rem] m-0">
+                <p className="text-[var(--text-1)] font-semibold text-[0.875rem] m-0">
                   {props.label ?? "اسحب وأفلت أو انقر للاختيار"}
                 </p>
-                <p className="text-[#A89585] text-[0.75rem] m-0">
+                <p className="text-[var(--text-3)] text-[0.75rem] m-0">
                   JPG, PNG, WebP — حتى 10 ميجا • يُضغط تلقائيًا قبل الرفع
                 </p>
                 {isMultiple && (
-                  <p className="text-[#A89585] text-[0.72rem] m-0">
+                  <p className="text-[var(--text-3)] text-[0.72rem] m-0">
                     {currentValue.length}/{maxFiles} صورة
                   </p>
                 )}
@@ -218,9 +222,9 @@ export function ImageUploader(props: ImageUploaderProps) {
 
       {/* ─── Error ────────────────────────────────────────────── */}
       {error && (
-        <div className="flex items-center gap-2 px-3 py-2 bg-[#FBF0EE] border border-[#E8C3BB] rounded-[8px] mb-[0.875rem]">
-          <AlertCircle size={14} color="#C4614A" />
-          <span className="text-[#C4614A] text-[0.8rem]">{error}</span>
+        <div className="flex items-center gap-2 px-3 py-2 bg-[var(--red)]/10 border border-[var(--red)]/30 rounded-[8px] mb-[0.875rem]">
+          <AlertCircle size={14} color="var(--red)" />
+          <span className="text-[var(--red)] text-[0.8rem]">{error}</span>
         </div>
       )}
 
@@ -236,7 +240,7 @@ export function ImageUploader(props: ImageUploaderProps) {
           {currentValue.map((url, idx) => (
             <div
               key={url}
-              className="relative rounded-[10px] overflow-hidden border-[1.5px] border-[#EDE5D8] bg-[#F5EFE6]"
+              className="relative rounded-[10px] overflow-hidden border-[1.5px] border-[var(--border-md)] bg-[var(--bg-deep)]"
               style={{ aspectRatio: isMultiple ? "1" : "16/9" }}
             >
               <Image
@@ -251,14 +255,14 @@ export function ImageUploader(props: ImageUploaderProps) {
               <button
                 type="button"
                 onClick={() => removeImage(idx)}
-                className="absolute top-[5px] left-[5px] w-6 h-6 rounded-full border-none bg-[rgba(196,97,74,0.9)] text-white cursor-pointer flex items-center justify-center backdrop-blur-[4px]"
+                className="absolute top-[5px] left-[5px] w-6 h-6 rounded-full border-none bg-[var(--red)]/90 text-[var(--text-inv)] cursor-pointer flex items-center justify-center backdrop-blur-[4px]"
                 aria-label={`حذف الصورة ${idx + 1}`}
               >
                 <X size={12} />
               </button>
               {/* Main badge */}
               {idx === 0 && isMultiple && (
-                <span className="absolute bottom-[5px] right-[5px] bg-[rgba(184,154,90,0.9)] text-[#FAF7F2] text-[0.6rem] font-bold px-1.5 py-[2px] rounded backdrop-blur-[4px]">
+                <span className="absolute bottom-[5px] right-[5px] bg-[var(--gold)]/90 text-[var(--text-inv)] text-[0.6rem] font-bold px-1.5 py-[2px] rounded backdrop-blur-[4px]">
                   رئيسية
                 </span>
               )}

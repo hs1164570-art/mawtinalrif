@@ -1,3 +1,4 @@
+// FinanceClient.tsx
 "use client";
 
 import { Suspense, lazy, useEffect } from "react";
@@ -6,6 +7,7 @@ import hotkeys from "hotkeys-js";
 import { TrendingUp } from "lucide-react";
 import { useAnalyticsFilters } from "../_shared/hooks/useAnalyticsFilters";
 import { financeQueryOptions } from "../_lib/queryOptions";
+import { PALETTE } from "../_shared/constants";
 import FilterBar from "../_shared/components/FilterBar";
 import DataExporter from "../_shared/components/DataExporter";
 import FinanceKpiCards from "./FinanceKpiCards";
@@ -17,9 +19,9 @@ const DualAxisChart = lazy(() => import("./charts/DualAxisChart"));
 const ProfitShareDonut = lazy(() => import("./charts/ProfitShareDonut"));
 
 const ChartSkeleton = ({ h = 280 }: { h?: number }) => (
-  <div className="bg-white rounded-2xl border border-[#EDE5D8] p-5 animate-pulse">
-    <div className="h-4 bg-[#F5EFE6] rounded w-32 mb-4" />
-    <div className="bg-[#FAF7F2] rounded-xl" style={{ height: h }} />
+  <div className="bg-[var(--surface)] rounded-2xl border border-[var(--border-md)] p-5 animate-pulse">
+    <div className="h-4 bg-[var(--bg-deep)] rounded w-32 mb-4" />
+    <div className="bg-[var(--surface-2)] rounded-xl" style={{ height: h }} />
   </div>
 );
 
@@ -66,20 +68,27 @@ export default function FinanceClient({
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="p-2 rounded-xl bg-[#B89A5A]/10 text-[#B89A5A]">
+            <span
+              className="p-2 rounded-xl"
+              style={{
+                backgroundColor: `${PALETTE.gold}1A`,
+                color: PALETTE.gold,
+              }}
+            >
               <TrendingUp size={18} />
             </span>
-            <h1 className="text-xl font-bold text-[#3D2B1F]">
+            <h1 className="text-xl font-bold text-[var(--text-1)]">
               الإيرادات والأرباح
             </h1>
             {isStale && (
               <span
-                className="h-2 w-2 rounded-full bg-[#B89A5A] animate-pulse"
+                className="h-2 w-2 rounded-full animate-pulse"
+                style={{ background: PALETTE.gold }}
                 aria-label="جاري التحديث"
               />
             )}
           </div>
-          <p className="text-sm text-[#A89585] mr-10">
+          <p className="text-sm text-[var(--text-3)] mr-10">
             حركة الأموال وصافي الربح
           </p>
         </div>
@@ -102,7 +111,7 @@ export default function FinanceClient({
           {[...Array(3)].map((_, i) => (
             <div
               key={i}
-              className="bg-white rounded-2xl border border-[#EDE5D8] p-5 animate-pulse h-28"
+              className="bg-[var(--surface)] rounded-2xl border border-[var(--border-md)] p-5 animate-pulse h-28"
             />
           ))}
         </div>

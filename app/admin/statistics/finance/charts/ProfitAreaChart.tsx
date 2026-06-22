@@ -1,3 +1,4 @@
+// ProfitAreaChart.tsx
 "use client";
 
 import {
@@ -30,14 +31,17 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   if (!active || !payload?.length) return null;
   return (
     <div
-      className="bg-white border border-[#EDE5D8] rounded-xl p-3 shadow-lg text-right"
+      className="bg-[var(--surface)] border border-[var(--border-md)] rounded-xl p-3 shadow-[var(--shadow-md)] text-right"
       dir="rtl"
     >
-      <p className="text-xs text-[#A89585] mb-2">{fmtDate(label)}</p>
+      <p className="text-xs text-[var(--text-3)] mb-2">{fmtDate(label)}</p>
       <div className="flex items-center gap-2">
-        <span className="w-2 h-2 rounded-full bg-[#6A9E7F] flex-shrink-0" />
-        <span className="text-xs text-[#6B4C3B]">الأرباح:</span>
-        <span className="text-xs font-bold text-[#3D2B1F] tabular-nums">
+        <span
+          className="w-2 h-2 rounded-full flex-shrink-0"
+          style={{ background: PALETTE.sage }}
+        />
+        <span className="text-xs text-[var(--text-2)]">الأرباح:</span>
+        <span className="text-xs font-bold text-[var(--text-1)] tabular-nums">
           {fmtCurrency(payload[0]?.value ?? 0)}ر.س
         </span>
       </div>
@@ -69,12 +73,10 @@ export default function ProfitAreaChart({
           margin={{ top: 4, right: 8, left: 0, bottom: 0 }}
         >
           <defs>
-            {/* Fill gradient */}
             <linearGradient id="profitFill" x1="0" y1="0" x2="0" y2="1">
               <stop offset="5%" stopColor={PALETTE.sage} stopOpacity={0.35} />
               <stop offset="95%" stopColor={PALETTE.sage} stopOpacity={0} />
             </linearGradient>
-            {/* Stroke gradient */}
             <linearGradient id="profitStroke" x1="0" y1="0" x2="1" y2="0">
               <stop offset="0%" stopColor={PALETTE.sage} />
               <stop offset="100%" stopColor={PALETTE.sageLight} />

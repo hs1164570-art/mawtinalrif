@@ -71,14 +71,14 @@ import SaudiSalesMap from "./Dashboard/_component/SAMap";
 // ══════════════════════════════════════════════════════════════════════════════
 
 const C = {
-  bg: "#FAF7F2",
-  surface: "#FFFFFF",
-  border: "#EDE5D8",
+  bg: "var(--surface-2)",
+  surface: "var(--surface)",
+  border: "var(--border-md)",
   gold: "#B89A5A",
   goldBg: "rgba(184,154,90,0.07)",
-  text1: "#3D2B1F",
-  text2: "#6B5040",
-  text3: "#A08060",
+  text1: "var(--text-1)",
+  text2: "var(--text-2)",
+  text3: "var(--text-3)",
   green: "#6A9E7F",
   greenBg: "rgba(106,158,127,0.07)",
   terracotta: "#C4614A",
@@ -621,7 +621,6 @@ const ViewsCard = memo(function ViewsCard({
 // CHARTS
 // ══════════════════════════════════════════════════════════════════════════════
 
-// Generates N days of zero-value fallback data for charts
 function emptyDays(
   n = 30,
 ): { date: string; revenue: number; profit: number }[] {
@@ -1212,7 +1211,7 @@ const TimeframeSelector = memo(function TimeframeSelector({
             style={{
               background: active ? C.surface : "transparent",
               color: active ? C.text1 : C.text3,
-              boxShadow: active ? "0 1px 4px rgba(61,43,31,0.1)" : "none",
+              boxShadow: active ? "var(--shadow-sm)" : "none",
             }}
           >
             {opt.label}

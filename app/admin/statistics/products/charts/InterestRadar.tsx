@@ -1,3 +1,4 @@
+// InterestRadar.tsx
 "use client";
 
 import {
@@ -20,11 +21,13 @@ const CustomTooltip = ({ active, payload }: any) => {
   if (!active || !payload?.length) return null;
   return (
     <div
-      className="bg-white border border-[#EDE5D8] rounded-xl p-3 shadow-lg text-right"
+      className="bg-[var(--surface)] border border-[var(--border-md)] rounded-xl p-3 shadow-[var(--shadow-md)] text-right"
       dir="rtl"
     >
-      <p className="text-xs text-[#A89585]">{payload[0]?.payload?.subject}</p>
-      <p className="text-sm font-bold text-[#3D2B1F] tabular-nums mt-1">
+      <p className="text-xs text-[var(--text-3)]">
+        {payload[0]?.payload?.subject}
+      </p>
+      <p className="text-sm font-bold text-[var(--text-1)] tabular-nums mt-1">
         {payload[0]?.value?.toLocaleString("en-US")} مشاهدة
       </p>
     </div>
@@ -53,7 +56,7 @@ export default function InterestRadar({ data }: { data: ProductKPI[] }) {
       minHeight={280}
     >
       {isEmpty ?
-        <div className="flex items-center justify-center h-72 text-sm text-[#A89585]">
+        <div className="flex items-center justify-center h-72 text-sm text-[var(--text-3)]">
           لا توجد بيانات مشاهدات
         </div>
       : <ResponsiveContainer width="100%" height={280}>

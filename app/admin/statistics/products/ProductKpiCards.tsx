@@ -1,3 +1,4 @@
+// ProductKpiCards.tsx
 "use client";
 
 import { Eye, ShoppingCart, TrendingUp } from "lucide-react";
@@ -29,8 +30,8 @@ function ProductCard({
 }: ProductCardProps) {
   return (
     <article
-      className="bg-white rounded-2xl border border-[#EDE5D8] p-5 shadow-sm
-                 hover:shadow-md transition-all duration-200 min-w-0"
+      className="bg-[var(--surface)] rounded-2xl border border-[var(--border-md)] p-5 shadow-[var(--shadow-sm)]
+                 hover:shadow-[var(--shadow-md)] transition-all duration-200 min-w-0"
       aria-label={`${label}: ${productSlug ?? "لا يوجد"}`}
     >
       <div className="flex items-center justify-between mb-3">
@@ -48,21 +49,21 @@ function ProductCard({
         </span>
       </div>
 
-      <p className="text-[11px] text-[#A89585] mb-1 font-medium uppercase tracking-wide">
+      <p className="text-[11px] text-[var(--text-3)] mb-1 font-medium uppercase tracking-wide">
         {label}
       </p>
 
       {productSlug ?
         <p
-          className="text-base font-bold text-[#3D2B1F] leading-snug truncate"
+          className="text-base font-bold text-[var(--text-1)] leading-snug truncate"
           title={productSlug}
         >
           {truncate(productSlug, 22)}
         </p>
-      : <p className="text-sm text-[#A89585] italic">لا توجد بيانات</p>}
+      : <p className="text-sm text-[var(--text-3)] italic">لا توجد بيانات</p>}
 
       {/* Subtle bottom indicator bar */}
-      <div className="mt-3 h-1 rounded-full bg-[#F5EFE6] overflow-hidden">
+      <div className="mt-3 h-1 rounded-full bg-[var(--bg-deep)] overflow-hidden">
         <div
           className="h-full rounded-full transition-all duration-700"
           style={{ width: "100%", backgroundColor: accentColor, opacity: 0.4 }}

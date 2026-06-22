@@ -95,10 +95,10 @@ function FieldLabel({
 }) {
   return (
     <div className="mb-1 flex justify-between">
-      <label className="text-[#3D2B1F] font-semibold text-[0.85rem]">
-        {label} {required && <span className="text-[#C4614A]">*</span>}
+      <label className="text-[var(--text-1)] font-semibold text-[0.85rem]">
+        {label} {required && <span className="text-[var(--red)]">*</span>}
       </label>
-      {error && <span className="text-[#C4614A] text-xs">{error}</span>}
+      {error && <span className="text-[var(--red)] text-xs">{error}</span>}
     </div>
   );
 }
@@ -156,9 +156,9 @@ function RootCategoryForm({ onClose }: { onClose: () => void }) {
         <div>
           <FieldLabel label="اسم القسم" required error={errors.name?.message} />
           <input
-            className={`w-full px-[0.875rem] py-[0.625rem] rounded-[9px] border-[1.5px] bg-[#FAF7F2] text-[#3D2B1F] text-sm outline-none box-border font-inherit ${
-              errors.name ? "border-[#C4614A]" : "border-[#EDE5D8]"
-            }`}
+            className={`w-full px-[0.875rem] py-[0.625rem] rounded-[9px] border-[1.5px] bg-[var(--bg)] text-[var(--text-1)] text-sm outline-none box-border font-inherit ${
+              errors.name ? "border-[var(--red)]" : "border-[var(--border-md)]"
+            } focus:border-[var(--cyan)] transition-colors`}
             placeholder="مثال: غرفة الجلوس"
             {...register("name")}
             onChange={handleNameChange}
@@ -169,9 +169,9 @@ function RootCategoryForm({ onClose }: { onClose: () => void }) {
         <div>
           <FieldLabel label="الـ Slug" required error={errors.slug?.message} />
           <input
-            className={`w-full px-[0.875rem] py-[0.625rem] rounded-[9px] border-[1.5px] bg-[#FAF7F2] text-[#3D2B1F] text-sm outline-none box-border font-inherit direction-ltr ${
-              errors.slug ? "border-[#C4614A]" : "border-[#EDE5D8]"
-            }`}
+            className={`w-full px-[0.875rem] py-[0.625rem] rounded-[9px] border-[1.5px] bg-[var(--bg)] text-[var(--text-1)] text-sm outline-none box-border font-inherit direction-ltr ${
+              errors.slug ? "border-[var(--red)]" : "border-[var(--border-md)]"
+            } focus:border-[var(--cyan)] transition-colors`}
             style={{ direction: "ltr" }}
             placeholder="living-room"
             {...register("slug")}
@@ -182,10 +182,10 @@ function RootCategoryForm({ onClose }: { onClose: () => void }) {
         <button
           type="submit"
           disabled={mutation.isPending}
-          className={`w-full py-3 rounded-[10px] border-none text-[#FAF7F2] font-bold cursor-pointer font-inherit text-[0.9rem] transition-all ${
+          className={`w-full py-3 rounded-[10px] border-none font-bold cursor-pointer font-inherit text-[0.9rem] transition-all ${
             mutation.isPending ?
-              "bg-[#DDD0B0] cursor-not-allowed shadow-none"
-            : "bg-gradient-to-br from-[#B89A5A] to-[#8C7340] shadow-[0_4px_12px_rgba(184,154,90,0.3)] cursor-pointer"
+              "bg-[var(--border-strong)] text-[var(--text-3)] cursor-not-allowed shadow-none"
+            : "bg-[var(--gold)] text-[var(--text-inv)] hover:bg-[var(--gold-mid)] shadow-[var(--shadow-sm)] active:scale-[0.98]"
           }`}
         >
           {mutation.isPending ? "جاري الحفظ..." : "إنشاء القسم الرئيسي"}
@@ -234,10 +234,11 @@ function SubCategoryForm({
   return (
     <form onSubmit={handleSubmit((d) => mutation.mutate(d))} noValidate>
       {/* Parent info */}
-      <div className="flex items-center gap-[0.625rem] px-[0.875rem] py-[0.625rem] bg-[#FBF6EC] border-[1.5px] border-[#DDD0B0] rounded-[9px] mb-[1.1rem]">
-        <FolderOpen size={16} color="#B89A5A" />
-        <span className="text-[#6B4C3B] text-[0.85rem]">
-          إضافة إلى: <strong>{parent.name}</strong>
+      <div className="flex items-center gap-[0.625rem] px-[0.875rem] py-[0.625rem] bg-[var(--cyan-bg)] border-[1.5px] border-[var(--border-md)] rounded-[9px] mb-[1.1rem]">
+        <FolderOpen size={16} className="text-[var(--cyan)]" />
+        <span className="text-[var(--text-2)] text-[0.85rem]">
+          إضافة إلى:{" "}
+          <strong className="text-[var(--text-1)]">{parent.name}</strong>
         </span>
       </div>
 
@@ -249,9 +250,9 @@ function SubCategoryForm({
             error={errors.name?.message}
           />
           <input
-            className={`w-full px-[0.875rem] py-[0.625rem] rounded-[9px] border-[1.5px] bg-[#FAF7F2] text-[#3D2B1F] text-sm outline-none box-border font-inherit ${
-              errors.name ? "border-[#C4614A]" : "border-[#EDE5D8]"
-            }`}
+            className={`w-full px-[0.875rem] py-[0.625rem] rounded-[9px] border-[1.5px] bg-[var(--bg)] text-[var(--text-1)] text-sm outline-none box-border font-inherit ${
+              errors.name ? "border-[var(--red)]" : "border-[var(--border-md)]"
+            } focus:border-[var(--cyan)] transition-colors`}
             placeholder="مثال: أرائك"
             {...register("name")}
             onChange={handleNameChange}
@@ -261,9 +262,9 @@ function SubCategoryForm({
         <div>
           <FieldLabel label="الـ Slug" required error={errors.slug?.message} />
           <input
-            className={`w-full px-[0.875rem] py-[0.625rem] rounded-[9px] border-[1.5px] bg-[#FAF7F2] text-[#3D2B1F] text-sm outline-none box-border font-inherit ${
-              errors.slug ? "border-[#C4614A]" : "border-[#EDE5D8]"
-            }`}
+            className={`w-full px-[0.875rem] py-[0.625rem] rounded-[9px] border-[1.5px] bg-[var(--bg)] text-[var(--text-1)] text-sm outline-none box-border font-inherit ${
+              errors.slug ? "border-[var(--red)]" : "border-[var(--border-md)]"
+            } focus:border-[var(--cyan)] transition-colors`}
             style={{ direction: "ltr" }}
             placeholder="sofas"
             {...register("slug")}
@@ -273,10 +274,10 @@ function SubCategoryForm({
         <button
           type="submit"
           disabled={mutation.isPending}
-          className={`w-full py-3 rounded-[10px] border-none text-[#FAF7F2] font-bold font-inherit text-[0.9rem] transition-all ${
+          className={`w-full py-3 rounded-[10px] border-none font-bold font-inherit text-[0.9rem] transition-all ${
             mutation.isPending ?
-              "bg-[#DDD0B0] cursor-not-allowed shadow-none"
-            : "bg-gradient-to-br from-[#B89A5A] to-[#8C7340] cursor-pointer"
+              "bg-[var(--border-strong)] text-[var(--text-3)] cursor-not-allowed shadow-none"
+            : "bg-[var(--gold)] text-[var(--text-inv)] hover:bg-[var(--gold-mid)] active:scale-[0.98]"
           }`}
         >
           {mutation.isPending ? "جاري الإضافة..." : "إضافة القسم الفرعي"}
@@ -320,15 +321,15 @@ export function CategoryFormDialog({
         initial={{ scale: 0.96, y: 12 }}
         animate={{ scale: 1, y: 0 }}
         exit={{ scale: 0.96, y: 12 }}
-        className="relative bg-white rounded-[20px] w-full max-w-[480px] max-h-[90vh] overflow-y-auto shadow-[0_24px_64px_rgba(0,0,0,0.15)]"
+        className="relative bg-[var(--surface)] rounded-[20px] w-full max-w-[480px] max-h-[90vh] overflow-y-auto shadow-[var(--shadow-md)]"
       >
         {/* Header */}
-        <div className="px-6 py-5 border-b-[1.5px] border-[#EDE5D8] flex items-center gap-[0.875rem] sticky top-0 bg-[#FAF7F2] z-[1]">
+        <div className="px-6 py-5 border-b-[1.5px] border-[var(--border)] flex items-center gap-[0.875rem] sticky top-0 bg-[var(--surface-2)] z-[1]">
           <div
             className={`w-10 h-10 rounded-[10px] flex items-center justify-center ${
               isRoot ?
-                "bg-gradient-to-br from-[#B89A5A] to-[#8C7340] text-[#FAF7F2]"
-              : "bg-[#FBF6EC] border-[1.5px] border-[#DDD0B0] text-[#B89A5A]"
+                "bg-[var(--gold)] text-[var(--text-inv)]"
+              : "bg-[var(--bg-deep)] border-[1.5px] border-[var(--border-md)] text-[var(--text-1)]"
             }`}
           >
             {isRoot ?
@@ -336,18 +337,18 @@ export function CategoryFormDialog({
             : <Tag size={18} />}
           </div>
           <div className="flex-1">
-            <h3 className="text-[#3D2B1F] font-bold m-0 text-base">
+            <h3 className="text-[var(--text-1)] font-bold m-0 text-base">
               {isRoot ? "إنشاء قسم رئيسي" : `إضافة قسم فرعي`}
             </h3>
             {!isRoot && parent && (
-              <p className="text-[#A89585] text-[0.78rem] mt-0.5 mb-0">
+              <p className="text-[var(--text-3)] text-[0.78rem] mt-0.5 mb-0">
                 ضمن: {parent.name}
               </p>
             )}
           </div>
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-[8px] border-[1.5px] border-[#EDE5D8] bg-white cursor-pointer flex items-center justify-center text-[#A89585]"
+            className="w-8 h-8 rounded-[8px] border-[1.5px] border-[var(--border-md)] bg-[var(--surface)] cursor-pointer flex items-center justify-center text-[var(--text-2)] hover:bg-[var(--bg)] transition-colors"
             aria-label="إغلاق"
           >
             <X size={14} />

@@ -1,3 +1,4 @@
+// ConversionBar.tsx
 "use client";
 
 import {
@@ -34,10 +35,10 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 
   return (
     <div
-      className="bg-white border border-[#EDE5D8] rounded-xl p-3 shadow-lg text-right min-w-[170px]"
+      className="bg-[var(--surface)] border border-[var(--border-md)] rounded-xl p-3 shadow-[var(--shadow-md)] text-right min-w-[170px]"
       dir="rtl"
     >
-      <p className="text-xs font-semibold text-[#3D2B1F] mb-2 truncate">
+      <p className="text-xs font-semibold text-[var(--text-1)] mb-2 truncate">
         {label}
       </p>
       {[
@@ -49,23 +50,23 @@ const CustomTooltip = ({ active, payload, label }: any) => {
           key={row.key}
           className="flex items-center justify-between gap-3 mb-1"
         >
-          <span className="flex items-center gap-1.5 text-xs text-[#6B4C3B]">
+          <span className="flex items-center gap-1.5 text-xs text-[var(--text-2)]">
             <span
               className="w-2 h-2 rounded-sm"
               style={{ background: row.color }}
             />
             {row.label}
           </span>
-          <span className="text-xs font-bold tabular-nums text-[#3D2B1F]">
+          <span className="text-xs font-bold tabular-nums text-[var(--text-1)]">
             {row.val.toLocaleString("en-US")}
           </span>
         </div>
       ))}
-      <div className="mt-2 pt-2 border-t border-[#EDE5D8] space-y-0.5">
-        <p className="text-[10px] text-[#A89585]">
+      <div className="mt-2 pt-2 border-t border-[var(--border-md)] space-y-0.5">
+        <p className="text-[10px] text-[var(--text-3)]">
           معدل الإضافة للسلة: {cartRate}%
         </p>
-        <p className="text-[10px] text-[#A89585]">
+        <p className="text-[10px] text-[var(--text-3)]">
           معدل التحويل البيعي: {salesRate}%
         </p>
       </div>

@@ -1,3 +1,4 @@
+// OrdersClient.tsx
 "use client";
 
 import { Suspense, lazy, useEffect } from "react";
@@ -14,12 +15,11 @@ import OrderInsights from "./OrderInsights";
 const OrderFunnel = lazy(() => import("./charts/OrderFunnel"));
 const StatusRadialBar = lazy(() => import("./charts/StatusRadialBar"));
 const EfficiencyScatter = lazy(() => import("./charts/EfficiencyScatter"));
-const OrderHeatmapWrapper = lazy(() => import("./OrderHeatmapWrapper"));
-
+import OrderHeatmapWrapper from "./OrderHeatmapWrapper";
 const Skel = ({ h = 280 }: { h?: number }) => (
-  <div className="bg-white rounded-2xl border border-[#EDE5D8] p-5 animate-pulse">
-    <div className="h-4 bg-[#F5EFE6] rounded w-40 mb-4" />
-    <div className="bg-[#FAF7F2] rounded-xl" style={{ height: h }} />
+  <div className="bg-[var(--surface)] rounded-2xl border border-[var(--border-md)] p-5 animate-pulse">
+    <div className="h-4 bg-[var(--bg-deep)] rounded w-40 mb-4" />
+    <div className="bg-[var(--surface-2)] rounded-xl" style={{ height: h }} />
   </div>
 );
 
@@ -63,14 +63,14 @@ export default function OrdersClient({
             <span className="p-2 rounded-xl bg-[#7A9BBF]/10 text-[#7A9BBF]">
               <ClipboardList size={18} />
             </span>
-            <h1 className="text-xl font-bold text-[#3D2B1F]">
+            <h1 className="text-xl font-bold text-[var(--text-1)]">
               الطلبات والعمليات
             </h1>
             {isStale && (
               <span className="h-2 w-2 rounded-full bg-[#7A9BBF] animate-pulse" />
             )}
           </div>
-          <p className="text-sm text-[#A89585] mr-10">
+          <p className="text-sm text-[var(--text-3)] mr-10">
             تدفق الطلبات وكفاءة التشغيل
           </p>
         </div>
@@ -91,7 +91,7 @@ export default function OrdersClient({
           {[...Array(4)].map((_, i) => (
             <div
               key={i}
-              className="bg-white rounded-2xl border border-[#EDE5D8] p-5 animate-pulse h-24"
+              className="bg-[var(--surface)] rounded-2xl border border-[var(--border-md)] p-5 animate-pulse h-24"
             />
           ))}
         </div>

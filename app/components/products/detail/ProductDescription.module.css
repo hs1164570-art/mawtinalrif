@@ -1,0 +1,118 @@
+/**
+ * ProductDescription.module.css
+ * ─────────────────────────────────────────────────────────────────────────
+ * تنسيقات افتراضية لعرض وصف المنتج (HTML قادم من محرر Tiptap) في صفحة
+ * المنتج العامة. أي inline style اختاره الأدمن بنفسه (لون، حجم خط...)
+ * بيفضل أولوية أعلى تلقائيًا (inline styles بتكسب الكلاسات في الـ CSS
+ * specificity)، فده مجرد "افتراضي" للعناصر اللي الأدمن سابها بدون تنسيق.
+ * ─────────────────────────────────────────────────────────────────────────
+ */
+
+.content p {
+  margin: 0 0 0.65em;
+}
+.content p:last-child {
+  margin-bottom: 0;
+}
+
+.content h1,
+.content h2,
+.content h3,
+.content h4,
+.content h5,
+.content h6 {
+  color: var(--text-1);
+  font-weight: 700;
+  margin: 0.7em 0 0.4em;
+  line-height: 1.4;
+}
+.content h1 {
+  font-size: 1.3em;
+}
+.content h2 {
+  font-size: 1.18em;
+}
+.content h3,
+.content h4,
+.content h5,
+.content h6 {
+  font-size: 1.05em;
+}
+.content h1:first-child,
+.content h2:first-child,
+.content h3:first-child {
+  margin-top: 0;
+}
+
+.content ul,
+.content ol {
+  padding-inline-start: 1.25em;
+  margin: 0 0 0.65em;
+}
+.content ul {
+  list-style: disc;
+}
+.content ol {
+  list-style: decimal;
+}
+.content li {
+  margin: 0.2em 0;
+}
+
+.content blockquote {
+  border-inline-start: 3px solid var(--cyan);
+  padding-inline-start: 0.8em;
+  color: var(--text-3);
+  margin: 0.6em 0;
+}
+
+.content pre {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  padding: 0.7em 0.9em;
+  border-radius: 8px;
+  overflow-x: auto;
+  direction: ltr;
+  text-align: left;
+  font-size: 0.85em;
+  margin: 0.6em 0;
+}
+
+.content code {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+  font-size: 0.85em;
+  direction: ltr;
+}
+
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 0.9em 0;
+}
+
+.content a {
+  color: var(--cyan);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+}
+
+.content sub {
+  font-size: 0.75em;
+}
+.content sup {
+  font-size: 0.75em;
+}
+
+.content strong,
+.content b {
+  font-weight: 700;
+}

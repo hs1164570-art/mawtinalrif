@@ -39,8 +39,8 @@ function toHex(color: string): string {
 const formSchema = z.object({
   title: z.string().min(1, "النص مطلوب"),
   url: z.string().url("رابط غير صحيح").optional().or(z.literal("")),
-  backgroundColor: z.string().default("#c9ba89"),
-  textColor: z.string().default("#1b1a1a"),
+  backgroundColor: z.string().default("#1a1a1a"), // تُترك كـ داتا للـ Database والـ Picker
+  textColor: z.string().default("#ffffff"),
   isActive: z.boolean().default(true),
   priority: z.number().int().default(0),
   showCount: z.number().int().min(1).max(10).default(1),
@@ -51,8 +51,8 @@ type FormData = z.infer<typeof formSchema>;
 const DEFAULT_VALUES: FormData = {
   title: "",
   url: "",
-  backgroundColor: "#c9ba89",
-  textColor: "#1b1a1a",
+  backgroundColor: "#1a1a1a",
+  textColor: "#ffffff",
   isActive: true,
   priority: 0,
   showCount: 1,
@@ -83,23 +83,23 @@ function ColorSwatch({
 
   return (
     <div className="relative" ref={ref}>
-      <p className="text-[11px] font-semibold text-[#806840] uppercase tracking-wider mb-2">
+      <p className="text-[11px] font-semibold text-[var(--text-2)] uppercase tracking-wider mb-2">
         {label}
       </p>
       <button
         type="button"
         onClick={() => setOpen((p) => !p)}
-        className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-[rgba(90,60,20,0.18)] bg-[#fffdf8] hover:border-[#a07830] transition-colors group"
+        className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-[var(--border-md)] bg-[var(--surface)] hover:border-[var(--cyan)] transition-colors group"
       >
         <span
-          className="w-6 h-6 rounded-lg border border-[rgba(90,60,20,0.2)] flex-shrink-0 shadow-sm"
+          className="w-6 h-6 rounded-lg border border-[var(--border-md)] flex-shrink-0 shadow-sm"
           style={{ backgroundColor: value }}
         />
-        <span className="text-xs text-[#483820] font-mono group-hover:text-[#a07830] transition-colors">
+        <span className="text-xs text-[var(--text-2)] font-mono group-hover:text-[var(--cyan)] transition-colors">
           {value.toUpperCase()}
         </span>
         <svg
-          className={`w-3.5 h-3.5 text-[#806840] mr-auto transition-transform ${open ? "rotate-180" : ""}`}
+          className={`w-3.5 h-3.5 text-[var(--text-3)] mr-auto transition-transform ${open ? "rotate-180" : ""}`}
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -116,7 +116,7 @@ function ColorSwatch({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -6, scale: 0.97 }}
             transition={{ duration: 0.15 }}
-            className="absolute top-full mt-2 z-50 p-4 bg-white rounded-2xl border border-[rgba(90,60,20,0.15)] shadow-xl shadow-[rgba(90,60,20,0.08)]"
+            className="absolute top-full mt-2 z-50 p-4 bg-[var(--surface)] rounded-2xl border border-[var(--border-md)] shadow-[var(--shadow-md)]"
             style={{ minWidth: 220 }}
           >
             <HexColorPicker
@@ -128,7 +128,7 @@ function ColorSwatch({
               type="text"
               value={value}
               onChange={(e) => onChange(e.target.value)}
-              className="mt-3 w-full text-xs font-mono px-3 py-2 border border-[rgba(90,60,20,0.18)] rounded-lg text-[#483820] text-center bg-[#fffdf8] focus:outline-none focus:border-[#a07830]"
+              className="mt-3 w-full text-xs font-mono px-3 py-2 border border-[var(--border-md)] rounded-lg text-[var(--text-2)] text-center bg-[var(--surface)] focus:outline-none focus:border-[var(--cyan)]"
             />
           </motion.div>
         )}
@@ -143,18 +143,18 @@ function LivePreview({ values }: { values: FormData }) {
   const items = Array.from({ length: 6 }, (_, i) => i);
 
   return (
-    <div className="rounded-2xl overflow-hidden border border-[rgba(90,60,20,0.15)] shadow-sm">
+    <div className="rounded-2xl overflow-hidden border border-[var(--border-md)] shadow-sm">
       {/* browser bar */}
-      <div className="px-4 py-2.5 bg-[#ede8dc] border-b border-[rgba(90,60,20,0.10)] flex items-center gap-2">
+      <div className="px-4 py-2.5 bg-[var(--bg-deep)] border-b border-[var(--border)] flex items-center gap-2">
         <div className="flex gap-1.5">
-          <span className="w-2.5 h-2.5 rounded-full bg-[#b91c1c]/40" />
-          <span className="w-2.5 h-2.5 rounded-full bg-[#b89040]/40" />
-          <span className="w-2.5 h-2.5 rounded-full bg-[#a07830]/40" />
+          <span className="w-2.5 h-2.5 rounded-full bg-[color-mix(in_srgb,var(--red)_40%,transparent)]" />
+          <span className="w-2.5 h-2.5 rounded-full bg-[color-mix(in_srgb,var(--gold-bright)_40%,transparent)]" />
+          <span className="w-2.5 h-2.5 rounded-full bg-[color-mix(in_srgb,var(--text-3)_40%,transparent)]" />
         </div>
-        <div className="flex-1 mx-3 px-3 py-1 bg-white/60 rounded-md text-[10px] text-[#806840] font-mono text-center truncate">
+        <div className="flex-1 mx-3 px-3 py-1 bg-[color-mix(in_srgb,var(--surface)_60%,transparent)] rounded-md text-[10px] text-[var(--text-2)] font-mono text-center truncate">
           mawtin-el-rif.com
         </div>
-        <span className="text-[10px] text-[#a07830] font-semibold">
+        <span className="text-[10px] text-[var(--cyan)] font-semibold">
           معاينة مباشرة
         </span>
       </div>
@@ -184,13 +184,16 @@ function LivePreview({ values }: { values: FormData }) {
       </div>
 
       {/* fake navbar */}
-      <div className="px-6 py-3 bg-[#181008] flex items-center justify-between">
-        <span className="text-[#c9ba89] text-sm font-bold tracking-wide">
+      <div className="px-6 py-3 bg-[var(--gold)] flex items-center justify-between">
+        <span className="text-[var(--text-inv)] text-sm font-bold tracking-wide">
           موطن الريف
         </span>
         <div className="flex gap-4">
           {["الرئيسية", "المنتجات", "من نحن"].map((item) => (
-            <span key={item} className="text-white/40 text-xs">
+            <span
+              key={item}
+              className="text-[color-mix(in_srgb,var(--text-inv)_40%,transparent)] text-xs"
+            >
               {item}
             </span>
           ))}
@@ -225,14 +228,14 @@ function AnnouncementRow({
       exit={{ opacity: 0, x: 12 }}
       className={`px-5 py-4 flex items-center gap-3 transition-colors ${
         isEditing ?
-          "bg-[rgba(160,120,48,0.05)] border-r-2 border-[#a07830]"
-        : "hover:bg-[#fffdf8]"
+          "bg-[color-mix(in_srgb,var(--cyan)_4%,transparent)] border-r-2 border-[var(--cyan)]"
+        : "hover:bg-[var(--bg)]"
       }`}
     >
       {/* color dot */}
       <div className="flex-shrink-0 relative">
         <span
-          className="w-9 h-9 rounded-xl block border border-[rgba(90,60,20,0.12)] shadow-sm"
+          className="w-9 h-9 rounded-xl block border border-[var(--border)] shadow-sm"
           style={{ backgroundColor: bar.backgroundColor }}
         />
         <span
@@ -243,20 +246,20 @@ function AnnouncementRow({
 
       {/* info */}
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-semibold text-[#181008] truncate">
+        <p className="text-sm font-semibold text-[var(--text-1)] truncate">
           {bar.title}
         </p>
         <div className="flex items-center gap-2.5 mt-0.5 flex-wrap">
-          <span className="text-[10px] text-[#806840] bg-[#f8f4ec] px-1.5 py-0.5 rounded-md">
+          <span className="text-[10px] text-[var(--text-2)] bg-[var(--bg-deep)] px-1.5 py-0.5 rounded-md">
             ×{bar.showCount} تكرار
           </span>
           {bar.priority > 0 && (
-            <span className="text-[10px] text-[#a07830] bg-[rgba(160,120,48,0.08)] px-1.5 py-0.5 rounded-md">
+            <span className="text-[10px] text-[var(--cyan)] bg-[var(--cyan-bg)] px-1.5 py-0.5 rounded-md">
               أولوية {bar.priority}
             </span>
           )}
           {bar.url && (
-            <span className="text-[10px] text-[#806840] truncate max-w-[120px]">
+            <span className="text-[10px] text-[var(--text-3)] truncate max-w-[120px]">
               🔗 {bar.url}
             </span>
           )}
@@ -268,8 +271,8 @@ function AnnouncementRow({
         onClick={onToggle}
         className={`flex-shrink-0 text-[11px] px-2.5 py-1 rounded-full font-semibold transition-all ${
           bar.isActive ?
-            "bg-[rgba(160,120,48,0.12)] text-[#a07830]"
-          : "bg-[#f8f4ec] text-[#806840]"
+            "bg-[var(--cyan-bg)] text-[var(--cyan)]"
+          : "bg-[var(--bg-deep)] text-[var(--text-3)]"
         }`}
       >
         {bar.isActive ? "● نشط" : "○ معطّل"}
@@ -280,8 +283,8 @@ function AnnouncementRow({
         onClick={onEdit}
         className={`flex-shrink-0 text-[11px] px-3 py-1.5 rounded-lg border transition-all ${
           isEditing ?
-            "bg-[#a07830] border-[#a07830] text-white"
-          : "border-[rgba(90,60,20,0.18)] text-[#483820] hover:border-[#a07830] hover:text-[#a07830]"
+            "bg-[var(--cyan)] border-[var(--cyan)] text-[var(--text-inv)]"
+          : "border-[var(--border-md)] text-[var(--text-2)] hover:border-[var(--cyan)] hover:text-[var(--cyan)]"
         }`}
       >
         {isEditing ? "جاري التعديل" : "تعديل"}
@@ -299,13 +302,13 @@ function AnnouncementRow({
           >
             <button
               onClick={onDelete}
-              className="text-[11px] px-2.5 py-1.5 rounded-lg bg-red-50 text-[#b91c1c] hover:bg-red-100 font-semibold transition-all"
+              className="text-[11px] px-2.5 py-1.5 rounded-lg bg-[color-mix(in_srgb,var(--red)_5%,transparent)] text-[var(--red)] hover:bg-[color-mix(in_srgb,var(--red)_10%,transparent)] font-semibold transition-all"
             >
               تأكيد
             </button>
             <button
               onClick={() => setConfirmDelete(false)}
-              className="text-[11px] px-2.5 py-1.5 rounded-lg bg-[#f8f4ec] text-[#806840] transition-all"
+              className="text-[11px] px-2.5 py-1.5 rounded-lg bg-[var(--bg-deep)] text-[var(--text-2)] transition-all"
             >
               إلغاء
             </button>
@@ -316,7 +319,7 @@ function AnnouncementRow({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setConfirmDelete(true)}
-            className="flex-shrink-0 text-[11px] px-3 py-1.5 rounded-lg border border-[rgba(90,60,20,0.18)] text-[#b91c1c] hover:border-[#b91c1c] hover:bg-red-50 transition-all"
+            className="flex-shrink-0 text-[11px] px-3 py-1.5 rounded-lg border border-[var(--border-md)] text-[var(--red)] hover:border-[var(--red)] hover:bg-[color-mix(in_srgb,var(--red)_5%,transparent)] transition-all"
           >
             حذف
           </motion.button>
@@ -465,18 +468,18 @@ export default function AnnouncementClient() {
         }
       `}</style>
 
-      <div className="min-h-screen bg-[#f8f4ec] p-6 font-arabic" dir="rtl">
+      <div className="min-h-screen bg-[var(--bg)] p-6 font-arabic" dir="rtl">
         {/* ── Header ─────────────────────────────────────────────────────────── */}
         <div className="mb-7 flex items-start justify-between">
           <div>
-            <p className="text-[#806840] text-xs font-medium tracking-widest uppercase mb-1">
+            <p className="text-[var(--text-3)] text-xs font-medium tracking-widest uppercase mb-1">
               الإشعارات
             </p>
-            <h1 className="text-2xl font-bold text-[#181008]">
+            <h1 className="text-2xl font-bold text-[var(--text-1)]">
               شريط الإعلانات
             </h1>
           </div>
-          <span className="mt-1 text-xs text-[#806840] bg-white border border-[rgba(90,60,20,0.15)] px-3 py-1.5 rounded-full">
+          <span className="mt-1 text-xs text-[var(--text-2)] bg-[var(--surface)] border border-[var(--border)] px-3 py-1.5 rounded-full">
             {bars.filter((b) => b.isActive).length} نشط / {bars.length} إجمالي
           </span>
         </div>
@@ -489,10 +492,10 @@ export default function AnnouncementClient() {
         {/* ── Main Grid ───────────────────────────────────────────────────────── */}
         <div className="grid grid-cols-1 xl:grid-cols-[400px_1fr] gap-6 items-start">
           {/* ── Form ──────────────────────────────────────────────────────────── */}
-          <div className="bg-white rounded-2xl border border-[rgba(90,60,20,0.10)] overflow-hidden shadow-sm">
+          <div className="bg-[var(--surface)] rounded-2xl border border-[var(--border)] overflow-hidden shadow-sm">
             {/* form header */}
-            <div className="px-6 py-4 border-b border-[rgba(90,60,20,0.08)] flex items-center justify-between">
-              <h2 className="text-sm font-bold text-[#181008]">
+            <div className="px-6 py-4 border-b border-[var(--border)] flex items-center justify-between">
+              <h2 className="text-sm font-bold text-[var(--text-1)]">
                 {editId ? "✏️  تعديل الإعلان" : "＋  إعلان جديد"}
               </h2>
               {editId && (
@@ -502,7 +505,7 @@ export default function AnnouncementClient() {
                     setEditId(null);
                     reset(DEFAULT_VALUES);
                   }}
-                  className="text-[11px] text-[#806840] hover:text-[#b91c1c] transition-colors"
+                  className="text-[11px] text-[var(--text-3)] hover:text-[var(--red)] transition-colors"
                 >
                   إلغاء التعديل ✕
                 </button>
@@ -512,16 +515,16 @@ export default function AnnouncementClient() {
             <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-5">
               {/* Title */}
               <div>
-                <p className="text-[11px] font-semibold text-[#806840] uppercase tracking-wider mb-2">
-                  نص الإعلان <span className="text-[#b91c1c]">*</span>
+                <p className="text-[11px] font-semibold text-[var(--text-2)] uppercase tracking-wider mb-2">
+                  نص الإعلان <span className="text-[var(--red)]">*</span>
                 </p>
                 <input
                   {...register("title")}
                   placeholder="مثال: خصم 20% على كل المنتجات 🎉"
-                  className="w-full px-4 py-2.5 rounded-xl border border-[rgba(90,60,20,0.18)] bg-[#fffdf8] text-[#181008] text-sm placeholder:text-[#806840]/40 focus:outline-none focus:border-[#a07830] focus:ring-2 focus:ring-[#a07830]/10 transition-all"
+                  className="w-full px-4 py-2.5 rounded-xl border border-[var(--border-md)] bg-[var(--surface)] text-[var(--text-1)] text-sm placeholder-[color-mix(in_srgb,var(--text-3)_40%,transparent)] focus:outline-none focus:border-[var(--cyan)] focus:ring-2 focus:ring-[color-mix(in_srgb,var(--cyan)_10%,transparent)] transition-all"
                 />
                 {errors.title && (
-                  <p className="text-[#b91c1c] text-xs mt-1.5">
+                  <p className="text-[var(--red)] text-xs mt-1.5">
                     {errors.title.message}
                   </p>
                 )}
@@ -529,17 +532,17 @@ export default function AnnouncementClient() {
 
               {/* URL */}
               <div>
-                <p className="text-[11px] font-semibold text-[#806840] uppercase tracking-wider mb-2">
+                <p className="text-[11px] font-semibold text-[var(--text-2)] uppercase tracking-wider mb-2">
                   رابط (اختياري)
                 </p>
                 <input
                   {...register("url")}
                   dir="ltr"
                   placeholder="https://..."
-                  className="w-full px-4 py-2.5 rounded-xl border border-[rgba(90,60,20,0.18)] bg-[#fffdf8] text-[#181008] text-sm font-mono placeholder:text-[#806840]/40 focus:outline-none focus:border-[#a07830] focus:ring-2 focus:ring-[#a07830]/10 transition-all"
+                  className="w-full px-4 py-2.5 rounded-xl border border-[var(--border-md)] bg-[var(--surface)] text-[var(--text-1)] text-sm font-mono placeholder-[color-mix(in_srgb,var(--text-3)_40%,transparent)] focus:outline-none focus:border-[var(--cyan)] focus:ring-2 focus:ring-[color-mix(in_srgb,var(--cyan)_10%,transparent)] transition-all"
                 />
                 {errors.url && (
-                  <p className="text-[#b91c1c] text-xs mt-1.5">
+                  <p className="text-[var(--red)] text-xs mt-1.5">
                     {errors.url.message}
                   </p>
                 )}
@@ -578,10 +581,10 @@ export default function AnnouncementClient() {
                 render={({ field }) => (
                   <div>
                     <div className="flex items-center justify-between mb-2">
-                      <p className="text-[11px] font-semibold text-[#806840] uppercase tracking-wider">
+                      <p className="text-[11px] font-semibold text-[var(--text-2)] uppercase tracking-wider">
                         عدد التكرار في الشريط
                       </p>
-                      <span className="text-sm font-bold text-[#a07830] bg-[rgba(160,120,48,0.08)] px-2.5 py-0.5 rounded-lg">
+                      <span className="text-sm font-bold text-[var(--cyan)] bg-[var(--cyan-bg)] px-2.5 py-0.5 rounded-lg">
                         ×{field.value}
                       </span>
                     </div>
@@ -591,11 +594,13 @@ export default function AnnouncementClient() {
                       max={10}
                       value={field.value}
                       onChange={(e) => field.onChange(Number(e.target.value))}
-                      className="w-full h-1.5 rounded-full appearance-none bg-[#ede8dc] accent-[#a07830] cursor-pointer"
+                      className="w-full h-1.5 rounded-full appearance-none bg-[var(--bg-deep)] accent-[var(--cyan)] cursor-pointer"
                     />
                     <div className="flex justify-between mt-1">
-                      <span className="text-[10px] text-[#806840]">1 مرة</span>
-                      <span className="text-[10px] text-[#806840]">
+                      <span className="text-[10px] text-[var(--text-3)]">
+                        1 مرة
+                      </span>
+                      <span className="text-[10px] text-[var(--text-3)]">
                         10 مرات
                       </span>
                     </div>
@@ -606,7 +611,7 @@ export default function AnnouncementClient() {
               {/* Priority + isActive */}
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <p className="text-[11px] font-semibold text-[#806840] uppercase tracking-wider mb-2">
+                  <p className="text-[11px] font-semibold text-[var(--text-2)] uppercase tracking-wider mb-2">
                     الأولوية
                   </p>
                   <Controller
@@ -617,14 +622,14 @@ export default function AnnouncementClient() {
                         type="number"
                         value={field.value}
                         onChange={(e) => field.onChange(Number(e.target.value))}
-                        className="w-full px-4 py-2.5 rounded-xl border border-[rgba(90,60,20,0.18)] bg-[#fffdf8] text-[#181008] text-sm text-center focus:outline-none focus:border-[#a07830] focus:ring-2 focus:ring-[#a07830]/10 transition-all"
+                        className="w-full px-4 py-2.5 rounded-xl border border-[var(--border-md)] bg-[var(--surface)] text-[var(--text-1)] text-sm text-center focus:outline-none focus:border-[var(--cyan)] focus:ring-2 focus:ring-[color-mix(in_srgb,var(--cyan)_10%,transparent)] transition-all"
                       />
                     )}
                   />
                 </div>
 
                 <div>
-                  <p className="text-[11px] font-semibold text-[#806840] uppercase tracking-wider mb-2">
+                  <p className="text-[11px] font-semibold text-[var(--text-2)] uppercase tracking-wider mb-2">
                     الحالة
                   </p>
                   <Controller
@@ -636,8 +641,8 @@ export default function AnnouncementClient() {
                         onClick={() => field.onChange(!field.value)}
                         className={`w-full py-2.5 rounded-xl border text-sm font-semibold transition-all ${
                           field.value ?
-                            "bg-[rgba(160,120,48,0.08)] border-[#a07830] text-[#a07830]"
-                          : "bg-[#f8f4ec] border-[rgba(90,60,20,0.18)] text-[#806840]"
+                            "bg-[var(--cyan-bg)] border-[var(--cyan)] text-[var(--cyan)]"
+                          : "bg-[var(--bg-deep)] border-[var(--border-md)] text-[var(--text-2)]"
                         }`}
                       >
                         {field.value ? "● مفعّل" : "○ معطّل"}
@@ -652,7 +657,7 @@ export default function AnnouncementClient() {
                 type="submit"
                 disabled={isSubmitting}
                 whileTap={{ scale: 0.98 }}
-                className="w-full py-3 rounded-xl bg-[#a07830] hover:bg-[#b89040] active:bg-[#906820] text-white font-bold text-sm transition-colors disabled:opacity-60 shadow-sm shadow-[rgba(160,120,48,0.3)] mt-1"
+                className="w-full py-3 rounded-xl bg-[var(--cyan)] hover:bg-[var(--cyan-bright)] active:bg-[color-mix(in_srgb,var(--cyan)_90%,black)] text-[var(--text-inv)] font-bold text-sm transition-colors disabled:opacity-60 shadow-sm shadow-[color-mix(in_srgb,var(--cyan)_20%,transparent)] mt-1"
               >
                 {isSubmitting ?
                   "جاري الحفظ..."
@@ -664,13 +669,13 @@ export default function AnnouncementClient() {
           </div>
 
           {/* ── Table ─────────────────────────────────────────────────────────── */}
-          <div className="bg-white rounded-2xl border border-[rgba(90,60,20,0.10)] overflow-hidden shadow-sm">
-            <div className="px-5 py-4 border-b border-[rgba(90,60,20,0.08)] flex items-center justify-between">
-              <h2 className="text-sm font-bold text-[#181008]">
+          <div className="bg-[var(--surface)] rounded-2xl border border-[var(--border)] overflow-hidden shadow-sm">
+            <div className="px-5 py-4 border-b border-[var(--border)] flex items-center justify-between">
+              <h2 className="text-sm font-bold text-[var(--text-1)]">
                 الإعلانات الحالية
               </h2>
               {bars.length > 0 && (
-                <span className="text-[11px] text-[#806840]">
+                <span className="text-[11px] text-[var(--text-3)]">
                   مرتبة حسب الأولوية ثم التاريخ
                 </span>
               )}
@@ -678,20 +683,20 @@ export default function AnnouncementClient() {
 
             {isLoading ?
               <div className="p-16 flex flex-col items-center gap-3">
-                <div className="w-8 h-8 border-2 border-[#a07830]/20 border-t-[#a07830] rounded-full animate-spin" />
-                <p className="text-sm text-[#806840]">جاري التحميل...</p>
+                <div className="w-8 h-8 border-2 border-[color-mix(in_srgb,var(--cyan)_20%,transparent)] border-t-[var(--cyan)] rounded-full animate-spin" />
+                <p className="text-sm text-[var(--text-3)]">جاري التحميل...</p>
               </div>
             : bars.length === 0 ?
               <div className="p-16 text-center">
                 <p className="text-4xl mb-3">📢</p>
-                <p className="text-sm font-medium text-[#483820]">
+                <p className="text-sm font-medium text-[var(--text-2)]">
                   لا يوجد إعلانات بعد
                 </p>
-                <p className="text-xs text-[#806840] mt-1">
+                <p className="text-xs text-[var(--text-3)] mt-1">
                   أنشئ إعلانك الأول من النموذج على اليمين
                 </p>
               </div>
-            : <div className="divide-y divide-[rgba(90,60,20,0.06)]">
+            : <div className="divide-y divide-[var(--border)]">
                 <AnimatePresence>
                   {bars.map((bar) => (
                     <AnnouncementRow

@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { CategoryFormDialog } from "./CategoryFormDialog";
-import { CategoryEditDialog } from "./CategoryEditDialog"; // استيراد مودال التعديل الجديد
+import { CategoryEditDialog } from "./CategoryEditDialog";
 import type { Category } from "../../types";
 
 // ─── API ──────────────────────────────────────────────────────────────────────
@@ -30,7 +30,6 @@ async function fetchCategories(): Promise<Category[]> {
 }
 
 async function deleteCategory(id: string): Promise<void> {
-  // 👈 تعديل هام: تمرير الـ id في الرابط (Query Param) ليتوافق مع الـ adminGuard
   const res = await fetch(`/api/admin/categories?id=${id}`, {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },
@@ -59,7 +58,7 @@ function CategoryRow({
 
   return (
     <div>
-      {/* Root row -> 👈 تم إضافة الـ onClick هنا ليكون السطر بالكامل قابل للضغط */}
+      {/* Root row */}
       <motion.div
         initial={{ opacity: 0, y: 4 }}
         animate={{ opacity: 1, y: 0 }}
@@ -68,14 +67,14 @@ function CategoryRow({
         }}
         className={`flex items-center gap-3 px-4 py-3 transition-colors duration-100 group ${
           childCount > 0 ?
-            "cursor-pointer hover:bg-[rgba(196,152,72,0.06)]"
-          : "hover:bg-[rgba(196,152,72,0.02)]"
+            "cursor-pointer hover:bg-[var(--border)]"
+          : "hover:bg-[rgba(33,37,41,0.02)]"
         }`}
-        style={{ borderBottom: "1px solid rgba(90,60,20,0.07)" }}
+        style={{ borderBottom: "1px solid var(--border)" }}
       >
         {/* Chevron */}
         <div
-          className="w-5 h-5 flex items-center justify-center text-[#a08858] shrink-0 rounded transition-colors"
+          className="w-5 h-5 flex items-center justify-center text-[var(--text-3)] shrink-0 rounded transition-colors"
           style={{ opacity: childCount === 0 ? 0.25 : 1 }}
         >
           {expanded ?
@@ -87,8 +86,8 @@ function CategoryRow({
         <div
           className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 overflow-hidden"
           style={{
-            background: "rgba(196,152,72,0.10)",
-            border: "1px solid rgba(196,152,72,0.18)",
+            background: "var(--border)",
+            border: "1px solid var(--border-md)",
           }}
         >
           {category.image ?
@@ -99,20 +98,20 @@ function CategoryRow({
               height={32}
               className="object-cover w-full h-full"
             />
-          : <FolderOpen size={15} color="#c49848" />}
+          : <FolderOpen size={15} color="var(--gold)" />}
         </div>
 
         {/* Name + slug */}
         <div className="flex-1 min-w-0">
           <span
             className="font-semibold text-[0.88rem] block truncate"
-            style={{ color: "#281808" }}
+            style={{ color: "var(--text-1)" }}
           >
             {category.name}
           </span>
           <span
             className="text-[0.73rem] font-mono block"
-            style={{ color: "#a08858" }}
+            style={{ color: "var(--text-3)" }}
           >
             /{category.slug}
           </span>
@@ -123,16 +122,16 @@ function CategoryRow({
           <span
             className="text-[0.72rem] font-semibold px-2.5 py-0.5 rounded-full shrink-0"
             style={{
-              background: "rgba(196,152,72,0.10)",
-              color: "#c49848",
-              border: "1px solid rgba(196,152,72,0.20)",
+              background: "var(--border)",
+              color: "var(--gold)",
+              border: "1px solid var(--border-md)",
             }}
           >
             {childCount} Subcategory
           </span>
         )}
 
-        {/* Actions — 👈 تم إضافة e.stopPropagation() لمنع تداخل الأحداث عند الضغط على الأزرار */}
+        {/* Actions */}
         <div
           className="flex gap-1 items-center shrink-0 transition-opacity duration-150"
           onClick={(e) => e.stopPropagation()}
@@ -141,9 +140,9 @@ function CategoryRow({
             onClick={() => onAddSub(category)}
             className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[0.75rem] font-semibold transition-colors duration-100"
             style={{
-              background: "rgba(196,152,72,0.10)",
-              color: "#c49848",
-              border: "1px solid rgba(196,152,72,0.20)",
+              background: "var(--border)",
+              color: "var(--gold)",
+              border: "1px solid var(--border-md)",
             }}
           >
             <Plus size={11} />
@@ -153,10 +152,12 @@ function CategoryRow({
           {/* زر التعديل */}
           <button
             onClick={() => onEdit(category)}
-            className="w-7 h-7 rounded-md flex items-center justify-center transition-colors duration-100 hover:bg-[#F5EFE6]"
-            style={{ color: "#c0a080" }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = "#c49848")}
-            onMouseLeave={(e) => (e.currentTarget.style.color = "#c0a080")}
+            className="w-7 h-7 rounded-md flex items-center justify-center transition-colors duration-100 hover:bg-[var(--bg-deep)]"
+            style={{ color: "var(--text-3)" }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = "var(--gold)")}
+            onMouseLeave={(e) =>
+              (e.currentTarget.style.color = "var(--text-3)")
+            }
           >
             <Pencil size={13} />
           </button>
@@ -164,10 +165,12 @@ function CategoryRow({
           {/* زر الحذف */}
           <button
             onClick={() => onDelete(category, true)}
-            className="w-7 h-7 rounded-md flex items-center justify-center transition-colors duration-100 hover:bg-red-50"
-            style={{ color: "#c0a080" }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = "#dc2626")}
-            onMouseLeave={(e) => (e.currentTarget.style.color = "#c0a080")}
+            className="w-7 h-7 rounded-md flex items-center justify-center transition-colors duration-100 hover:bg-[rgba(224,49,49,0.05)]"
+            style={{ color: "var(--text-3)" }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = "var(--red)")}
+            onMouseLeave={(e) =>
+              (e.currentTarget.style.color = "var(--text-3)")
+            }
           >
             <Trash2 size={13} />
           </button>
@@ -189,10 +192,10 @@ function CategoryRow({
                 key={sub.id}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="flex items-center gap-3 pr-4 pl-10 py-2.5 hover:bg-[rgba(196,152,72,0.03)] transition-colors duration-100 group/sub"
+                className="flex items-center gap-3 pr-4 pl-10 py-2.5 hover:bg-[rgba(33,37,41,0.02)] transition-colors duration-100 group/sub"
                 style={{
-                  borderBottom: "1px solid rgba(90,60,20,0.05)",
-                  borderRight: "2px solid rgba(196,152,72,0.15)",
+                  borderBottom: "1px solid var(--border)",
+                  borderRight: "2px solid var(--border-md)",
                   marginRight: "55px",
                 }}
               >
@@ -200,54 +203,54 @@ function CategoryRow({
                 <div
                   className="w-6 h-6 rounded-md flex items-center justify-center shrink-0"
                   style={{
-                    background: "rgba(196,152,72,0.07)",
-                    border: "1px solid rgba(196,152,72,0.13)",
+                    background: "var(--border)",
+                    border: "1px solid var(--border-md)",
                   }}
                 >
-                  <Tag size={11} color="#c49848" />
+                  <Tag size={11} color="var(--gold)" />
                 </div>
 
                 {/* Sub name + slug */}
                 <div className="flex-1 min-w-0">
                   <span
                     className="font-medium text-[0.83rem] block truncate"
-                    style={{ color: "#3c2410" }}
+                    style={{ color: "var(--text-1)" }}
                   >
                     {sub.name}
                   </span>
                   <span
                     className="text-[0.70rem] font-mono block"
-                    style={{ color: "#b09870" }}
+                    style={{ color: "var(--text-3)" }}
                   >
                     /{sub.slug}
                   </span>
                 </div>
 
-                {/* زر تعديل القسم الفرعي — ظاهر دائماً */}
+                {/* زر تعديل القسم الفرعي */}
                 <button
                   onClick={() => onEdit(sub)}
                   className="w-6 h-6 rounded-md flex items-center justify-center transition-all duration-150"
-                  style={{ color: "#c0a080" }}
+                  style={{ color: "var(--text-3)" }}
                   onMouseEnter={(e) =>
-                    (e.currentTarget.style.color = "#c49848")
+                    (e.currentTarget.style.color = "var(--gold)")
                   }
                   onMouseLeave={(e) =>
-                    (e.currentTarget.style.color = "#c0a080")
+                    (e.currentTarget.style.color = "var(--text-3)")
                   }
                 >
                   <Pencil size={12} />
                 </button>
 
-                {/* زر حذف القسم الفرعي — ظاهر دائماً */}
+                {/* زر حذف القسم الفرعي */}
                 <button
                   onClick={() => onDelete(sub, false)}
                   className="w-6 h-6 rounded-md flex items-center justify-center transition-all duration-150"
-                  style={{ color: "#c0a080" }}
+                  style={{ color: "var(--text-3)" }}
                   onMouseEnter={(e) =>
-                    (e.currentTarget.style.color = "#dc2626")
+                    (e.currentTarget.style.color = "var(--red)")
                   }
                   onMouseLeave={(e) =>
-                    (e.currentTarget.style.color = "#c0a080")
+                    (e.currentTarget.style.color = "var(--text-3)")
                   }
                 >
                   <Trash2 size={12} />
@@ -290,30 +293,30 @@ function DeleteDialog({
         initial={{ scale: 0.96, y: 8 }}
         animate={{ scale: 1, y: 0 }}
         exit={{ scale: 0.96, y: 8 }}
-        className="relative bg-white rounded-2xl p-7 max-w-[400px] w-full shadow-[0_20px_60px_rgba(0,0,0,0.12)]"
-        style={{ border: "1px solid rgba(90,60,20,0.10)" }}
+        className="relative bg-[var(--surface)] rounded-2xl p-7 max-w-[400px] w-full shadow-[var(--shadow-md)]"
+        style={{ border: "1px solid var(--border-md)" }}
       >
         <div
           className="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-4"
           style={{
-            background: isRoot ? "#fef2f2" : "rgba(196,152,72,0.08)",
-            border: `1.5px solid ${isRoot ? "#fecaca" : "rgba(196,152,72,0.20)"}`,
+            background: isRoot ? "rgba(224, 49, 49, 0.08)" : "var(--border)",
+            border: `1.5px solid ${isRoot ? "var(--red)" : "var(--border-md)"}`,
           }}
         >
           {isRoot ?
-            <AlertTriangle size={22} color="#dc2626" />
-          : <Trash2 size={22} color="#c49848" />}
+            <AlertTriangle size={22} color="var(--red)" />
+          : <Trash2 size={22} color="var(--gold)" />}
         </div>
 
         <h3
           className="text-center font-bold text-[1rem] mb-2"
-          style={{ color: "#281808" }}
+          style={{ color: "var(--text-1)" }}
         >
           حذف {isRoot ? "القسم الرئيسي" : "القسم الفرعي"}
         </h3>
         <p
           className="text-center text-[0.88rem] mb-2 leading-relaxed"
-          style={{ color: "#604830" }}
+          style={{ color: "var(--text-2)" }}
         >
           هل تريد حذف <strong>"{target.name}"</strong>؟
         </p>
@@ -321,7 +324,7 @@ function DeleteDialog({
         {isRoot && (
           <p
             className="text-center text-[0.80rem] mb-5 leading-relaxed"
-            style={{ color: "#dc2626" }}
+            style={{ color: "var(--red)" }}
           >
             ⚠️ سيتم حذف جميع الأقسام الفرعية والمنتجات المرتبطة به تلقائيًا.
           </p>
@@ -329,7 +332,7 @@ function DeleteDialog({
         {!isRoot && (
           <p
             className="text-center text-[0.80rem] mb-5"
-            style={{ color: "#a08858" }}
+            style={{ color: "var(--text-3)" }}
           >
             لا يمكن التراجع عن هذا الإجراء.
           </p>
@@ -340,9 +343,9 @@ function DeleteDialog({
             onClick={onCancel}
             className="flex-1 py-2.5 rounded-[9px] text-[0.88rem] font-medium cursor-pointer transition-colors duration-100"
             style={{
-              border: "1.5px solid rgba(90,60,20,0.13)",
-              background: "#fdfaf5",
-              color: "#281808",
+              border: "1.5px solid var(--border-md)",
+              background: "var(--bg)",
+              color: "var(--text-1)",
             }}
           >
             إلغاء
@@ -350,9 +353,9 @@ function DeleteDialog({
           <button
             onClick={onConfirm}
             disabled={isPending}
-            className="flex-1 py-2.5 rounded-[9px] text-white text-[0.88rem] font-semibold cursor-pointer border-none transition-opacity duration-100"
+            className="flex-1 py-2.5 rounded-[9px] text-[var(--text-inv)] text-[0.88rem] font-semibold cursor-pointer border-none transition-opacity duration-100"
             style={{
-              background: isPending ? "#f87171" : "#dc2626",
+              background: isPending ? "rgba(224, 49, 49, 0.6)" : "var(--red)",
               opacity: isPending ? 0.7 : 1,
             }}
           >
@@ -369,7 +372,7 @@ export function CategoriesClient() {
   const qc = useQueryClient();
   const [dialogMode, setDialogMode] = useState<"root" | "sub" | null>(null);
   const [selectedParent, setSelectedParent] = useState<Category | null>(null);
-  const [editTarget, setEditTarget] = useState<Category | null>(null); // State لتخزين الكاتيجوري اللي بنعدلها
+  const [editTarget, setEditTarget] = useState<Category | null>(null);
 
   const [deleteTarget, setDeleteTarget] = useState<{
     cat: Category;
@@ -424,21 +427,24 @@ export function CategoriesClient() {
         <div>
           <h2
             className="font-bold text-[1.35rem] m-0 flex items-center gap-2"
-            style={{ color: "#281808" }}
+            style={{ color: "var(--text-1)" }}
           >
-            <FolderTree size={20} color="#c49848" />
+            <FolderTree size={20} color="var(--gold)" />
             Categories
           </h2>
-          <p className="m-0 mt-0.5 text-[0.8rem]" style={{ color: "#a08858" }}>
+          <p
+            className="m-0 mt-0.5 text-[0.8rem]"
+            style={{ color: "var(--text-3)" }}
+          >
             {categories.length} categories · {totalSubs} subcategories
           </p>
         </div>
         <button
           onClick={() => setDialogMode("root")}
-          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-[0.83rem] font-semibold text-white border-none cursor-pointer shadow-sm"
+          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-[0.83rem] font-semibold text-[var(--text-inv)] border-none cursor-pointer shadow-sm animate-none"
           style={{
-            background: "linear-gradient(135deg, #d4ac5c 0%, #c49848 100%)",
-            boxShadow: "0 2px 8px rgba(196,152,72,0.30)",
+            background: "var(--gold)",
+            boxShadow: "var(--shadow-sm)",
           }}
         >
           <Plus size={14} />
@@ -453,36 +459,39 @@ export function CategoriesClient() {
             icon: <Layers size={16} />,
             label: "Total",
             value: categories.length + totalSubs,
-            accent: "#c49848",
+            accent: "var(--gold)",
           },
           {
             icon: <FolderOpen size={16} />,
             label: "Root",
             value: categories.length,
-            accent: "#c49848",
+            accent: "var(--gold)",
           },
           {
             icon: <Tag size={16} />,
             label: "Sub",
             value: totalSubs,
-            accent: "#c49848",
+            accent: "var(--gold)",
           },
         ].map((s) => (
           <div
             key={s.label}
-            className="bg-white rounded-xl p-4"
-            style={{ border: "1px solid rgba(90,60,20,0.09)" }}
+            className="bg-[var(--surface)] rounded-xl p-4"
+            style={{ border: "1px solid var(--border)" }}
           >
             <div className="flex items-center gap-2 mb-1">
               <span style={{ color: s.accent }}>{s.icon}</span>
             </div>
             <div
               className="font-bold text-[1.4rem] leading-none"
-              style={{ color: "#281808" }}
+              style={{ color: "var(--text-1)" }}
             >
               {s.value}
             </div>
-            <div className="text-[0.74rem] mt-0.5" style={{ color: "#a08858" }}>
+            <div
+              className="text-[0.74rem] mt-0.5"
+              style={{ color: "var(--text-3)" }}
+            >
               {s.label}
             </div>
           </div>
@@ -491,24 +500,24 @@ export function CategoriesClient() {
 
       {/* ─── Search ───────────────────────────────────────────────── */}
       <div
-        className="flex items-center gap-2 px-3.5 py-2.5 rounded-xl mb-4 bg-white"
-        style={{ border: "1px solid rgba(90,60,20,0.10)" }}
+        className="flex items-center gap-2 px-3.5 py-2.5 rounded-xl mb-4 bg-[var(--surface)]"
+        style={{ border: "1px solid var(--border)" }}
       >
-        <Search size={15} color="#c4a870" />
+        <Search size={15} color="var(--text-3)" />
         <input
           type="text"
           placeholder="Search categories..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="flex-1 bg-transparent outline-none text-[0.875rem] placeholder:text-[#c4b090]"
-          style={{ color: "#281808", border: "none" }}
+          className="flex-1 bg-transparent outline-none text-[0.875rem] placeholder:text-[var(--text-3)]"
+          style={{ color: "var(--text-1)", border: "none" }}
         />
         <button
           onClick={() =>
             qc.invalidateQueries({ queryKey: ["admin-categories"] })
           }
-          className="w-7 h-7 rounded-lg flex items-center justify-center transition-colors duration-100 hover:bg-[rgba(196,152,72,0.08)]"
-          style={{ color: "#a08858" }}
+          className="w-7 h-7 rounded-lg flex items-center justify-center transition-colors duration-100 hover:bg-[var(--bg-deep)]"
+          style={{ color: "var(--text-2)" }}
           title="Refresh"
         >
           <RefreshCw size={13} />
@@ -517,20 +526,20 @@ export function CategoriesClient() {
 
       {/* ─── List Panel ───────────────────────────────────────────── */}
       <div
-        className="bg-white rounded-xl overflow-hidden"
-        style={{ border: "1px solid rgba(90,60,20,0.09)" }}
+        className="bg-[var(--surface)] rounded-xl overflow-hidden"
+        style={{ border: "1px solid var(--border)" }}
       >
         {/* Panel header */}
         <div
           className="flex items-center justify-between px-4 py-2.5"
           style={{
-            borderBottom: "1px solid rgba(90,60,20,0.08)",
-            background: "#fdfaf5",
+            borderBottom: "1px solid var(--border)",
+            background: "var(--bg)",
           }}
         >
           <span
             className="text-[0.72rem] font-semibold tracking-wider uppercase"
-            style={{ color: "#a08858" }}
+            style={{ color: "var(--text-3)" }}
           >
             {filtered.length} Categories
           </span>
@@ -538,7 +547,7 @@ export function CategoriesClient() {
             onClick={() => setDialogMode("root")}
             className="inline-flex items-center gap-1 text-[0.78rem] font-semibold transition-colors duration-100 hover:opacity-70"
             style={{
-              color: "#c49848",
+              color: "var(--cyan)",
               background: "none",
               border: "none",
               cursor: "pointer",
@@ -553,7 +562,7 @@ export function CategoriesClient() {
         {isLoading && (
           <div
             className="py-14 text-center text-[0.875rem]"
-            style={{ color: "#a08858" }}
+            style={{ color: "var(--text-3)" }}
           >
             Loading...
           </div>
@@ -564,16 +573,19 @@ export function CategoriesClient() {
           <div className="py-14 text-center">
             <FolderTree
               size={40}
-              color="rgba(196,152,72,0.25)"
+              color="var(--border-strong)"
               className="mx-auto mb-3"
             />
             <p
               className="font-semibold text-[0.9rem] mb-1"
-              style={{ color: "#604830" }}
+              style={{ color: "var(--text-1)" }}
             >
               {search ? "No results found" : "No categories yet"}
             </p>
-            <p className="text-[0.8rem] mb-4" style={{ color: "#a08858" }}>
+            <p
+              className="text-[0.8rem] mb-4"
+              style={{ color: "var(--text-3)" }}
+            >
               {search ?
                 "Try a different search term"
               : "Create your first root category"}
@@ -581,8 +593,8 @@ export function CategoriesClient() {
             {!search && (
               <button
                 onClick={() => setDialogMode("root")}
-                className="px-5 py-2 rounded-lg text-[0.83rem] font-semibold text-white border-none cursor-pointer"
-                style={{ background: "#c49848" }}
+                className="px-5 py-2 rounded-lg text-[0.83rem] font-semibold text-[var(--text-inv)] border-none cursor-pointer"
+                style={{ background: "var(--gold)" }}
               >
                 Create Category
               </button>
@@ -600,7 +612,7 @@ export function CategoriesClient() {
                 setSelectedParent(parent);
                 setDialogMode("sub");
               }}
-              onEdit={(target) => setEditTarget(target)} // تفعيل وضع التعديل هنا عند الضغط
+              onEdit={(target) => setEditTarget(target)}
               onDelete={(c, isRoot) => setDeleteTarget({ cat: c, isRoot })}
             />
           ))}
@@ -622,7 +634,7 @@ export function CategoriesClient() {
         )}
       </AnimatePresence>
 
-      {/* 2. مودال التعديل المنفصل الجديد */}
+      {/* 2. مودال التعديل المنفصل */}
       <AnimatePresence>
         {editTarget && (
           <CategoryEditDialog

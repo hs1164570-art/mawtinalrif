@@ -90,7 +90,7 @@ export const metadata: Metadata = {
   // ── Canonical ──────────────────────────────────────────────────────────────
   alternates: {
     canonical: BASE_URL,
-    languages: { "ar-SA": BASE_URL },
+    languages: { "en-US": BASE_URL },
   },
 
   // ── Open Graph ─────────────────────────────────────────────────────────────
@@ -146,7 +146,7 @@ export const metadata: Metadata = {
     "geo.placename": "الرياض",
     "geo.position": "24.6565151;46.7939716",
     ICBM: "24.6565151, 46.7939716",
-    "content-language": "ar-SA",
+    "content-language": "en-US",
   },
 };
 

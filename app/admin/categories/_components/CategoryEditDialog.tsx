@@ -47,7 +47,7 @@ export function CategoryEditDialog({
     setName(category.name);
     setSlug(category.slug);
     setImage(category.image || "");
-  }, [category]);
+  }, [category.name, category.slug, category.image]); // تم تحسينها للاعتماد على القيم الأساسية لمنع إعادة التعيين العشوائي أثناء الكتابة
 
   const mutation = useMutation({
     mutationFn: updateCategory,

@@ -13,32 +13,8 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 
 // ══════════════════════════════════════════════════════════════════════════════
-// TOKENS & LUXURY GOLD PALETTE
+// MAP CONFIGURATIONS & CONSTANTS
 // ══════════════════════════════════════════════════════════════════════════════
-const C = {
-  gold: "#B89A5A",
-  goldLight: "#D4B97A",
-  goldDark: "#8A6E30",
-  goldGlow: "rgba(184,154,90,0.25)",
-
-  // اللون الذهبي الملكي الداكن للأرضية
-  saudiActive: "#4A3E25",
-  saudiHover: "#5E4F32",
-  saudiStroke: "#B89A5A",
-
-  // العالم المحيط
-  world: "#F7F5F0",
-  worldHover: "#EFECE5",
-  worldStroke: "#E5DEC3",
-
-  sea: "#FCFAF7",
-  border: "#EAE1D4",
-  text1: "#2D2219",
-  text2: "#5C4636",
-  text3: "#967860",
-  mutedDot: "#C9BEA7",
-};
-
 const KSA_REGIONS_GEO = [
   { name: "الرياض", nameEn: "Riyadh", lng: 46.72, lat: 24.69 },
   { name: "مكة المكرمة", nameEn: "Makkah", lng: 39.82, lat: 21.39 },
@@ -66,7 +42,7 @@ const KSA_REGIONS_GEO = [
   { name: "عسير", nameEn: "'Asir", lng: 42.53, lat: 18.22 },
 ];
 
-function PulseRing({ color = C.gold }: { color?: string }) {
+function PulseRing({ color = "var(--cyan)" }: { color?: string }) {
   return (
     <>
       {[0, 1].map((i) => (
@@ -167,11 +143,10 @@ export default function SaudiSalesMap({
       ref={wrapRef}
       className="relative w-full flex flex-col md:block"
       style={{
-        background: C.sea,
+        background: "var(--surface-3)",
         borderRadius: 16,
         overflow: "hidden",
-        border: `1px solid ${C.border}`,
-        // التعديل السحري لمنع الـ Freeze والسماح بالتحكم والـ Scroll معاً بكفاءة
+        border: "1px solid var(--border-md)",
         touchAction: "pan-x pan-y",
       }}
     >
@@ -179,26 +154,26 @@ export default function SaudiSalesMap({
       <div
         className="w-full md:absolute md:top-0 md:inset-x-0 z-20 flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-4 py-3 border-b sm:border-b-0"
         style={{
-          background: "rgba(255,254,251,0.94)",
+          background: "var(--surface)",
           backdropFilter: "blur(12px)",
-          borderColor: C.border,
+          borderColor: "var(--border)",
         }}
       >
         <div>
           <p
             className="text-xs md:text-sm font-black tracking-tight"
-            style={{ color: C.text1 }}
+            style={{ color: "var(--text-1)" }}
           >
             التوزيع الجغرافي لحركة الحشود والزيارات
           </p>
           <p
             className="text-[10px] md:text-xs mt-0.5"
-            style={{ color: C.text3 }}
+            style={{ color: "var(--text-3)" }}
           >
             إجمالي زيارات المملكة:{" "}
             <span
               className="font-bold text-xs md:text-sm"
-              style={{ color: C.goldDark }}
+              style={{ color: "var(--red)" }}
             >
               {totalVisits.toLocaleString("en-US")}
             </span>{" "}
@@ -212,9 +187,9 @@ export default function SaudiSalesMap({
             onClick={focused ? resetView : focusSaudi}
             className="text-[10px] md:text-[11px] font-black px-2.5 py-1.5 rounded-lg border transition-all"
             style={{
-              background: focused ? "#FFF" : C.saudiActive,
-              color: focused ? C.text1 : "#FFF",
-              borderColor: C.border,
+              background: focused ? "var(--surface)" : "var(--gold)",
+              color: focused ? "var(--text-1)" : "var(--text-inv)",
+              borderColor: "var(--border-strong)",
             }}
           >
             {focused ? "🗺️ عرض شامل" : "🎯 تركيز"}
@@ -229,8 +204,12 @@ export default function SaudiSalesMap({
               onClick={() =>
                 setZoom((z) => Math.min(Math.max(z + delta, 1), 15))
               }
-              className="w-7 h-7 rounded-lg text-xs md:text-sm font-black flex items-center justify-center border bg-white"
-              style={{ color: C.text1, borderColor: C.border }}
+              className="w-7 h-7 rounded-lg text-xs md:text-sm font-black flex items-center justify-center border"
+              style={{
+                color: "var(--text-1)",
+                background: "var(--surface)",
+                borderColor: "var(--border-strong)",
+              }}
             >
               {label}
             </motion.button>
@@ -256,11 +235,11 @@ export default function SaudiSalesMap({
           >
             <Sphere
               id="sphere"
-              fill={C.sea}
-              stroke={C.border}
+              fill="var(--surface-3)"
+              stroke="var(--border)"
               strokeWidth={0.2}
             />
-            <Graticule stroke="rgba(184,154,90,0.03)" strokeWidth={0.4} />
+            <Graticule stroke="var(--border)" strokeWidth={0.4} />
 
             <Geographies geography="/countries.json">
               {({ geographies }) =>
@@ -276,19 +255,23 @@ export default function SaudiSalesMap({
                       geography={geo}
                       style={{
                         default: {
-                          fill: isSaudi ? C.saudiActive : C.world,
-                          stroke: isSaudi ? C.saudiStroke : C.worldStroke,
+                          fill: isSaudi ? "var(--gold-bright)" : "var(--bg)",
+                          stroke:
+                            isSaudi ? "var(--border-strong)" : "var(--border)",
                           strokeWidth: isSaudi ? 1.0 : 0.3,
                           outline: "none",
                           filter:
                             isSaudi ?
-                              "drop-shadow(0 4px 10px rgba(74,62,37,0.2))"
+                              "drop-shadow(0 4px 10px rgba(0,0,0,0.08))"
                             : "none",
                           transition: "all 0.3s ease",
                         },
                         hover: {
-                          fill: isSaudi ? C.saudiHover : C.worldHover,
-                          stroke: isSaudi ? C.saudiStroke : C.worldStroke,
+                          fill: isSaudi ? "var(--gold-mid)" : "var(--bg-deep)",
+                          stroke:
+                            isSaudi ?
+                              "var(--border-strong)"
+                            : "var(--border-md)",
                           strokeWidth: isSaudi ? 1.3 : 0.3,
                           outline: "none",
                           cursor: isSaudi ? "grab" : "default",
@@ -331,7 +314,6 @@ export default function SaudiSalesMap({
                     });
                   }}
                   onClick={(e) => {
-                    // كبسة إصبع مرنة للموبايل تظهر تفاصيل المنطقة فوراً
                     const rect = wrapRef.current?.getBoundingClientRect();
                     setTooltip({
                       name: region.name,
@@ -342,19 +324,16 @@ export default function SaudiSalesMap({
                   }}
                   onMouseLeave={() => setTooltip(null)}
                 >
-                  {hasVisits && <PulseRing />}
+                  {hasVisits && <PulseRing color="var(--cyan)" />}
 
                   <motion.circle
                     r={size}
-                    fill={hasVisits ? C.gold : C.mutedDot}
-                    stroke="#FFFFFF"
+                    fill={hasVisits ? "var(--cyan)" : "var(--text-3)"}
+                    stroke="var(--surface)"
                     strokeWidth={hasVisits ? 0.8 : 0.3}
                     style={{
                       cursor: "pointer",
-                      filter:
-                        hasVisits ?
-                          `drop-shadow(0 2px 4px ${C.goldGlow})`
-                        : "none",
+                      filter: hasVisits ? "var(--shadow-sm)" : "none",
                     }}
                     whileHover={{ scale: 1.2 }}
                   />
@@ -373,10 +352,10 @@ export default function SaudiSalesMap({
                           : zoom > 6 ? 2.0
                           : 2.8,
                         fontWeight: hasVisits ? 800 : 500,
-                        fill: hasVisits ? "#FFFFFF" : "rgba(255,255,255,0.55)",
+                        fill: "var(--text-inv)",
                         direction: "rtl",
                         pointerEvents: "none",
-                        textShadow: "0px 1px 2px rgba(0,0,0,0.6)",
+                        textShadow: "0px 1px 2px rgba(0,0,0,0.8)",
                       }}
                     >
                       {region.name}
@@ -400,29 +379,31 @@ export default function SaudiSalesMap({
             className="absolute z-30 rounded-xl px-3 py-2 text-xs shadow-2xl"
             style={{
               left: isMobile ? "50%" : tooltip.x + 12,
-              top: isMobile ? "70%" : tooltip.y + 12, // ينزل تحت شوية في الموبايل عشان صباعك ما يغطيش عليه
+              top: isMobile ? "70%" : tooltip.y + 12,
               transform: isMobile ? "translate(-50%, -55%)" : "none",
-              background: "rgba(255, 255, 255, 0.98)",
+              background: "var(--surface)",
               backdropFilter: "blur(10px)",
-              border: `1px solid ${C.border}`,
+              border: "1px solid var(--border-md)",
               minWidth: 130,
             }}
             onClick={() => setTooltip(null)}
           >
             <p
               className="font-black text-xs md:text-sm mb-0.5"
-              style={{ color: C.text1 }}
+              style={{ color: "var(--text-1)" }}
             >
               {tooltip.name}
             </p>
             <p
               className="flex items-center justify-between text-[10px] md:text-[11px]"
-              style={{ color: C.text2 }}
+              style={{ color: "var(--text-2)" }}
             >
               <span>الزيارات:</span>
               <span
                 className="font-black"
-                style={{ color: tooltip.visits > 0 ? C.goldDark : C.text3 }}
+                style={{
+                  color: tooltip.visits > 0 ? "var(--red)" : "var(--text-3)",
+                }}
               >
                 {tooltip.visits > 0 ?
                   `${tooltip.visits.toLocaleString("en-US")}`
@@ -434,22 +415,34 @@ export default function SaudiSalesMap({
       </AnimatePresence>
 
       {/* ── الـ Legend المتجاوب ── */}
-      <div className="p-3 md:absolute md:bottom-3 md:left-4 z-20 flex items-center justify-center md:justify-start gap-4 bg-white/90 md:bg-white/80 backdrop-blur-md border-t md:border border-stone-200/40">
+      <div
+        className="p-3 md:absolute md:bottom-3 md:left-4 z-20 flex items-center justify-center md:justify-start gap-4 border-t md:border"
+        style={{
+          background: "var(--surface)",
+          borderColor: "var(--border-md)",
+        }}
+      >
         <div className="flex items-center gap-1.5">
           <div
             className="w-2.5 h-2.5 rounded-full animate-pulse"
-            style={{ background: C.gold }}
+            style={{ background: "var(--cyan)" }}
           />
-          <span className="text-[10px] font-bold" style={{ color: C.text1 }}>
+          <span
+            className="text-[10px] font-bold"
+            style={{ color: "var(--text-1)" }}
+          >
             منطقة نشطة مبيعاً
           </span>
         </div>
         <div className="flex items-center gap-1.5">
           <div
             className="w-2 h-2 rounded-full"
-            style={{ background: C.mutedDot }}
+            style={{ background: "var(--text-3)" }}
           />
-          <span className="text-[10px] font-medium" style={{ color: C.text3 }}>
+          <span
+            className="text-[10px] font-medium"
+            style={{ color: "var(--text-3)" }}
+          >
             خاملة حالياً
           </span>
         </div>

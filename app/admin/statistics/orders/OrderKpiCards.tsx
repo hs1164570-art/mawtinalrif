@@ -1,3 +1,4 @@
+// OrderKpiCards.tsx
 "use client";
 
 import {
@@ -10,6 +11,7 @@ import {
 } from "lucide-react";
 import { TinyTrendLine } from "../_shared/components/MiniSparkline";
 import type { OrdersData } from "../_shared/types";
+import { PALETTE } from "../_shared/constants";
 
 interface KpiCardProps {
   label: string;
@@ -36,8 +38,8 @@ function KpiCard({
 }: KpiCardProps) {
   return (
     <article
-      className="bg-white rounded-2xl border border-[#EDE5D8] p-4 shadow-sm
-                 hover:shadow-md transition-all duration-200 min-w-0"
+      className="bg-[var(--surface)] rounded-2xl border border-[var(--border-md)] p-4 shadow-[var(--shadow-sm)]
+                 hover:shadow-[var(--shadow-md)] transition-all duration-200 min-w-0"
       aria-label={`${label}: ${value}`}
     >
       <div className="flex items-center justify-between mb-2">
@@ -52,7 +54,7 @@ function KpiCard({
             className={`flex items-center gap-0.5 text-[10px] font-semibold px-1.5 py-0.5 rounded-full`}
             style={{
               backgroundColor: trend === "up" ? "#EBF5EF" : "#FAEAE7",
-              color: trend === "up" ? "#6A9E7F" : "#C4614A",
+              color: trend === "up" ? PALETTE.sage : PALETTE.terra,
             }}
           >
             {trend === "up" ?
@@ -63,8 +65,10 @@ function KpiCard({
         )}
       </div>
 
-      <p className="text-[10px] text-[#A89585] mb-1 font-medium">{label}</p>
-      <p className="text-xl font-bold text-[#3D2B1F] tabular-nums leading-none">
+      <p className="text-[10px] text-[var(--text-3)] mb-1 font-medium">
+        {label}
+      </p>
+      <p className="text-xl font-bold text-[var(--text-1)] tabular-nums leading-none">
         {value.toLocaleString("en-US")}
       </p>
 
@@ -86,7 +90,6 @@ export default function OrderKpiCards({
 }) {
   const { total, pending, processing, done, cancelled } = data.kpis;
 
-  // Build sparkline from flow data (last 7 days)
   const sparkline = data.flowByDay.slice(-7).map((d) => d.count);
 
   return (
@@ -102,7 +105,7 @@ export default function OrderKpiCards({
         pct={total.pct}
         isComparison={isComparison}
         icon={<TrendingUp size={14} />}
-        accentColor="#B89A5A"
+        accentColor={PALETTE.gold}
         bgColor="#F8F3EB"
         sparkline={sparkline}
       />
@@ -119,7 +122,7 @@ export default function OrderKpiCards({
         value={processing}
         isComparison={false}
         icon={<Cog size={14} />}
-        accentColor="#B89A5A"
+        accentColor={PALETTE.gold}
         bgColor="#F8F3EB"
       />
       <KpiCard
@@ -129,7 +132,7 @@ export default function OrderKpiCards({
         pct={done.pct}
         isComparison={isComparison}
         icon={<CheckCircle2 size={14} />}
-        accentColor="#6A9E7F"
+        accentColor={PALETTE.sage}
         bgColor="#EBF5EF"
         sparkline={sparkline}
       />

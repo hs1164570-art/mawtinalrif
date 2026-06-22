@@ -1,8 +1,10 @@
+// SmartProductTable.tsx
 "use client";
 
 import { useState, useMemo } from "react";
 import { Search, AlertTriangle, CheckCircle2, Package } from "lucide-react";
 import ChartWrapper from "../_shared/components/ChartWrapper";
+import { PALETTE } from "../_shared/constants";
 
 interface Row {
   name?: string;
@@ -48,9 +50,10 @@ export default function SmartProductTable({ data }: { data: Row[] }) {
       onClick={() => setSort(field)}
       className={`text-xs px-2 py-1 rounded-lg transition-colors ${
         sort === field ?
-          "bg-[#B89A5A] text-white"
-        : "text-[#A89585] hover:bg-[#F5EFE6]"
+          "text-[var(--text-inv)]"
+        : "text-[var(--text-3)] hover:bg-[var(--bg-deep)]"
       }`}
+      style={sort === field ? { backgroundColor: PALETTE.gold } : undefined}
     >
       {label}
     </button>
@@ -77,20 +80,20 @@ export default function SmartProductTable({ data }: { data: Row[] }) {
         <div className="relative flex-1 min-w-[160px] max-w-xs">
           <Search
             size={13}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-[#A89585]"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--text-3)]"
           />
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="ابحث عن منتج..."
             aria-label="البحث في المنتجات"
-            className="w-full pr-8 pl-3 py-2 text-xs rounded-xl border border-[#EDE5D8] bg-[#FAF7F2]
-                       text-[#3D2B1F] placeholder:text-[#A89585] focus:outline-none
+            className="w-full pr-8 pl-3 py-2 text-xs rounded-xl border border-[var(--border-md)] bg-[var(--surface-2)]
+                       text-[var(--text-1)] placeholder:text-[var(--text-3)] focus:outline-none
                        focus:ring-2 focus:ring-[#B89A5A] focus:border-transparent"
           />
         </div>
         {/* Sort */}
-        <div className="flex items-center gap-1 bg-[#F5EFE6] rounded-xl p-1 border border-[#EDE5D8]">
+        <div className="flex items-center gap-1 bg-[var(--bg-deep)] rounded-xl p-1 border border-[var(--border-md)]">
           <SortBtn field="sold" label="مبيعات" />
           <SortBtn field="views" label="مشاهدات" />
           <SortBtn field="cart" label="سلة" />
@@ -106,7 +109,7 @@ export default function SmartProductTable({ data }: { data: Row[] }) {
       >
         <table className="w-full min-w-[520px]" dir="rtl">
           <thead>
-            <tr className="border-b border-[#EDE5D8]">
+            <tr className="border-b border-[var(--border-md)]">
               {[
                 "المنتج",
                 "المبيعات",
@@ -117,7 +120,7 @@ export default function SmartProductTable({ data }: { data: Row[] }) {
               ].map((h) => (
                 <th
                   key={h}
-                  className="pb-2 text-[11px] font-semibold text-[#A89585] text-right px-2 first:pr-0"
+                  className="pb-2 text-[11px] font-semibold text-[var(--text-3)] text-right px-2 first:pr-0"
                   scope="col"
                 >
                   {h}
@@ -130,7 +133,7 @@ export default function SmartProductTable({ data }: { data: Row[] }) {
               <tr>
                 <td
                   colSpan={6}
-                  className="py-8 text-center text-sm text-[#A89585]"
+                  className="py-8 text-center text-sm text-[var(--text-3)]"
                 >
                   لا توجد نتائج
                 </td>
@@ -144,18 +147,18 @@ export default function SmartProductTable({ data }: { data: Row[] }) {
                 return (
                   <tr
                     key={row.slug}
-                    className={`border-b border-[#EDE5D8]/50 hover:bg-[#FAF7F2] transition-colors ${
-                      i % 2 === 0 ? "" : "bg-[#F5EFE6]/30"
+                    className={`border-b border-[var(--border-md)]/50 hover:bg-[var(--surface-2)] transition-colors ${
+                      i % 2 === 0 ? "" : "bg-[var(--bg-deep)]/30"
                     }`}
                   >
                     {/* Product name */}
                     <td className="py-2.5 px-2 pr-0">
                       <div className="flex items-center gap-2">
-                        <div className="w-7 h-7 rounded-lg bg-[#F5EFE6] flex items-center justify-center flex-shrink-0">
-                          <Package size={13} className="text-[#A89585]" />
+                        <div className="w-7 h-7 rounded-lg bg-[var(--bg-deep)] flex items-center justify-center flex-shrink-0">
+                          <Package size={13} className="text-[var(--text-3)]" />
                         </div>
                         <span
-                          className="text-xs font-medium text-[#3D2B1F] truncate max-w-[120px]"
+                          className="text-xs font-medium text-[var(--text-1)] truncate max-w-[120px]"
                           title={row.name ?? row.slug}
                         >
                           {row.name ?? row.slug}
@@ -164,28 +167,33 @@ export default function SmartProductTable({ data }: { data: Row[] }) {
                     </td>
 
                     {/* Sales */}
-                    <td className="py-2.5 px-2 text-xs font-bold text-[#3D2B1F] tabular-nums text-right">
+                    <td className="py-2.5 px-2 text-xs font-bold text-[var(--text-1)] tabular-nums text-right">
                       {sold.toLocaleString("en-US")}
                     </td>
 
                     {/* Views */}
-                    <td className="py-2.5 px-2 text-xs text-[#6B4C3B] tabular-nums text-right">
+                    <td className="py-2.5 px-2 text-xs text-[var(--text-2)] tabular-nums text-right">
                       {(row.views ?? 0).toLocaleString("en-US")}
                     </td>
 
                     {/* Cart */}
-                    <td className="py-2.5 px-2 text-xs text-[#6B4C3B] tabular-nums text-right">
+                    <td className="py-2.5 px-2 text-xs text-[var(--text-2)] tabular-nums text-right">
                       {(row.cart ?? 0).toLocaleString("en-US")}
                     </td>
 
                     {/* Stock */}
                     <td className="py-2.5 px-2 text-xs tabular-nums text-right">
                       <span
-                        className={
-                          noStock ? "text-[#C4614A] font-bold"
+                        className={`${
+                          noStock ? "font-bold"
+                          : lowStock ? "font-semibold"
+                          : "text-[var(--text-1)]"
+                        }`}
+                        style={
+                          noStock ? { color: PALETTE.terra }
                           : lowStock ?
-                            "text-[#B89A5A] font-semibold"
-                          : "text-[#3D2B1F]"
+                            { color: PALETTE.gold }
+                          : undefined
                         }
                       >
                         {stock.toLocaleString("en-US")}
@@ -195,16 +203,25 @@ export default function SmartProductTable({ data }: { data: Row[] }) {
                     {/* Status */}
                     <td className="py-2.5 px-2">
                       {noStock ?
-                        <span className="inline-flex items-center gap-1 text-[10px] bg-[#FAEAE7] text-[#C4614A] px-2 py-0.5 rounded-full font-medium">
+                        <span
+                          className="inline-flex items-center gap-1 text-[10px] bg-[#FAEAE7] px-2 py-0.5 rounded-full font-medium"
+                          style={{ color: PALETTE.terra }}
+                        >
                           <AlertTriangle size={9} />
                           نفد
                         </span>
                       : lowStock ?
-                        <span className="inline-flex items-center gap-1 text-[10px] bg-[#FDF5E8] text-[#B89A5A] px-2 py-0.5 rounded-full font-medium">
+                        <span
+                          className="inline-flex items-center gap-1 text-[10px] bg-[#FDF5E8] px-2 py-0.5 rounded-full font-medium"
+                          style={{ color: PALETTE.gold }}
+                        >
                           <AlertTriangle size={9} />
                           قليل
                         </span>
-                      : <span className="inline-flex items-center gap-1 text-[10px] bg-[#EBF5EF] text-[#6A9E7F] px-2 py-0.5 rounded-full font-medium">
+                      : <span
+                          className="inline-flex items-center gap-1 text-[10px] bg-[#EBF5EF] px-2 py-0.5 rounded-full font-medium"
+                          style={{ color: PALETTE.sage }}
+                        >
                           <CheckCircle2 size={9} />
                           متاح
                         </span>
@@ -219,7 +236,7 @@ export default function SmartProductTable({ data }: { data: Row[] }) {
       </div>
 
       {/* Footer count */}
-      <p className="text-[10px] text-[#A89585] mt-3 text-left" dir="ltr">
+      <p className="text-[10px] text-[var(--text-3)] mt-3 text-left" dir="ltr">
         {rows.length} من {data.length} منتج
       </p>
     </ChartWrapper>

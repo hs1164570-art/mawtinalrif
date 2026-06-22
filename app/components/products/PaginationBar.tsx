@@ -72,7 +72,7 @@ export default function PaginationBar({
               : "border border-[var(--border-md)] bg-[var(--surface)] text-[var(--text-2)] hover:bg-[var(--bg-deep)] hover:text-[var(--gold)]"
             }`}
           >
-            {(p as number).toLocaleString("ar-SA")}
+            {(p as number).toLocaleString("en-US")}
           </button>,
       )}
 

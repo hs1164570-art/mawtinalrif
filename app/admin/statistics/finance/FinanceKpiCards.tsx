@@ -1,3 +1,4 @@
+// FinanceKpiCards.tsx
 "use client";
 
 import {
@@ -9,6 +10,7 @@ import {
 } from "lucide-react";
 import { TinyTrendLine } from "../_shared/components/MiniSparkline";
 import type { FinanceData } from "../_shared/types";
+import { PALETTE } from "../_shared/constants";
 
 function formatCurrency(n: number): string {
   if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(2)} م`;
@@ -40,14 +42,14 @@ function KpiCard({
   accentColor,
 }: KpiCardProps) {
   const trendColor =
-    trend === "up" ? "#6A9E7F"
-    : trend === "down" ? "#C4614A"
-    : "#A89585";
+    trend === "up" ? PALETTE.sage
+    : trend === "down" ? PALETTE.terra
+    : PALETTE.muted;
 
   return (
     <article
-      className="bg-white rounded-2xl border border-[#EDE5D8] p-5 shadow-sm
-                 hover:shadow-md transition-all duration-200 group min-w-0"
+      className="bg-[var(--surface)] rounded-2xl border border-[var(--border-md)] p-5 shadow-[var(--shadow-sm)]
+                 hover:shadow-[var(--shadow-md)] transition-all duration-200 group min-w-0"
       aria-label={`${label}: ${value} ${unit ?? ""}`}
     >
       <div className="flex items-start justify-between gap-2 mb-3">
@@ -73,14 +75,16 @@ function KpiCard({
         )}
       </div>
 
-      <p className="text-xs text-[#A89585] mb-1 font-medium">{label}</p>
+      <p className="text-xs text-[var(--text-3)] mb-1 font-medium">{label}</p>
 
       <div className="flex items-end justify-between gap-2 min-w-0">
         <div className="min-w-0">
-          <span className="text-2xl font-bold text-[#3D2B1F] tabular-nums leading-none">
+          <span className="text-2xl font-bold text-[var(--text-1)] tabular-nums leading-none">
             {value}
           </span>
-          {unit && <span className="text-sm text-[#A89585] mr-1">{unit}</span>}
+          {unit && (
+            <span className="text-sm text-[var(--text-3)] mr-1">{unit}</span>
+          )}
         </div>
 
         <div className="flex-shrink-0">
@@ -89,7 +93,7 @@ function KpiCard({
       </div>
 
       {isComparison && (
-        <p className="text-[10px] text-[#A89585] mt-2">
+        <p className="text-[10px] text-[var(--text-3)] mt-2">
           مقارنةً بالفترة السابقة
         </p>
       )}
@@ -119,7 +123,7 @@ export default function FinanceKpiCards({
         sparkline={data.revenue.sparkline}
         icon={<DollarSign size={16} />}
         isComparison={isComparison}
-        accentColor="#B89A5A"
+        accentColor={PALETTE.gold}
       />
       <KpiCard
         label="صافي الأرباح"
@@ -130,7 +134,7 @@ export default function FinanceKpiCards({
         sparkline={data.profit.sparkline}
         icon={<Banknote size={16} />}
         isComparison={isComparison}
-        accentColor="#6A9E7F"
+        accentColor={PALETTE.sage}
       />
       <KpiCard
         label="هامش الربح"

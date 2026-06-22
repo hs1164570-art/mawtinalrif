@@ -77,9 +77,12 @@ function RoleBadge({ role }: { role: "USER" | "ADMIN" }) {
     <span
       className="inline-flex items-center gap-[3px] px-2 py-[2px] rounded-[6px] text-[0.72rem] font-semibold border"
       style={{
-        background: role === "ADMIN" ? "#FBF6EC" : "#FAF7F2",
-        borderColor: role === "ADMIN" ? "#DDD0B0" : "#EDE5D8",
-        color: role === "ADMIN" ? "#B89A5A" : "#A89585",
+        background:
+          role === "ADMIN" ?
+            "color-mix(in srgb, var(--gold) 6%, white)"
+          : "var(--bg)",
+        borderColor: role === "ADMIN" ? "var(--border-md)" : "var(--border)",
+        color: role === "ADMIN" ? "var(--gold)" : "var(--text-3)",
       }}
     >
       {role === "ADMIN" && <Shield size={10} />}
@@ -118,23 +121,39 @@ function StatusConfirmDialog({
         initial={{ scale: 0.95, y: 10 }}
         animate={{ scale: 1, y: 0 }}
         exit={{ scale: 0.95, y: 10 }}
-        className="relative bg-white rounded-[20px] p-8 max-w-[400px] w-full shadow-[0_24px_64px_rgba(0,0,0,0.15)]"
+        className="relative rounded-[20px] p-8 max-w-[400px] w-full"
+        style={{
+          background: "var(--surface)",
+          boxShadow: "var(--shadow-md)",
+        }}
       >
         <div
-          className="w-[52px] h-[52px] rounded-[14px] flex items-center justify-center mx-auto mb-5 border-[1.5px]"
+          className="w-[52px] h-[52px] rounded-[14px] flex items-center justify-center mx-auto mb-5"
           style={{
-            background: isBanning ? "#FBF0EE" : "#EEF7F2",
-            borderColor: isBanning ? "#E8C3BB" : "#B3D5C3",
+            background:
+              isBanning ?
+                "color-mix(in srgb, var(--red) 8%, white)"
+              : "var(--cyan-bg)",
+            border:
+              isBanning ?
+                "1.5px solid color-mix(in srgb, var(--red) 22%, white)"
+              : "1.5px solid color-mix(in srgb, var(--cyan) 28%, white)",
           }}
         >
           {isBanning ?
-            <AlertTriangle size={24} color="#C4614A" />
-          : <CheckCircle size={24} color="#6A9E7F" />}
+            <AlertTriangle size={24} style={{ color: "var(--red)" }} />
+          : <CheckCircle size={24} style={{ color: "var(--cyan)" }} />}
         </div>
-        <h3 className="text-center text-[#3D2B1F] font-bold mt-0 mb-[0.625rem]">
+        <h3
+          className="text-center font-bold mt-0 mb-[0.625rem]"
+          style={{ color: "var(--text-1)" }}
+        >
           {isBanning ? "حظر المستخدم" : "إلغاء الحظر"}
         </h3>
-        <p className="text-center text-[#6B4C3B] text-[0.9rem] mt-0 mb-6 leading-[1.5]">
+        <p
+          className="text-center text-[0.9rem] mt-0 mb-6 leading-[1.5]"
+          style={{ color: "var(--text-2)" }}
+        >
           {isBanning ?
             `هل تريد حظر "${user.name ?? user.email}"؟ لن يتمكن من الدخول للموقع.`
           : `هل تريد إلغاء حظر "${user.name ?? user.email}"؟`}
@@ -142,19 +161,25 @@ function StatusConfirmDialog({
         <div className="flex gap-3">
           <button
             onClick={onCancel}
-            className="flex-1 py-3 rounded-[10px] border-[1.5px] border-[#EDE5D8] bg-[#FAF7F2] text-[#3D2B1F] font-medium cursor-pointer text-[0.9rem] font-inherit"
+            className="flex-1 py-3 rounded-[10px] font-medium cursor-pointer text-[0.9rem] font-inherit"
+            style={{
+              border: "1.5px solid var(--border-md)",
+              background: "var(--bg)",
+              color: "var(--text-1)",
+            }}
           >
             إلغاء
           </button>
           <button
             onClick={onConfirm}
             disabled={isPending}
-            className="flex-1 py-3 rounded-[10px] border-none text-white font-semibold text-[0.9rem] font-inherit transition-colors"
+            className="flex-1 py-3 rounded-[10px] border-none font-semibold text-[0.9rem] font-inherit transition-colors"
             style={{
               background:
-                isPending ? "#DDD0B0"
-                : isBanning ? "#C4614A"
-                : "#6A9E7F",
+                isPending ? "var(--border-strong)"
+                : isBanning ? "var(--red)"
+                : "var(--cyan)",
+              color: "var(--text-inv)",
               cursor: isPending ? "not-allowed" : "pointer",
             }}
           >
@@ -242,21 +267,60 @@ export function UsersClient({ initialParams }: UsersClientProps) {
     onError: (err: Error) => toast.error(err.message),
   });
 
+  // ─── Stat cards config ────────────────────────────────────────────────────
+  const statCards = [
+    {
+      label: "إجمالي",
+      value: totalAll,
+      icon: <Users size={18} />,
+      accentColor: "var(--text-2)",
+      activeBg: "var(--bg-deep)",
+      filter: null as string | null,
+    },
+    {
+      label: "نشطون",
+      value: totalActive,
+      icon: <CheckCircle size={18} />,
+      accentColor: "var(--cyan)",
+      activeBg: "var(--cyan-bg)",
+      filter: "ACTIVE",
+    },
+    {
+      label: "محظورون",
+      value: totalBanned,
+      icon: <XCircle size={18} />,
+      accentColor: "var(--red)",
+      activeBg: "color-mix(in srgb, var(--red) 8%, white)",
+      filter: "BANNED",
+    },
+  ];
+
   return (
     <div>
       {/* ─── Header ─────────────────────────────────────────────── */}
       <div className="flex items-center justify-between mb-5 flex-wrap gap-3">
         <div>
-          <h2 className="m-0 text-[#3D2B1F] font-bold text-[1.3rem]">
+          <h2
+            className="m-0 font-bold text-[1.3rem]"
+            style={{ color: "var(--text-1)" }}
+          >
             المستخدمون
           </h2>
-          <p className="mt-1 mb-0 text-[#A89585] text-[0.82rem]">
+          <p
+            className="mt-1 mb-0 text-[0.82rem]"
+            style={{ color: "var(--text-3)" }}
+          >
             {totalAll} مستخدم إجمالي
           </p>
         </div>
         <button
           onClick={() => qc.invalidateQueries({ queryKey: ["admin-users"] })}
-          className="w-[38px] h-[38px] rounded-[10px] border-[1.5px] border-[#EDE5D8] bg-[#FAF7F2] cursor-pointer flex items-center justify-center text-[#6B4C3B]"
+          className="w-[38px] h-[38px] rounded-[10px] cursor-pointer flex items-center justify-center"
+          style={{
+            border: "1.5px solid var(--border-md)",
+            background: "var(--bg)",
+            color: "var(--text-2)",
+          }}
           aria-label="تحديث"
         >
           <RefreshCw size={15} />
@@ -268,32 +332,7 @@ export function UsersClient({ initialParams }: UsersClientProps) {
         className="grid gap-[0.875rem] mb-5"
         style={{ gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))" }}
       >
-        {[
-          {
-            label: "إجمالي",
-            value: totalAll,
-            icon: <Users size={18} />,
-            color: "#6B4C3B",
-            bg: "#F5EFE6",
-            filter: null,
-          },
-          {
-            label: "نشطون",
-            value: totalActive,
-            icon: <CheckCircle size={18} />,
-            color: "#6A9E7F",
-            bg: "#EEF7F2",
-            filter: "ACTIVE",
-          },
-          {
-            label: "محظورون",
-            value: totalBanned,
-            icon: <XCircle size={18} />,
-            color: "#C4614A",
-            bg: "#FBF0EE",
-            filter: "BANNED",
-          },
-        ].map((stat) => {
+        {statCards.map((stat) => {
           const isActive =
             statusFilter === stat.filter ||
             (!statusFilter && stat.filter === null);
@@ -305,26 +344,38 @@ export function UsersClient({ initialParams }: UsersClientProps) {
                 setStatusFilter(stat.filter);
                 setPage(1);
               }}
-              className="p-4 rounded-[12px] border-[1.5px] cursor-pointer text-right flex items-center gap-3 font-inherit transition-all"
+              className="p-4 rounded-[12px] cursor-pointer text-right flex items-center gap-3 font-inherit transition-all"
               style={{
-                borderColor: isActive ? "#DDD0B0" : "#EDE5D8",
-                background: isActive ? stat.bg : "#FFFFFF",
+                border:
+                  isActive ?
+                    "1.5px solid var(--border-md)"
+                  : "1.5px solid var(--border)",
+                background: isActive ? stat.activeBg : "var(--surface)",
               }}
             >
               <div
                 className="w-[38px] h-[38px] rounded-[9px] flex items-center justify-center shrink-0"
                 style={{
-                  background: isActive ? `${stat.color}20` : "#FAF7F2",
-                  color: stat.color,
+                  background:
+                    isActive ?
+                      `color-mix(in srgb, ${stat.accentColor} 14%, white)`
+                    : "var(--bg)",
+                  color: stat.accentColor,
                 }}
               >
                 {stat.icon}
               </div>
               <div>
-                <div className="text-[#3D2B1F] font-bold text-[1.3rem]">
+                <div
+                  className="font-bold text-[1.3rem]"
+                  style={{ color: "var(--text-1)" }}
+                >
                   {stat.value}
                 </div>
-                <div className="text-[#A89585] text-[0.75rem]">
+                <div
+                  className="text-[0.75rem]"
+                  style={{ color: "var(--text-3)" }}
+                >
                   {stat.label}
                 </div>
               </div>
@@ -334,19 +385,30 @@ export function UsersClient({ initialParams }: UsersClientProps) {
       </div>
 
       {/* ─── Filters ────────────────────────────────────────────── */}
-      <div className="bg-white border-[1.5px] border-[#EDE5D8] rounded-[14px] px-4 py-[0.875rem] mb-5 flex gap-3 flex-wrap items-center">
+      <div
+        className="rounded-[14px] px-4 py-[0.875rem] mb-5 flex gap-3 flex-wrap items-center"
+        style={{
+          background: "var(--surface)",
+          border: "1.5px solid var(--border)",
+        }}
+      >
         <div className="relative flex-[1_1_220px] min-w-[180px]">
           <Search
             size={14}
-            color="#A89585"
             className="absolute top-1/2 right-3 -translate-y-1/2"
+            style={{ color: "var(--text-3)" }}
           />
           <input
             type="search"
             placeholder="بحث بالاسم أو الإيميل..."
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
-            className="w-full pr-9 pl-3 py-[0.45rem] rounded-[8px] border-[1.5px] border-[#EDE5D8] bg-[#FAF7F2] text-[#3D2B1F] text-[0.82rem] font-inherit outline-none box-border"
+            className="w-full pr-9 pl-3 py-[0.45rem] rounded-[8px] text-[0.82rem] font-inherit outline-none box-border"
+            style={{
+              border: "1.5px solid var(--border-md)",
+              background: "var(--bg)",
+              color: "var(--text-1)",
+            }}
           />
         </div>
 
@@ -356,7 +418,12 @@ export function UsersClient({ initialParams }: UsersClientProps) {
             setRoleFilter(e.target.value || null);
             setPage(1);
           }}
-          className="px-3 py-[0.45rem] rounded-[8px] border-[1.5px] border-[#EDE5D8] bg-[#FAF7F2] text-[#3D2B1F] text-[0.82rem] font-inherit cursor-pointer outline-none"
+          className="px-3 py-[0.45rem] rounded-[8px] text-[0.82rem] font-inherit cursor-pointer outline-none"
+          style={{
+            border: "1.5px solid var(--border-md)",
+            background: "var(--bg)",
+            color: "var(--text-1)",
+          }}
           aria-label="تصفية حسب الدور"
         >
           <option value="">كل الأدوار</option>
@@ -366,25 +433,42 @@ export function UsersClient({ initialParams }: UsersClientProps) {
       </div>
 
       {/* ─── Table ──────────────────────────────────────────────── */}
-      <div className="bg-white border-[1.5px] border-[#EDE5D8] rounded-[16px] overflow-hidden">
+      <div
+        className="rounded-[16px] overflow-hidden"
+        style={{ border: "1.5px solid var(--border)" }}
+      >
         {isLoading && (
-          <div className="py-16 text-center text-[#A89585]">
+          <div className="py-16 text-center" style={{ color: "var(--text-3)" }}>
             جاري التحميل...
           </div>
         )}
 
         {!isLoading && users.length === 0 && (
           <div className="py-16 text-center">
-            <Users size={40} color="#EDE5D8" className="mx-auto mb-4" />
-            <div className="text-[#A89585] text-[0.9rem]">لا توجد نتائج</div>
+            <Users
+              size={40}
+              className="mx-auto mb-4"
+              style={{ color: "var(--border-strong)" }}
+            />
+            <div className="text-[0.9rem]" style={{ color: "var(--text-3)" }}>
+              لا توجد نتائج
+            </div>
           </div>
         )}
 
         {!isLoading && users.length > 0 && (
           <div className="overflow-x-auto">
-            <table className="w-full border-collapse">
+            <table
+              className="w-full border-collapse"
+              style={{ background: "var(--surface)" }}
+            >
               <thead>
-                <tr className="bg-[#FAF7F2] border-b-[1.5px] border-[#EDE5D8]">
+                <tr
+                  style={{
+                    background: "var(--bg)",
+                    borderBottom: "1.5px solid var(--border-md)",
+                  }}
+                >
                   {[
                     "المستخدم",
                     "الدور",
@@ -396,7 +480,8 @@ export function UsersClient({ initialParams }: UsersClientProps) {
                   ].map((h) => (
                     <th
                       key={h}
-                      className="px-4 py-[0.875rem] text-right text-[#A89585] font-semibold text-[0.78rem] uppercase tracking-[0.06em] whitespace-nowrap"
+                      className="px-4 py-[0.875rem] text-right font-semibold text-[0.78rem] uppercase tracking-[0.06em] whitespace-nowrap"
+                      style={{ color: "var(--text-3)" }}
                     >
                       {h}
                     </th>
@@ -410,12 +495,25 @@ export function UsersClient({ initialParams }: UsersClientProps) {
                     initial={{ opacity: 0, y: 4 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: idx * 0.02 }}
-                    className="border-b border-[#F5EFE6] transition-colors duration-150 hover:bg-[#FAF7F2]"
+                    className="transition-colors duration-150"
+                    style={{ borderBottom: "1px solid var(--border)" }}
+                    onMouseEnter={(e) =>
+                      (e.currentTarget.style.background = "var(--bg)")
+                    }
+                    onMouseLeave={(e) =>
+                      (e.currentTarget.style.background = "transparent")
+                    }
                   >
                     {/* User */}
                     <td className="px-4 py-[0.875rem]">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full overflow-hidden border-[1.5px] border-[#EDE5D8] bg-[#F5EFE6] flex items-center justify-center shrink-0">
+                        <div
+                          className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center shrink-0"
+                          style={{
+                            border: "1.5px solid var(--border-md)",
+                            background: "var(--bg-deep)",
+                          }}
+                        >
                           {user.image ?
                             <Image
                               src={user.image}
@@ -424,15 +522,25 @@ export function UsersClient({ initialParams }: UsersClientProps) {
                               height={40}
                               className="object-cover"
                             />
-                          : <User size={18} color="#A89585" />}
+                          : <User
+                              size={18}
+                              style={{ color: "var(--text-3)" }}
+                            />
+                          }
                         </div>
                         <div>
-                          <div className="text-[#3D2B1F] font-semibold text-[0.875rem]">
+                          <div
+                            className="font-semibold text-[0.875rem]"
+                            style={{ color: "var(--text-1)" }}
+                          >
                             {user.name ?? "—"}
                           </div>
                           <div
-                            className="text-[#A89585] text-[0.75rem] text-right"
-                            style={{ direction: "ltr" }}
+                            className="text-[0.75rem] text-right"
+                            style={{
+                              color: "var(--text-3)",
+                              direction: "ltr",
+                            }}
                           >
                             {user.email ?? "—"}
                           </div>
@@ -452,7 +560,10 @@ export function UsersClient({ initialParams }: UsersClientProps) {
 
                     {/* Country */}
                     <td className="px-4 py-[0.875rem]">
-                      <div className="flex items-center gap-1 text-[#6B4C3B] text-[0.82rem]">
+                      <div
+                        className="flex items-center gap-1 text-[0.82rem]"
+                        style={{ color: "var(--text-2)" }}
+                      >
                         <Globe size={13} />
                         {user.country ?? "—"}
                       </div>
@@ -460,17 +571,26 @@ export function UsersClient({ initialParams }: UsersClientProps) {
 
                     {/* Orders count */}
                     <td className="px-4 py-[0.875rem]">
-                      <div className="flex items-center gap-1 text-[#3D2B1F] text-[0.875rem]">
-                        <ShoppingBag size={13} color="#A89585" />
+                      <div
+                        className="flex items-center gap-1 text-[0.875rem]"
+                        style={{ color: "var(--text-1)" }}
+                      >
+                        <ShoppingBag
+                          size={13}
+                          style={{ color: "var(--text-3)" }}
+                        />
                         {user._count?.order ?? 0}
                       </div>
                     </td>
 
                     {/* Date */}
                     <td className="px-4 py-[0.875rem]">
-                      <div className="flex items-center gap-1 text-[#6B4C3B] text-[0.8rem]">
+                      <div
+                        className="flex items-center gap-1 text-[0.8rem]"
+                        style={{ color: "var(--text-2)" }}
+                      >
                         <Calendar size={13} />
-                        {new Date(user.createdAt).toLocaleDateString("ar-SA", {
+                        {new Date(user.createdAt).toLocaleDateString("en-US", {
                           day: "numeric",
                           month: "short",
                           year: "numeric",
@@ -489,14 +609,20 @@ export function UsersClient({ initialParams }: UsersClientProps) {
                                 user.status === "ACTIVE" ? "BANNED" : "ACTIVE",
                             })
                           }
-                          className="px-[0.875rem] py-[0.4rem] rounded-[8px] border-[1.5px] font-semibold text-[0.78rem] cursor-pointer font-inherit whitespace-nowrap inline-flex items-center gap-1"
+                          className="px-[0.875rem] py-[0.4rem] rounded-[8px] font-semibold text-[0.78rem] cursor-pointer font-inherit whitespace-nowrap inline-flex items-center gap-1 transition-all"
                           style={{
-                            borderColor:
-                              user.status === "ACTIVE" ? "#E8C3BB" : "#B3D5C3",
+                            border:
+                              user.status === "ACTIVE" ?
+                                "1.5px solid color-mix(in srgb, var(--red) 22%, white)"
+                              : "1.5px solid color-mix(in srgb, var(--cyan) 28%, white)",
                             background:
-                              user.status === "ACTIVE" ? "#FBF0EE" : "#EEF7F2",
+                              user.status === "ACTIVE" ?
+                                "color-mix(in srgb, var(--red) 8%, white)"
+                              : "var(--cyan-bg)",
                             color:
-                              user.status === "ACTIVE" ? "#C4614A" : "#6A9E7F",
+                              user.status === "ACTIVE" ?
+                                "var(--red)"
+                              : "var(--cyan)",
                           }}
                         >
                           {user.status === "ACTIVE" ?
@@ -510,7 +636,10 @@ export function UsersClient({ initialParams }: UsersClientProps) {
                         </button>
                       )}
                       {user.role === "ADMIN" && (
-                        <span className="text-[#A89585] text-[0.78rem]">
+                        <span
+                          className="text-[0.78rem]"
+                          style={{ color: "var(--text-3)" }}
+                        >
                           محمي
                         </span>
                       )}
@@ -525,17 +654,27 @@ export function UsersClient({ initialParams }: UsersClientProps) {
 
       {/* ─── Pagination ─────────────────────────────────────────── */}
       {users.length > 0 && (
-        <div className="flex items-center justify-between mt-4 px-5 py-[0.875rem] bg-white border-[1.5px] border-[#EDE5D8] rounded-[12px] flex-wrap gap-3">
-          <span className="text-[#A89585] text-[0.82rem]">صفحة {page}</span>
+        <div
+          className="flex items-center justify-between mt-4 px-5 py-[0.875rem] rounded-[12px] flex-wrap gap-3"
+          style={{
+            background: "var(--surface)",
+            border: "1.5px solid var(--border)",
+          }}
+        >
+          <span className="text-[0.82rem]" style={{ color: "var(--text-3)" }}>
+            صفحة {page}
+          </span>
           <div className="flex gap-1.5">
             <button
               onClick={() => setPage((p) => Math.max(1, (p ?? 1) - 1))}
               disabled={(page ?? 1) <= 1}
-              className="w-9 h-9 rounded-[8px] border-[1.5px] border-[#EDE5D8] flex items-center justify-center"
+              className="w-9 h-9 rounded-[8px] flex items-center justify-center transition-all"
               style={{
-                background: (page ?? 1) <= 1 ? "#FAF7F2" : "#FFFFFF",
-                color: (page ?? 1) <= 1 ? "#C9B9AD" : "#3D2B1F",
+                border: "1.5px solid var(--border-md)",
+                background: (page ?? 1) <= 1 ? "var(--bg)" : "var(--surface)",
+                color: (page ?? 1) <= 1 ? "var(--text-3)" : "var(--text-1)",
                 cursor: (page ?? 1) <= 1 ? "not-allowed" : "pointer",
+                opacity: (page ?? 1) <= 1 ? 0.45 : 1,
               }}
               aria-label="السابق"
             >
@@ -544,13 +683,20 @@ export function UsersClient({ initialParams }: UsersClientProps) {
             <button
               onClick={() => setPage((p) => (p ?? 1) + 1)}
               disabled={users.length < USERS_PER_PAGE}
-              className="w-9 h-9 rounded-[8px] border-[1.5px] border-[#EDE5D8] flex items-center justify-center"
+              className="w-9 h-9 rounded-[8px] flex items-center justify-center transition-all"
               style={{
+                border: "1.5px solid var(--border-md)",
                 background:
-                  users.length < USERS_PER_PAGE ? "#FAF7F2" : "#FFFFFF",
-                color: users.length < USERS_PER_PAGE ? "#C9B9AD" : "#3D2B1F",
+                  users.length < USERS_PER_PAGE ?
+                    "var(--bg)"
+                  : "var(--surface)",
+                color:
+                  users.length < USERS_PER_PAGE ?
+                    "var(--text-3)"
+                  : "var(--text-1)",
                 cursor:
                   users.length < USERS_PER_PAGE ? "not-allowed" : "pointer",
+                opacity: users.length < USERS_PER_PAGE ? 0.45 : 1,
               }}
               aria-label="التالي"
             >

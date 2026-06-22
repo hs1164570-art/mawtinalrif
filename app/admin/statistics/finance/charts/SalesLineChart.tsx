@@ -1,3 +1,4 @@
+// SalesLineChart.tsx
 "use client";
 
 import {
@@ -31,18 +32,18 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   if (!active || !payload?.length) return null;
   return (
     <div
-      className="bg-white border border-[#EDE5D8] rounded-xl p-3 shadow-lg text-right"
+      className="bg-[var(--surface)] border border-[var(--border-md)] rounded-xl p-3 shadow-[var(--shadow-md)] text-right"
       dir="rtl"
     >
-      <p className="text-xs text-[#A89585] mb-2">{fmtDate(label)}</p>
+      <p className="text-xs text-[var(--text-3)] mb-2">{fmtDate(label)}</p>
       {payload.map((p: any) => (
         <div key={p.dataKey} className="flex items-center gap-2">
           <span
             className="w-2 h-2 rounded-full flex-shrink-0"
             style={{ background: p.color }}
           />
-          <span className="text-xs text-[#6B4C3B]">{p.name}:</span>
-          <span className="text-xs font-bold text-[#3D2B1F] tabular-nums">
+          <span className="text-xs text-[var(--text-2)]">{p.name}:</span>
+          <span className="text-xs font-bold text-[var(--text-1)] tabular-nums">
             {fmtCurrency(p.value)}ر.س
           </span>
         </div>

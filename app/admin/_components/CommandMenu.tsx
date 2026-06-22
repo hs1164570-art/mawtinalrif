@@ -280,31 +280,31 @@ export function CommandMenu() {
       className="fixed inset-0 z-[100] flex items-start justify-center p-4 pt-[12vh]"
       dir="rtl"
     >
-      {/* Backdrop */}
+      {/* Backdrop مُحدث ليتناسب مع النمط العصري الشفاف الشامل */}
       <div
-        className="fixed inset-0 bg-[#3D2B1F]/40 backdrop-blur-md transition-opacity duration-300"
+        className="fixed inset-0 bg-black/20 backdrop-blur-md transition-opacity duration-300"
         onClick={() => setOpen(false)}
       />
 
       {/* Command Palette Modal */}
-      <div className="relative w-full max-w-[560px] bg-white rounded-2xl border border-[#EDE5D8] shadow-[0_24px_64px_rgba(61,43,31,0.18),0_8px_24px_rgba(61,43,31,0.1)] overflow-hidden transition-all transform scale-100">
+      <div className="relative w-full max-w-[560px] bg-[var(--surface)] rounded-2xl border border-[var(--border-md)] shadow-xl overflow-hidden transition-all transform scale-100">
         <Command className="w-full font-inherit" label="البحث السريع">
           {/* Search Header */}
-          <div className="flex items-center gap-3 px-4 py-3.5 border-b border-[#EDE5D8] bg-white">
+          <div className="flex items-center gap-3 px-4 py-3.5 border-b border-[var(--border-md)] bg-[var(--surface)]">
             <Search
               size={18}
-              className="text-[#B89A5A] flex-shrink-0 stroke-[2px]"
+              className="text-[var(--text-2)] flex-shrink-0 stroke-[2px]"
             />
             <Command.Input
               value={search}
               onValueChange={setSearch}
               placeholder="ابحث عن صفحة، منتج، طلب، مستخدم، أو أمر..."
-              className="flex-1 border-none outline-none bg-transparent text-[#3D2B1F] text-[0.95rem] placeholder:text-[#A89585]/60"
+              className="flex-1 border-none outline-none bg-transparent text-[var(--text-1)] text-[0.95rem] placeholder:text-[var(--text-3)]/60"
               autoFocus
             />
             <button
               onClick={() => setOpen(false)}
-              className="w-7 h-7 rounded-lg border border-[#EDE5D8] bg-[#FAF7F2] cursor-pointer flex items-center justify-center text-[#A89585] hover:bg-[#F5EFE6] hover:text-[#3D2B1F] transition-all flex-shrink-0"
+              className="w-7 h-7 rounded-lg border border-[var(--border-md)] bg-[var(--bg)] cursor-pointer flex items-center justify-center text-[var(--text-3)] hover:bg-[var(--bg-deep)] hover:text-[var(--text-1)] transition-all flex-shrink-0"
               aria-label="إغلاق"
             >
               <X size={13} />
@@ -313,7 +313,7 @@ export function CommandMenu() {
 
           {/* List Content */}
           <Command.List className="max-h-[380px] overflow-y-auto p-2 space-y-1">
-            <Command.Empty className="py-8 text-center text-sm text-[#A89585]">
+            <Command.Empty className="py-8 text-center text-sm text-[var(--text-3)]">
               لا توجد نتائج لـ «{search}»
             </Command.Empty>
 
@@ -324,7 +324,7 @@ export function CommandMenu() {
               return (
                 <Command.Group key={group} heading={group}>
                   {/* Heading */}
-                  <div className="px-2.5 py-2 text-[11px] font-bold text-[#A89585] uppercase tracking-wider select-none">
+                  <div className="px-2.5 py-2 text-[11px] font-bold text-[var(--text-3)] uppercase tracking-wider select-none">
                     {group}
                   </div>
 
@@ -334,20 +334,20 @@ export function CommandMenu() {
                       key={item.id}
                       value={`${item.label} ${item.description ?? ""} ${item.keywords?.join(" ") ?? ""}`}
                       onSelect={item.action}
-                      className="flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer text-[#3D2B1F] outline-none select-none transition-all duration-150 data-[selected=true]:bg-[#FBF6EC]"
+                      className="flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer text-[var(--text-1)] outline-none select-none transition-all duration-150 data-[selected=true]:bg-[var(--bg)] group"
                     >
-                      {/* Icon Box */}
-                      <div className="w-[34px] h-[34px] rounded-lg bg-[#F5EFE6] flex items-center justify-center text-[#B89A5A] flex-shrink-0 transition-colors data-[selected=true]:bg-[#B89A5A] data-[selected=true]:text-white">
+                      {/* Icon Box يتغير ليتطابق مع الاختيار عبر الكيبورد */}
+                      <div className="w-[34px] h-[34px] rounded-lg bg-[var(--bg-deep)] flex items-center justify-center text-[var(--text-2)] flex-shrink-0 transition-colors group-data-[selected=true]:bg-[var(--text-1)] group-data-[selected=true]:text-[var(--surface)]">
                         {item.icon}
                       </div>
 
                       {/* Text Content */}
                       <div className="flex-1 min-w-0">
-                        <div className="text-sm font-medium text-[#3D2B1F]">
+                        <div className="text-sm font-medium text-[var(--text-1)]">
                           {item.label}
                         </div>
                         {item.description && (
-                          <div className="text-xs text-[#A89585] mt-0.5 truncate">
+                          <div className="text-xs text-[var(--text-3)] mt-0.5 truncate">
                             {item.description}
                           </div>
                         )}
@@ -360,7 +360,7 @@ export function CommandMenu() {
           </Command.List>
 
           {/* Footer Guide */}
-          <div className="px-4 py-2.5 bg-[#FAF7F2] border-t border-[#EDE5D8] flex gap-4 text-[11px] text-[#A89585] font-medium">
+          <div className="px-4 py-2.5 bg-[var(--bg)] border-t border-[var(--border-md)] flex gap-4 text-[11px] text-[var(--text-3)] font-medium">
             <span>↑↓ للتنقل</span>
             <span>↵ للتنفيذ</span>
             <span>Esc للإغلاق</span>

@@ -1,3 +1,4 @@
+// ProfitShareDonut.tsx
 "use client";
 
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
@@ -28,7 +29,7 @@ const CustomTooltip = ({ active, payload }: any) => {
   const pct = total > 0 ? ((value / total) * 100).toFixed(1) : "0";
   return (
     <div
-      className="bg-white border border-[#EDE5D8] rounded-xl p-3 shadow-lg text-right"
+      className="bg-[var(--surface)] border border-[var(--border-md)] rounded-xl p-3 shadow-[var(--shadow-md)] text-right"
       dir="rtl"
     >
       <div className="flex items-center gap-2 mb-1">
@@ -36,12 +37,12 @@ const CustomTooltip = ({ active, payload }: any) => {
           className="w-2 h-2 rounded-full"
           style={{ background: payload[0].payload.color }}
         />
-        <span className="text-xs font-medium text-[#3D2B1F]">{name}</span>
+        <span className="text-xs font-medium text-[var(--text-1)]">{name}</span>
       </div>
-      <p className="text-sm font-bold text-[#3D2B1F] tabular-nums">
+      <p className="text-sm font-bold text-[var(--text-1)] tabular-nums">
         {fmtCurrency(value)}
       </p>
-      <p className="text-xs text-[#A89585]">{pct}% من الإجمالي</p>
+      <p className="text-xs text-[var(--text-3)]">{pct}% من الإجمالي</p>
     </div>
   );
 };
@@ -59,7 +60,12 @@ function CenterLabel({
 }) {
   return (
     <>
-      <text x={cx} y={cy - 10} textAnchor="middle" className="fill-[#3D2B1F]">
+      <text
+        x={cx}
+        y={cy - 10}
+        textAnchor="middle"
+        className="fill-[var(--text-1)]"
+      >
         <tspan fontSize={22} fontWeight={700}>
           {profitMargin.toFixed(1)}%
         </tspan>
@@ -95,7 +101,7 @@ export default function ProfitShareDonut({
       minHeight={240}
     >
       {isEmpty ?
-        <div className="flex items-center justify-center h-60 text-sm text-[#A89585]">
+        <div className="flex items-center justify-center h-60 text-sm text-[var(--text-3)]">
           لا توجد بيانات كافية
         </div>
       : <>
@@ -113,7 +119,8 @@ export default function ProfitShareDonut({
                     dx="0"
                     dy="2"
                     stdDeviation="3"
-                    floodColor="#00000018"
+                    floodColor="#000000"
+                    floodOpacity={0.08}
                   />
                 </filter>
               </defs>
@@ -138,7 +145,6 @@ export default function ProfitShareDonut({
                     aria-label={`${seg.name}: ${fmtCurrency(seg.value)}`}
                   />
                 ))}
-                {/* Center label injected via label prop */}
               </Pie>
               <Tooltip content={<CustomTooltip />} />
             </PieChart>
@@ -156,24 +162,26 @@ export default function ProfitShareDonut({
                   className="w-2.5 h-2.5 rounded-full flex-shrink-0"
                   style={{ background: seg.color }}
                 />
-                <span className="text-xs text-[#6B4C3B]">{seg.name}</span>
-                <span className="text-xs font-semibold text-[#3D2B1F] tabular-nums">
+                <span className="text-xs text-[var(--text-2)]">{seg.name}</span>
+                <span className="text-xs font-semibold text-[var(--text-1)] tabular-nums">
                   {total > 0 ? ((seg.value / total) * 100).toFixed(0) : 0}%
                 </span>
               </div>
             ))}
           </div>
 
-          {/* Center value overlay (absolute positioned over the SVG hole) */}
+          {/* Center value overlay */}
           <div
             className="absolute inset-0 flex items-center justify-center pointer-events-none"
             style={{ top: 40, paddingBottom: 40 }}
           >
             <div className="text-center">
-              <p className="text-2xl font-bold text-[#3D2B1F] tabular-nums leading-none">
+              <p className="text-2xl font-bold text-[var(--text-1)] tabular-nums leading-none">
                 {profitMargin.toFixed(1)}%
               </p>
-              <p className="text-[11px] text-[#A89585] mt-0.5">هامش الربح</p>
+              <p className="text-[11px] text-[var(--text-3)] mt-0.5">
+                هامش الربح
+              </p>
             </div>
           </div>
         </>
