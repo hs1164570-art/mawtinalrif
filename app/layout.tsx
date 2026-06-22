@@ -14,6 +14,7 @@
  */
 
 import type { Metadata, Viewport } from "next";
+import { GoogleAnalyticsTag } from "./admin/statistics/googleGA4/components/GoogleAnalyticsTag";
 import { Inter, Cairo } from "next/font/google";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -462,6 +463,7 @@ export default async function RootLayout({
       </head>
 
       <body className="font-arabic antialiased flex flex-col min-h-screen">
+        <GoogleAnalyticsTag />
         <QueryProvider>
           <SessionProvider>
             <NuqsAdapter>
