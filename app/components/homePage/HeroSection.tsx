@@ -27,6 +27,7 @@ interface HeroSectionProps {
   subtitle?: string;
   /** نص زر CTA — اختياري */
   ctaLabel?: string;
+  appointment?: string;
 }
 
 // ─── Placeholder gradients per index (when image is null) ─────────────────────
@@ -51,6 +52,7 @@ export default function HeroSection({
   staticTitle = "خدماتنا",
   subtitle = "اكتشف مجموعتنا الحصرية من الأثاث الفاخر والديكور الراقي",
   ctaLabel = "اكتشف المجموعة",
+  appointment = "احجز استشارتك المجانيه الان",
 }: HeroSectionProps) {
   const [current, setCurrent] = useState(0);
   const [prev, setPrev] = useState<number | null>(null);
@@ -490,6 +492,7 @@ export default function HeroSection({
         </div>
 
         {/* ── Main content ─────────────────────────────────────────────── */}
+        {/* ── Main content ─────────────────────────────────────────────── */}
         <div className="content">
           <div className="label-pill">موطن الريف</div>
 
@@ -503,30 +506,44 @@ export default function HeroSection({
           </div>
 
           <div className="divider" />
-
           <p className="subtitle">{subtitle}</p>
 
-          {/* CTA يوصّل لصفحة الكاتيجوري الحالية */}
-          <Link
-            href={`products/collections/${currentItem.slug}`}
-            className="cta-btn"
+          {/* أزرار التحكم - الأزرار جنب بعض */}
+          <div
+            className="cta-wrapper"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "1rem",
+              flexWrap: "wrap",
+            }}
           >
-            {ctaLabel}
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+            {/* CTA يوصّل لصفحة الكاتيجوري الحالية */}
+            <Link
+              href={`products/collections/${currentItem.slug}`}
+              className="cta-btn"
             >
-              <polyline points="15 18 9 12 15 6" />
-            </svg>
-          </Link>
-        </div>
+              {ctaLabel}
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+            </Link>
 
+            {/* زرار الحجز الجديد */}
+            <Link href="/contact" className="text-white rounded-2xl  ">
+              {appointment}
+            </Link>
+          </div>
+        </div>
         {/* ── Arrows ───────────────────────────────────────────────────── */}
         {total > 1 && (
           <>

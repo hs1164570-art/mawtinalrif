@@ -11,6 +11,7 @@
  * ✅ FIX 5 — sameAs مكتمل بـ social links      (كان ناقص Instagram + TikTok)
  * ✅ FIX 6 — priceRange "$$$" → "$$"           (inconsistent مع باقي الصفحات)
  * ✅ FIX 7 — hasMap الرابط الحقيقي من Google Maps
+ * ✅ FIX 8 — استخدام مكتبة lucide-react بدلاً من الإيموجيز وتحسين وضوح الأيقونات
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
@@ -19,6 +20,19 @@ import Image from "next/image";
 import Link from "next/link";
 import { faqItems } from "./_data/faq";
 import FAQAccordion from "./_components/FAQAccordion";
+// استيراد الأيقونات الاحترافية
+import {
+  Truck,
+  MapPin,
+  Wrench,
+  PackageCheck,
+  PhoneCall,
+  RefreshCw,
+  Phone,
+  Headset,
+  MessageCircle,
+  Mail,
+} from "lucide-react";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 const BASE_URL = "https://mawtinalriyf.com";
@@ -94,28 +108,10 @@ export const metadata: Metadata = {
 // 2. JSON-LD STRUCTURED DATA
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * ✅ FIX 1 — @id مغيّر من /#organization إلى /#business
- *
- * layout.tsx يعرّف:
- * /#organization = Organization (المؤسسة القانونية)
- * /#business     = FurnitureStore + LocalBusiness
- *
- * وضع FurnitureStore بـ @id = /#organization كان يتعارض مع layout ويخلي Google
- * تحصل على تعريفين مختلفين لنفس الـ @id → Google تتجاهل أحدهما أو تخطئ.
- *
- * ✅ FIX 3 — aggregateRating محذوف
- * البيانات الوهمية (4.8 من 150 تقييم) تعرّض الموقع لعقوبة Google Manual Action.
- * homepage تحسب الـ rating من التقييمات الحقيقية في قاعدة البيانات.
- *
- * ✅ FIX 5 — sameAs مكتمل
- * ✅ FIX 6 — priceRange "$$" متسق مع باقي الصفحات
- * ✅ FIX 7 — hasMap رابط Google Maps الحقيقي
- */
 const furnitureStoreSchema = {
   "@context": "https://schema.org",
   "@type": "FurnitureStore",
-  "@id": `${BASE_URL}/#business`, // ✅ FIX 1: كان /#organization
+  "@id": `${BASE_URL}/#business`,
   name: "مؤسسة موطن الريف للتجارة",
   alternateName: "موطن الريف",
   url: BASE_URL,
@@ -130,7 +126,7 @@ const furnitureStoreSchema = {
     "متجر أثاث فاخر في الرياض يقدم غرف نوم وطعام وديكورات داخلية بخامات طبيعية عالية الجودة مع خدمة التوصيل والتركيب لجميع مناطق المملكة العربية السعودية.",
   telephone: "+966557211359",
   email: "info@mawtinalriyf.com",
-  priceRange: "$$", // ✅ FIX 6: كان "$$$"
+  priceRange: "$$",
   currenciesAccepted: "SAR",
   paymentAccepted: "Cash, Credit Card, Bank Transfer, STC Pay, Apple Pay",
   address: {
@@ -147,7 +143,7 @@ const furnitureStoreSchema = {
     latitude: 24.6565151,
     longitude: 46.7939716,
   },
-  hasMap: "https://maps.app.goo.gl/ZtJBNuCLczyKCDSo6", // ✅ FIX 7: رابط حقيقي
+  hasMap: "https://maps.app.goo.gl/ZtJBNuCLczyKCDSo6",
   openingHoursSpecification: [
     {
       "@type": "OpeningHoursSpecification",
@@ -180,17 +176,13 @@ const furnitureStoreSchema = {
       areaServed: "SA",
     },
   ],
-  // ✅ FIX 5: sameAs مكتمل مع social media
   sameAs: [
     "https://www.instagram.com/alreeefl11/",
     "https://www.tiktok.com/@mafrushatalriyf1",
     "https://maps.app.goo.gl/ZtJBNuCLczyKCDSo6",
   ],
-  // ✅ FIX 3: aggregateRating محذوف — homepage تحسبه من البيانات الحقيقية
-  // وضع أرقام وهمية هنا يعرّض الموقع لعقوبة "False Review" من Google
 };
 
-// FAQPage JSON-LD — من نفس مصدر faqItems (single source of truth)
 const faqPageSchema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -204,7 +196,6 @@ const faqPageSchema = {
   })),
 };
 
-// BreadcrumbList
 const breadcrumbSchema = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
@@ -225,48 +216,48 @@ const breadcrumbSchema = {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 3. STATIC PAGE DATA
+// 3. STATIC PAGE DATA (مع استخدام lucide-react)
 // ─────────────────────────────────────────────────────────────────────────────
 
 interface ShippingFeature {
-  readonly icon: string;
+  readonly icon: React.ReactNode;
   readonly title: string;
   readonly description: string;
 }
 
 const shippingFeatures: readonly ShippingFeature[] = [
   {
-    icon: "🚛",
+    icon: <Truck className="w-8 h-8 text-[var(--text-1)]" />,
     title: "توصيل سريع داخل الرياض",
     description:
       "يصلك طلبك خلال 7–10 أيام عمل مع إشعار مسبق بالموعد الدقيق عبر الهاتف أو الواتساب.",
   },
   {
-    icon: "🇸🇦",
+    icon: <MapPin className="w-8 h-8 text-[var(--text-1)]" />,
     title: "شحن لجميع مناطق المملكة",
     description:
       "نغطي جميع مدن المملكة من جدة إلى أبها وتبوك والدمام خلال 10-15 أيام عمل بتغليف احترافي.",
   },
   {
-    icon: "🔧",
+    icon: <Wrench className="w-8 h-8 text-[var(--text-1)]" />,
     title: "تركيب احترافي في المنزل",
     description:
       "فريق تركيب متخصص يتولى تجميع وتثبيت كل قطعة بدقة واحترافية تامة دون أي متاعب عليك.",
   },
   {
-    icon: "📦",
+    icon: <PackageCheck className="w-8 h-8 text-[var(--text-1)]" />,
     title: "تغليف فاخر محكم",
     description:
       "كل قطعة أثاث تُعبأ بمواد حماية فائقة الجودة لضمان وصولها سليمة تماماً كما خرجت من معرضنا.",
   },
   {
-    icon: "📞",
+    icon: <PhoneCall className="w-8 h-8 text-[var(--text-1)]" />,
     title: "متابعة مستمرة للشحنة",
     description:
       "نُبلغك بكل مراحل رحلة طلبك حتى استلامه، ودعمنا متاح على الخط المجاني 966557211359.",
   },
   {
-    icon: "↩️",
+    icon: <RefreshCw className="w-8 h-8 text-[var(--text-1)]" />,
     title: "سياسة إرجاع مرنة",
     description:
       "إعادة خلال 7 أيام من الاستلام في حال أي عيب تصنيعي، دون تعقيدات وبإجراءات سريعة.",
@@ -274,7 +265,7 @@ const shippingFeatures: readonly ShippingFeature[] = [
 ];
 
 interface ContactItem {
-  readonly icon: string;
+  readonly icon: React.ReactNode;
   readonly label: string;
   readonly value: string;
   readonly href: string;
@@ -283,28 +274,28 @@ interface ContactItem {
 
 const contactItems: readonly ContactItem[] = [
   {
-    icon: "📞",
+    icon: <Phone className="w-10 h-10 mx-auto text-[var(--text-1)]" />,
     label: "هاتف مباشر",
     value: "0557211359",
     href: "tel:+966557211359",
     external: false,
   },
   {
-    icon: "☎️",
+    icon: <Headset className="w-10 h-10 mx-auto text-[var(--text-1)]" />,
     label: "الخط المجاني",
     value: "966557211359",
     href: "tel:966557211359",
     external: false,
   },
   {
-    icon: "💬",
+    icon: <MessageCircle className="w-10 h-10 mx-auto text-[var(--text-1)]" />,
     label: "واتساب",
     value: "0501655033",
     href: "https://wa.me/966501655033",
     external: true,
   },
   {
-    icon: "✉️",
+    icon: <Mail className="w-10 h-10 mx-auto text-[var(--text-1)]" />,
     label: "البريد الإلكتروني",
     value: "info@mawtinalriyf.com",
     href: "mailto:info@mawtinalriyf.com",
@@ -319,9 +310,6 @@ const contactItems: readonly ContactItem[] = [
 export default function AboutPage() {
   return (
     <>
-      {/* ── Structured Data ───────────────────────────────────────────────
-         ✅ FIX 4: serializeJsonLd بدل JSON.stringify — XSS-safe escaping
-       ─────────────────────────────────────────────────────────────────── */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -341,11 +329,6 @@ export default function AboutPage() {
         }}
       />
 
-      {/*
-        ✅ FIX 2: <div> بدل <main>
-        layout.tsx يحتوي بالفعل على <main className="flex-1">{children}</main>
-        وضع <main> هنا يخلق nested <main> وهو HTML غير صالح يضر بـ SEO
-      */}
       <div
         dir="rtl"
         lang="ar"
@@ -433,7 +416,7 @@ export default function AboutPage() {
         </section>
 
         {/* ════════════════════════════════════════════════════════════════
-            SECTION 2 — OUR STORY & VISION  (E-E-A-T)
+            SECTION 2 — OUR STORY & VISION
         ════════════════════════════════════════════════════════════════ */}
         <section
           aria-label="قصتنا ورؤيتنا"
@@ -542,10 +525,10 @@ export default function AboutPage() {
                   className="bg-[var(--bg)] rounded-2xl p-7 border border-[var(--border)] hover:border-[var(--border-strong)] transition-all hover:-translate-y-1 text-center group"
                 >
                   <div
-                    className="w-14 h-14 rounded-full bg-[var(--gold-bg)] group-hover:bg-[var(--gold-bg)] flex items-center justify-center mx-auto mb-5 transition-colors"
+                    className="w-16 h-16 rounded-full bg-[var(--gold-bg)] group-hover:bg-[#f3e5d0] flex items-center justify-center mx-auto mb-6 transition-colors"
                     aria-hidden="true"
                   >
-                    <span className="text-2xl">{feature.icon}</span>
+                    {feature.icon}
                   </div>
                   <h3 className="text-base font-semibold text-[var(--text-1)] mb-3">
                     {feature.title}
@@ -595,7 +578,7 @@ export default function AboutPage() {
                 href="tel:+966557211359"
                 className="inline-flex items-center gap-2 bg-[var(--gold)] hover:bg-[var(--gold-mid)] text-[var(--text-inv)] font-bold px-6 py-3 rounded-xl transition-colors text-sm"
               >
-                📞 اتصل بنا الآن
+                <Phone className="w-4 h-4" /> اتصل بنا الآن
               </a>
               <a
                 href="https://wa.me/966501655033"
@@ -603,7 +586,7 @@ export default function AboutPage() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 border border-[var(--border-strong)] hover:border-[var(--gold)] text-[var(--gold)] font-semibold px-6 py-3 rounded-xl transition-colors text-sm"
               >
-                💬 راسلنا على واتساب
+                <MessageCircle className="w-4 h-4" /> راسلنا على واتساب
               </a>
             </div>
           </div>
@@ -611,7 +594,6 @@ export default function AboutPage() {
 
         {/* ════════════════════════════════════════════════════════════════
             SECTION 5 — CONTACT / NAP BLOCK
-            NAP = Name, Address, Phone — يجب أن يطابق JSON-LD تماماً
         ════════════════════════════════════════════════════════════════ */}
         <section
           id="contact"
@@ -640,9 +622,9 @@ export default function AboutPage() {
                   rel={item.external ? "noopener noreferrer" : undefined}
                   className="bg-[var(--bg)] rounded-2xl p-6 border border-[var(--border)] hover:border-[var(--border-strong)] transition-all hover:-translate-y-1 group text-center block"
                 >
-                  <span className="text-3xl mb-4 block" aria-hidden="true">
+                  <div className="mb-4 flex justify-center" aria-hidden="true">
                     {item.icon}
-                  </span>
+                  </div>
                   <p className="text-xs text-[var(--text-3)] uppercase tracking-wider mb-2">
                     {item.label}
                   </p>
@@ -713,14 +695,13 @@ export default function AboutPage() {
                 </p>
               </div>
 
-              {/* ✅ FIX 7: رابط Google Maps الحقيقي */}
               <a
                 href="https://maps.app.goo.gl/ZtJBNuCLczyKCDSo6"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 mt-6 border border-[var(--border)] hover:border-[var(--border-strong)] text-[var(--text-2)] hover:text-[var(--gold)] text-sm px-5 py-2.5 rounded-xl transition-colors"
               >
-                📍 عرض الموقع على الخريطة
+                <MapPin className="w-4 h-4" /> عرض الموقع على الخريطة
               </a>
             </address>
 

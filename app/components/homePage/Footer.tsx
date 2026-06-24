@@ -34,7 +34,9 @@ const INFO_LINKS: { label: string; href: string }[] = [
   { label: "الأسئلة الشائعة", href: "/about#faq" },
   { label: "عن المؤسسة", href: "/about#about" },
   { label: "الشحن والتوصيل", href: "/about#shipping" },
-  { label: "تواصل معنا", href: "/about#contact" },
+  { label: "تواصل معنا", href: "/contact" },
+  { label: "احجز استشارتك المجانية الان ", href: "/contact" },
+  { label: "ماذا يقول عملائنا", href: "/#testimonials-section" },
 ];
 
 // ── Contact details ───────────────────────────────────────────────────────────

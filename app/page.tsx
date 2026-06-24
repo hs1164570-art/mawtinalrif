@@ -23,7 +23,7 @@ import TestimonialsSection from "./components/homePage/TestimonialsSection";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "https://mawtinalriyf.com";
-const SITE_NAME = "مفروشات الريف";
+const SITE_NAME = "مفروشات  موطن الريف";
 const ORG_NAME = "مؤسسة موطن الريف للتجارة";
 const LOGO_URL =
   "https://bwmvrztnbjayktocsdvc.supabase.co/storage/v1/object/public/alrif/logo.png";

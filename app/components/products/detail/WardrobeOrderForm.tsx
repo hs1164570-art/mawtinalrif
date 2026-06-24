@@ -174,7 +174,7 @@ export function WardrobeOrderForm({ product }: WardrobeOrderFormProps) {
           className="text-[1.05rem] font-bold m-0"
           style={{ color: "var(--text-1)" }}
         >
-          خزانتك بالمقاس المناسب لاحتياجاتك
+          خزانتك علي ذوقك
         </h3>
       </div>
 

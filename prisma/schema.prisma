@@ -58,6 +58,10 @@ enum AnalyticsType {
   PURCHASE
   VIEW
 }
+enum appointmentStatus {
+  READ
+  UNREAD
+}
 model Account {
   id                 String  @id @default(cuid())
   userId             String  @map("user_id")
@@ -103,7 +107,17 @@ model User {
   @@index([status])
 }
 
-
+model appointment {
+  id String @id @default(cuid())
+  name String
+  phone String
+  status appointmentStatus @default(UNREAD)
+  details String
+  desc    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+@@index([status])
+}
 model verificationToken {
   id String @id @default(cuid())
   email String
