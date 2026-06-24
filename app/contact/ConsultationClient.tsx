@@ -183,12 +183,13 @@ function Hero() {
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
       style={{
         direction: "rtl",
-        background: `linear-gradient(165deg,${C.dark} 0%,${C.darkMid} 50%,${C.dark} 100%)`,
+        // استخدام المتغير الفاتح للخلفية الأساسية --bg
+        background: "var(--bg)",
       }}
     >
-      {/* Corner ornaments */}
+      {/* Corner ornaments (الزخارف الجانبية باللون الأسود الشفاف لتتماشى مع الهوية الجديدة) */}
       {(["top-8 right-8", "bottom-8 left-8"] as const).map((pos, i) => (
-        <div key={pos} className={`absolute ${pos} opacity-30 hidden md:block`}>
+        <div key={pos} className={`absolute ${pos} opacity-10 hidden md:block`}>
           {[0, 1].map((j) => (
             <div
               key={j}
@@ -198,14 +199,14 @@ function Hero() {
                 position: "absolute",
                 ...(i === 0 ?
                   {
-                    borderTop: `1px solid ${C.gold}`,
-                    borderRight: `1px solid ${C.gold}`,
+                    borderTop: "1px solid var(--text-1)",
+                    borderRight: "1px solid var(--text-1)",
                     top: j * 8,
                     right: j * 8,
                   }
                 : {
-                    borderBottom: `1px solid ${C.gold}`,
-                    borderLeft: `1px solid ${C.gold}`,
+                    borderBottom: "1px solid var(--text-1)",
+                    borderLeft: "1px solid var(--text-1)",
                     bottom: j * 8,
                     left: j * 8,
                   }),
@@ -222,16 +223,17 @@ function Hero() {
           animate="visible"
           className="inline-flex items-center gap-2 mb-8"
           style={{
-            background: C.goldBg,
-            border: `1px solid ${C.goldBorder}`,
+            // بادج بخلفية رمادية خفيفة جداً وحدود ناعمة
+            background: "var(--bg-deep)",
+            border: "1px solid var(--border-md)",
             borderRadius: 100,
             padding: "8px 22px",
           }}
         >
-          <BsStars style={{ color: C.gold, fontSize: 14 }} />
+          <BsStars style={{ color: "var(--text-1)", fontSize: 14 }} />
           <span
             style={{
-              color: C.gold,
+              color: "var(--text-1)", // نص أسود داكن
               fontSize: 12,
               fontWeight: 700,
               letterSpacing: "2px",
@@ -239,7 +241,7 @@ function Hero() {
           >
             استشارة مجانية • بدون التزام
           </span>
-          <BsStars style={{ color: C.gold, fontSize: 14 }} />
+          <BsStars style={{ color: "var(--text-1)", fontSize: 14 }} />
         </motion.div>
 
         <motion.h1
@@ -247,15 +249,14 @@ function Hero() {
           initial="hidden"
           animate="visible"
           className="text-4xl md:text-6xl lg:text-7xl font-light leading-tight mb-6"
-          style={{ color: "var(--text-inv)", letterSpacing: "-1px" }}
+          style={{ color: "var(--text-1)", letterSpacing: "-1px" }} // نص أسود رئيسي
         >
           حوّل رؤيتك إلى{" "}
           <span
             style={{
-              background: `linear-gradient(135deg,${C.goldLight},${C.gold})`,
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              fontWeight: 500,
+              // جعل الكلمة المميزة باللون الأسود العريض والغامق بدلاً من التدرج الملون
+              color: "var(--gold)",
+              fontWeight: 700,
             }}
           >
             مساحة استثنائية
@@ -270,7 +271,9 @@ function Hero() {
           style={{
             width: 64,
             height: 1,
-            background: `linear-gradient(90deg,transparent,${C.gold},transparent)`,
+            // خط فاصل يعتمد على تدرج شفاف وأسود
+            background:
+              "linear-gradient(90deg, transparent, var(--border-strong), transparent)",
             margin: "0 auto 28px",
           }}
         />
@@ -281,7 +284,7 @@ function Hero() {
           animate="visible"
           transition={{ delay: 0.35 }}
           className="text-lg md:text-xl leading-loose max-w-2xl mx-auto mb-10"
-          style={{ color: "var(--text-inv)" }}
+          style={{ color: "var(--text-2)" }} // نص الوصف بالرمادي الداكن المريح للعين
         >
           احجز استشارتك المجانية مع خبرائنا في الأثاث والتصميم الداخلي، ودعنا
           نساعدك في اختيار الحلول المثالية لمنزلك أو مشروعك.
@@ -297,7 +300,8 @@ function Hero() {
             href="#book"
             className="inline-flex items-center gap-3 group"
             style={{
-              background: `linear-gradient(135deg,${C.gold},${C.goldLight})`,
+              // الزر باللون الأسود الكامل الملكي (Pure Black) والنص باللون الأبيض المعكوس
+              background: "var(--text-1)",
               color: "var(--text-inv)",
               fontWeight: 700,
               fontSize: 16,
@@ -311,12 +315,12 @@ function Hero() {
             onMouseEnter={(e) => {
               const el = e.currentTarget;
               el.style.transform = "translateY(-3px)";
-              el.style.boxShadow = "var(--shadow-md)";
+              el.style.opacity = "0.9"; // تأثير خفيف عند الحوم
             }}
             onMouseLeave={(e) => {
               const el = e.currentTarget;
               el.style.transform = "translateY(0)";
-              el.style.boxShadow = "var(--shadow-md)";
+              el.style.opacity = "1";
             }}
           >
             <HiSparkles style={{ fontSize: 20 }} />
@@ -338,8 +342,14 @@ function Hero() {
           {["مجاناً وبدون التزام", "رد خلال ساعة", "+500 مشروع مكتمل"].map(
             (label) => (
               <div key={label} className="flex items-center gap-2">
-                <FaCheck style={{ color: C.gold, fontSize: 12 }} />
-                <span style={{ color: "var(--text-inv)", fontSize: 13 }}>
+                <FaCheck style={{ color: "var(--text-1)", fontSize: 12 }} />
+                <span
+                  style={{
+                    color: "var(--text-2)",
+                    fontSize: 13,
+                    fontWeight: 500,
+                  }}
+                >
                   {label}
                 </span>
               </div>
@@ -351,20 +361,19 @@ function Hero() {
       <motion.div
         animate={{ y: [0, 8, 0] }}
         transition={{ repeat: Infinity, duration: 1.8 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 opacity-40"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 opacity-30"
       >
         <div
           style={{
             width: 1,
             height: 40,
-            background: `linear-gradient(180deg,transparent,${C.gold})`,
+            background: "linear-gradient(180deg, transparent, var(--text-1))",
           }}
         />
       </motion.div>
     </section>
   );
 }
-
 // ══════════════════════════════════════════════════════════════════════════════
 // 2. TRUST / STATS
 // ══════════════════════════════════════════════════════════════════════════════
@@ -1050,7 +1059,8 @@ function FinalCTA() {
     <section
       className="py-24 md:py-32 relative overflow-hidden"
       style={{
-        background: `linear-gradient(145deg,${C.dark} 0%,${C.darkMid} 50%,${C.dark} 100%)`,
+        // استخدام متغير الخلفية الفاتحة للفصل بين الأقسام بنظافة
+        background: "var(--bg)",
         direction: "rtl",
       }}
     >
@@ -1060,21 +1070,22 @@ function FinalCTA() {
             style={{
               width: 56,
               height: 1,
-              background: `linear-gradient(90deg,transparent,${C.gold},transparent)`,
+              // الفاصل يعتمد على الحدود الرمادية القوية المحددة لديك
+              background:
+                "linear-gradient(90deg, transparent, var(--border-strong), transparent)",
               margin: "0 auto 28px",
             }}
           />
           <h2
             className="text-3xl md:text-5xl font-light mb-6 leading-tight"
-            style={{ color: "var(--text-inv)", letterSpacing: "-0.5px" }}
+            style={{ color: "var(--text-1)", letterSpacing: "-0.5px" }} // نص أسود أساسي
           >
             ابدأ رحلة تصميم{" "}
             <span
               style={{
-                background: `linear-gradient(135deg,${C.goldLight},${C.gold})`,
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                fontWeight: 500,
+                // إبراز الكلمة بالأسود الداكن العريض المأخوذ من متغير الـ gold الجديد
+                color: "var(--gold)",
+                fontWeight: 700,
               }}
             >
               مساحتك المثالية
@@ -1083,18 +1094,19 @@ function FinalCTA() {
           </h2>
           <p
             className="text-base md:text-lg leading-loose mb-10"
-            style={{ color: "var(--text-inv)" }}
+            style={{ color: "var(--text-2)" }} // نص الوصف بالرمادي الداكن المريح
           >
             احجز استشارتك الآن واكتشف كيف يمكننا تحويل أفكارك إلى واقع يجمع بين
             الجمال والوظيفة.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            {/* زر الحجز الرئيسي: أسود بالكامل مع نص أبيض معكوس */}
             <a
               href="#book"
               className="inline-flex items-center gap-3 font-bold text-base rounded-xl w-full sm:w-auto justify-center"
               style={{
-                background: `linear-gradient(135deg,${C.gold},${C.goldLight})`,
+                background: "var(--text-1)",
                 color: "var(--text-inv)",
                 padding: "17px 40px",
                 textDecoration: "none",
@@ -1103,55 +1115,63 @@ function FinalCTA() {
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = "translateY(-3px)";
-                e.currentTarget.style.boxShadow = "var(--shadow-md)";
+                e.currentTarget.style.opacity = "0.9";
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "var(--shadow-md)";
+                e.currentTarget.style.opacity = "1";
               }}
             >
               <HiSparkles style={{ fontSize: 20 }} /> احجز استشارة مجانية
             </a>
+
+            {/* زر واتساب الفرعي: خلفية بيضاء نقية، نص أسود، وحدود ناعمة */}
             <a
               href="https://wa.me/966557211359"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-3 font-semibold text-base rounded-xl w-full sm:w-auto justify-center"
               style={{
-                background: C.goldBg,
-                color: "var(--text-inv)",
+                background: "var(--surface)",
+                color: "var(--text-1)",
                 padding: "17px 40px",
                 textDecoration: "none",
-                border: `1px solid ${C.goldBorder}`,
+                border: "1px solid var(--border-md)",
+                boxShadow: "var(--shadow-sm)",
                 transition: "all 0.3s ease",
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = C.goldBorder;
+                e.currentTarget.style.background = "var(--bg-deep)";
                 e.currentTarget.style.transform = "translateY(-3px)";
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.background = C.goldBg;
+                e.currentTarget.style.background = "var(--surface)";
                 e.currentTarget.style.transform = "translateY(0)";
               }}
             >
-              <FaWhatsapp style={{ fontSize: 22 }} /> تواصل عبر واتساب
+              <FaWhatsapp style={{ fontSize: 22, color: "#25D366" }} /> تواصل
+              عبر واتساب
             </a>
           </div>
 
+          {/* التلميح السفلي بالألوان المتناسقة الجديدة */}
           <div className="mt-10 flex items-center justify-center gap-2">
-            <FaStar style={{ color: C.gold, fontSize: 12 }} />
-            <span style={{ color: "var(--text-inv)", fontSize: 13 }}>
+            <FaStar style={{ color: "var(--text-1)", fontSize: 12 }} />
+            <span style={{ color: "var(--text-2)", fontSize: 13 }}>
               فريقنا يرد في غضون{" "}
-              <strong style={{ color: C.gold }}>ساعة أو أقل</strong> — لأنك
-              تستحق الاهتمام الفوري
+              <strong style={{ color: "var(--text-1)", fontWeight: 700 }}>
+                ساعة أو أقل
+              </strong>{" "}
+              — لأنك تستحق الاهتمام الفوري
             </span>
-            <FaStar style={{ color: C.gold, fontSize: 12 }} />
+            <FaStar style={{ color: "var(--text-1)", fontSize: 12 }} />
           </div>
           <div
             style={{
               width: 56,
               height: 1,
-              background: `linear-gradient(90deg,transparent,${C.gold},transparent)`,
+              background:
+                "linear-gradient(90deg, transparent, var(--border-strong), transparent)",
               margin: "28px auto 0",
             }}
           />
