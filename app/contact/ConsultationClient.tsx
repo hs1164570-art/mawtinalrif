@@ -815,7 +815,8 @@ function Contact() {
       id="book"
       className="py-20 md:py-24"
       style={{
-        background: `linear-gradient(160deg,${C.dark} 0%,${C.darkMid} 50%,${C.dark} 100%)`,
+        // تحويل الخلفية الكلية إلى رمادي فاتح محايد ونظيف
+        background: "var(--bg)",
         direction: "rtl",
       }}
     >
@@ -825,7 +826,8 @@ function Contact() {
             eyebrow="تواصل معنا"
             title="تواصل معنا مباشرة"
             subtitle="فريقنا جاهز للإجابة على استفساراتك ومساعدتك في اختيار أفضل الحلول التي تجمع بين الفخامة والراحة والجودة بأسعار تنافسية."
-            light
+            // إيقاف الـ light لأن المكون أصبح فوق خلفية بيضاء/فاتحة الآن
+            light={false}
           />
         </Reveal>
 
@@ -840,18 +842,19 @@ function Contact() {
             {
               href: "https://wa.me/966557211359",
               Icon: FaWhatsapp,
-              iconColor: C.gold,
-              bg: C.goldBg,
-              border: C.goldBorder,
+              // أيقونة الواتساب بلونها الأخضر الفيدرالي المميز لتسهيل التعرف البصري
+              iconColor: "#25D366",
+              bg: "var(--surface)", // كارت بخلفية بيضاء نقية
+              border: "var(--border-md)",
               label: "واتساب",
               sub: "ردّ فوري • متاح 24/7",
             },
             {
               href: "tel:+966557211359",
               Icon: FaPhone,
-              iconColor: C.gold,
-              bg: C.goldBg,
-              border: C.goldBorder,
+              iconColor: "var(--text-1)", // أيقونة الهاتف باللون الأسود الأساسي
+              bg: "var(--surface)",
+              border: "var(--border-md)",
               label: "اتصال مباشر",
               sub: "من السبت إلى الخميس • ٩ص – ١٠م",
             },
@@ -866,14 +869,20 @@ function Contact() {
               style={{
                 background: bg,
                 border: `1px solid ${border}`,
+                boxShadow: "var(--shadow-sm)",
                 transition: "all 0.3s ease",
                 textDecoration: "none",
               }}
-              whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
+              whileHover={{
+                scale: 1.02,
+                boxShadow: "var(--shadow-md)",
+                border: "1px solid var(--border-strong)",
+                transition: { duration: 0.2 },
+              }}
             >
               <div
                 className="flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center"
-                style={{ background: bg }}
+                style={{ background: "var(--bg-deep)" }} // خلفية الأيقونة رمادي ناعم
               >
                 <Icon style={{ color: iconColor, fontSize: 26 }} />
               </div>
@@ -881,7 +890,7 @@ function Contact() {
                 <div
                   className="text-xs font-semibold mb-1"
                   style={{
-                    color: "var(--text-inv)",
+                    color: "var(--text-3)", // الرمادي المتوسط للنص الفرعي العلوي
                     letterSpacing: "2px",
                   }}
                 >
@@ -890,7 +899,7 @@ function Contact() {
                 <div
                   className="text-xl font-bold"
                   style={{
-                    color: "var(--text-inv)",
+                    color: "var(--text-1)", // الرقم بالأسود الصريح القوي
                     letterSpacing: "1px",
                     direction: "ltr",
                   }}
@@ -899,7 +908,7 @@ function Contact() {
                 </div>
                 <div
                   className="text-xs mt-1"
-                  style={{ color: "var(--text-inv)" }}
+                  style={{ color: "var(--text-2)" }} // نص مواعيد العمل بالرمادي الداكن الوثيق
                 >
                   {sub}
                 </div>
@@ -908,17 +917,18 @@ function Contact() {
           ))}
         </motion.div>
 
+        {/* الفاصل الأوسط (أو أرسل طلبك) */}
         <div className="flex items-center gap-4 mb-10">
           <div
             className="flex-1 h-px"
             style={{ background: "var(--border-md)" }}
           />
           <span
-            className="text-sm px-5 py-2 rounded-full"
+            className="text-sm px-5 py-2 rounded-full font-medium"
             style={{
-              color: C.gold,
-              background: C.goldBg,
-              border: `1px solid ${C.goldBorder}`,
+              color: "var(--text-1)", // نص الفاصل بالأسود الداكن
+              background: "var(--surface)", // خلفية بيضاء نقية للبادج الثنائي
+              border: "1px solid var(--border-md)",
               letterSpacing: "1px",
             }}
           >
@@ -930,6 +940,7 @@ function Contact() {
           />
         </div>
 
+        {/* نموذج الحجز سيرث تلقائياً الطابع الجديد بناءً على الـ CSS الخاص به */}
         <BookingForm />
       </div>
     </section>

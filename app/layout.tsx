@@ -10,6 +10,7 @@
  * ✅ Geo meta tags            → Local SEO targeting الرياض
  * ✅ Favicon + Icons          → تجربة مستخدم احترافية
  * ✅ Arabic font + RTL        → يقول لـ Google إن المحتوى عربي
+ * ✅ Google Ads Tag           → تتبع التحويلات في Google Ads
  * =====================================================================
  */
 
@@ -41,6 +42,8 @@ import { getActiveAnnouncements } from "@/utils/GetBars";
 import ContactSpeedDial from "./components/homePage/FloatBtn";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import Script from "next/script";
+
 // ─── Fonts ────────────────────────────────────────────────────────────────────
 const inter = Inter({
   subsets: ["latin"],
@@ -386,8 +389,6 @@ function getOrganizationJsonLd() {
   };
 }
 
-// ─── Redis visit counter ──────────────────────────────────────────────────────
-
 // ─── Root Layout ──────────────────────────────────────────────────────────────
 export default async function RootLayout({
   children,
@@ -460,6 +461,20 @@ export default async function RootLayout({
             __html: serializeJsonLd(getOrganizationJsonLd()),
           }}
         />
+
+        {/* ══ Google Ads Tag ════════════════════════════════════════════════ */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-18262833732"
+          strategy="afterInteractive"
+        />
+        <Script id="google-ads-tag" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-18262833732');
+          `}
+        </Script>
       </head>
 
       <body className="font-arabic antialiased flex flex-col min-h-screen">
