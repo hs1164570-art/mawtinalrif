@@ -8,9 +8,13 @@ if (!globalForRedis.redis) {
   baseClient = createClient({
     url: process.env.REDIS_URL,
     socket: {
-      reconnectStrategy: (retries) => Math.min(retries * 50, 3000),
-      connectTimeout: 5000, // حماية إضافية ضد الـ Hanging
+      reconnectStrategy: (retries) => {
+        if (retries > 3) return false;
+        return Math.min(retries * 50, 3000);
+      },
+      connectTimeout: 5000,
     },
+    disableOfflineQueue: true, // ← ده هو الحل الأصلي
   });
 
   if (process.env.NEXT_PHASE !== "phase-production-build") {
@@ -26,22 +30,22 @@ if (!globalForRedis.redis) {
   baseClient = globalForRedis.redis;
 }
 
-// 🚀 الـ Proxy السحري المطور: ديناميكي 100% وبدون كسر للـ Sockets
 const redisClient = new Proxy({} as RedisClientType, {
   get(_, prop: string) {
-    // 1. لو في مرحلة الـ Build، ارجع دالة وهمية فوراً لأي عملية
     if (process.env.NEXT_PHASE === "phase-production-build") {
       if (prop === "isOpen") return false;
       return () => Promise.resolve(null);
     }
 
-    // 2. في الـ Dev أو الـ Prod: اسحب الدالة من الـ baseClient الأصلي
     const value = (baseClient as any)[prop];
 
     if (typeof value === "function") {
-      // 💡 الحل السحري: نـ bind للدالة مع الـ baseClient الأصلي مباشرة
-      // عشان الـ JavaScript يحافظ على الـ Private Context والماسورة (Socket) من بره الـ Proxy
-      return value.bind(baseClient);
+      return (...args: any[]) => {
+        if (!baseClient.isReady) {
+          return Promise.resolve(null); // ← fallback بتاعك يشتغل
+        }
+        return value.bind(baseClient)(...args);
+      };
     }
 
     return value;
@@ -49,7 +53,6 @@ const redisClient = new Proxy({} as RedisClientType, {
 });
 
 export default redisClient;
-
 // import { createClient, RedisClientType } from "redis";
 
 // const globalForRedis = global as unknown as { redis: RedisClientType };
