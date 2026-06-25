@@ -102,7 +102,7 @@ export default function CategoryHero({
         </nav>
 
         <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white leading-tight mb-2">
-          {categoryName}تفصيل
+          {`تفصيل ${categoryName}`}{" "}
         </h1>
 
         <p className="text-sm text-white/70 mb-1">
