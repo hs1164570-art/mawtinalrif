@@ -115,6 +115,7 @@ export default function ProductsPageClient({
         parentName={current.category.parent?.name}
         breadcrumbs={current.breadcrumbs}
         total={current.total}
+        slug={current.category.slug}
       />
 
       {/* ── Body ── */}

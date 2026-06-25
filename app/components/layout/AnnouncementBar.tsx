@@ -5,8 +5,8 @@ import Link from "next/link";
 import { useMemo } from "react";
 import { announcementQueryOptions } from "@/utils/announcementQueryOptions";
 
-// 10 نسخ — ضمان إن المحتوى أكبر من أي شاشة حتى لو إعلان واحد قصير
-const REPEAT = 10;
+// 3 نسخ — كفاية لضمان سكروول سلس بدون فجوة، بدون تضخيم الـ DOM زيادة عن اللزوم
+const REPEAT = 3;
 
 export default function AnnouncementBar() {
   const { data: bars = [] } = useQuery(announcementQueryOptions);
