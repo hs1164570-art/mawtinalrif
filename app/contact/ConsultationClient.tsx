@@ -22,6 +22,7 @@ import { HiSparkles, HiCheckCircle, HiArrowSmLeft } from "react-icons/hi";
 import { MdDesignServices, MdSupportAgent, MdPriceCheck } from "react-icons/md";
 import { BsStars, BsGem } from "react-icons/bs";
 import { submitConsultation } from "../actions/contact.action";
+import { reportWhatsAppConversion } from "@/lib/gtag";
 
 // ─── Colour tokens ─────────────────────────────────────────────────────────────
 const C = {
@@ -580,6 +581,7 @@ function BookingForm() {
           href="https://wa.me/966557211359"
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() => reportWhatsAppConversion()}
           className="inline-flex items-center gap-2 px-8 py-3 rounded-xl font-semibold text-sm"
           style={{
             background: C.gold,
@@ -863,6 +865,7 @@ function Contact() {
               key={label}
               variants={scaleUp}
               href={href}
+              onClick={() => reportWhatsAppConversion()}
               target={href.startsWith("http") ? "_blank" : undefined}
               rel="noopener noreferrer"
               className="flex items-center gap-5 p-6 rounded-2xl no-underline"
@@ -1141,6 +1144,7 @@ function FinalCTA() {
               href="https://wa.me/966557211359"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => reportWhatsAppConversion()}
               className="inline-flex items-center gap-3 font-semibold text-base rounded-xl w-full sm:w-auto justify-center"
               style={{
                 background: "var(--surface)",

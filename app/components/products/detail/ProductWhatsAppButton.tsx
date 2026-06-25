@@ -1,5 +1,6 @@
 "use client";
 
+import { reportWhatsAppConversion } from "@/lib/gtag";
 import { FaWhatsapp } from "react-icons/fa6";
 // ─── الإعدادات ────────────────────────────────────────────────────────────
 const WHATSAPP_NUMBER = "966557211359"; // بدون + وبدون فراغات
@@ -42,6 +43,8 @@ export function ProductWhatsAppButton({
   };
 
   const handleClick = () => {
+    reportWhatsAppConversion();
+
     const message = buildMessage();
 
     // استخدام URLSearchParams لحل مشكلة علامات الاستفهام والترميز نهائياً

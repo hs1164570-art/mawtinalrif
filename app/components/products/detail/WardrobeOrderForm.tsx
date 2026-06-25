@@ -5,6 +5,7 @@ import { Ruler, DoorClosed, Copy, Check } from "lucide-react";
 // استيراد أيقونة واتساب الرسمية من react-icons
 import { FaWhatsapp } from "react-icons/fa";
 import { ImageUploader } from "@/app/admin/products/_components/ImageUploader";
+import { reportWhatsAppConversion } from "@/lib/gtag";
 
 // ─── الإعدادات ────────────────────────────────────────────────────────────
 const WHATSAPP_NUMBER = "966557211359"; // بدون + وبدون فراغات
@@ -135,6 +136,7 @@ export function WardrobeOrderForm({ product }: WardrobeOrderFormProps) {
       setError("من فضلك أدخل العرض والارتفاع على الأقل");
       return;
     }
+    reportWhatsAppConversion();
 
     setSending(true);
 
