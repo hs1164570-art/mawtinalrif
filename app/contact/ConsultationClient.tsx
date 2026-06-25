@@ -503,36 +503,42 @@ function BookingForm() {
 
   const showDesc = watch("details") === "كتابة التفاصيل";
 
+  // تعديل المدخلات لتأخذ الألوان الفاتحة المحايدة
   const inputBase: React.CSSProperties = {
     width: "100%",
-    background: "var(--bg)",
+    background: "var(--surface-2)", // خلفية رمادية ناعمة للمدخلات
     border: "1px solid var(--border-md)",
     borderRadius: 12,
     padding: "14px 18px",
-    color: "var(--text-inv)",
+    color: "var(--text-1)", // لون خط أسود واضح
     fontSize: 15,
     outline: "none",
     transition: "all 0.25s ease",
     fontFamily: "inherit",
     direction: "rtl",
   };
+
+  // تسمية الحقول بالرمادي الداكن المريح للعين بدلاً من اللون المعكوس القديم
   const labelStyle: React.CSSProperties = {
     display: "block",
-    color: "var(--text-inv)",
+    color: "var(--text-2)",
     fontSize: 12,
     fontWeight: 600,
     letterSpacing: "1.5px",
     marginBottom: 8,
   };
+
+  // تفاعل الفوكس العصري (إطار أسود ناصع مع تظليل خفيف جداً)
   const focusIn = (
     e: React.FocusEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >,
   ) => {
-    e.target.style.borderColor = C.gold;
-    e.target.style.boxShadow = `0 0 0 3px ${C.goldBg}`;
-    e.target.style.background = C.goldBg;
+    e.target.style.borderColor = "var(--text-1)";
+    e.target.style.boxShadow = "0 0 0 3px rgba(26, 26, 26, 0.05)";
+    e.target.style.background = "var(--surface)";
   };
+
   const focusOut = (
     e: React.FocusEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -540,7 +546,7 @@ function BookingForm() {
   ) => {
     e.target.style.borderColor = "var(--border-md)";
     e.target.style.boxShadow = "none";
-    e.target.style.background = "var(--bg)";
+    e.target.style.background = "var(--surface-2)";
   };
 
   if (done) {
@@ -549,47 +555,51 @@ function BookingForm() {
         initial={{ opacity: 0, scale: 0.92 }}
         animate={{ opacity: 1, scale: 1 }}
         className="text-center py-14 px-6 rounded-2xl"
-        style={{ background: C.goldBg, border: `1px solid ${C.goldBorder}` }}
+        style={{
+          background: "var(--surface)",
+          border: "1px solid var(--border-md)",
+          boxShadow: "var(--shadow-md)",
+        }}
       >
         <div
           className="inline-flex items-center justify-center w-20 h-20 rounded-full mb-6"
           style={{
-            background: C.goldBg,
-            border: `1px solid ${C.goldBorder}`,
+            background: "var(--bg-deep)",
+            border: "1px solid var(--border-md)",
           }}
         >
-          <HiCheckCircle style={{ color: C.gold, fontSize: 40 }} />
+          <HiCheckCircle style={{ color: "var(--text-1)", fontSize: 40 }} />
         </div>
         <h3
           className="text-2xl font-semibold mb-3"
-          style={{ color: "var(--text-inv)" }}
+          style={{ color: "var(--text-1)" }}
         >
           وصل طلبك بنجاح! ✨
         </h3>
         <p
           className="text-base leading-loose mb-6"
           style={{
-            color: "var(--text-inv)",
+            color: "var(--text-2)",
             maxWidth: 400,
             margin: "0 auto 24px",
           }}
         >
           شكراً لك على ثقتك! سيتواصل معك أحد مستشارينا خلال{" "}
-          <strong style={{ color: C.gold }}>ساعة أو أقل</strong>. 🏡
+          <strong style={{ color: "var(--text-1)" }}>ساعة أو أقل</strong>. 🏡
         </p>
         <a
           href="https://wa.me/966557211359"
           target="_blank"
           rel="noopener noreferrer"
-          onClick={() => reportWhatsAppConversion()}
+          onClick={() => reportWhatsAppConversion()} // الحفاظ على دالة التتبع الخاصة بك تماماً
           className="inline-flex items-center gap-2 px-8 py-3 rounded-xl font-semibold text-sm"
           style={{
-            background: C.gold,
+            background: "var(--text-1)",
             color: "var(--text-inv)",
             textDecoration: "none",
           }}
         >
-          <FaWhatsapp style={{ fontSize: 18 }} />
+          <FaWhatsapp style={{ fontSize: 18, color: "#25D366" }} />
           تواصل معنا الآن عبر واتساب
         </a>
       </motion.div>
@@ -604,22 +614,23 @@ function BookingForm() {
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       className="rounded-2xl p-8 md:p-10"
       style={{
-        background: C.darkMid,
+        background: "var(--surface)", // الكارد الرئيسي للفورم بخلفية بيضاء نقية
         border: "1px solid var(--border-md)",
+        boxShadow: "var(--shadow-md)",
       }}
     >
       <div className="mb-8">
         <h3
           className="text-xl font-semibold mb-2"
-          style={{ color: "var(--text-inv)" }}
+          style={{ color: "var(--text-1)" }}
         >
           أرسل طلب الاستشارة
         </h3>
         <p
           className="text-sm"
-          style={{ color: "var(--text-inv)", lineHeight: 1.7 }}
+          style={{ color: "var(--text-2)", lineHeight: 1.7 }}
         >
-          أخبرنا عن نفسك وسنتواصل معك في أقرب وقت — منزلك يستحق الأفضل 💛
+          أخبرنا عن نفسك وسنتواصل معك في أقرب وقت — منزلك يستحق الأفضل ⚫
         </p>
       </div>
 
@@ -681,7 +692,8 @@ function BookingForm() {
               ...inputBase,
               cursor: "pointer",
               appearance: "none",
-              backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%230ea5e9' stroke-width='1.5' fill='none'/%3E%3C/svg%3E")`,
+              // تعديل لون سهم الاختيار المدمج ليصبح رمادياً داكناً متناسقاً
+              backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23495057' stroke-width='1.5' fill='none'/%3E%3C/svg%3E")`,
               backgroundRepeat: "no-repeat",
               backgroundPosition: "left 16px center",
               paddingLeft: 40,
@@ -691,13 +703,13 @@ function BookingForm() {
           >
             <option
               value="التفاصيل عن التواصل"
-              style={{ background: C.dark, color: "var(--text-inv)" }}
+              style={{ background: "var(--surface)", color: "var(--text-1)" }}
             >
               📞 أريد أن يتواصل معي الفريق مباشرة
             </option>
             <option
               value="كتابة التفاصيل"
-              style={{ background: C.dark, color: "var(--text-inv)" }}
+              style={{ background: "var(--surface)", color: "var(--text-1)" }}
             >
               📝 أريد كتابة تفاصيل طلبي
             </option>
@@ -741,17 +753,15 @@ function BookingForm() {
           </div>
         )}
 
-        {/* Submit */}
+        {/* Submit Button */}
         <button
           type="submit"
           disabled={isSubmitting}
           className="w-full flex items-center justify-center gap-3 font-bold text-base rounded-xl"
           style={{
-            background:
-              isSubmitting ?
-                C.goldBg
-              : `linear-gradient(135deg,${C.gold},${C.goldLight})`,
-            color: "var(--text-inv)",
+            // الزر بالأسود الكامل المحايد، وفي حالة الـ Loading يأخذ رمادي ناعم
+            background: isSubmitting ? "var(--bg-deep)" : "var(--text-1)",
+            color: isSubmitting ? "var(--text-3)" : "var(--text-inv)",
             padding: "16px 32px",
             border: "none",
             cursor: isSubmitting ? "not-allowed" : "pointer",
@@ -762,12 +772,12 @@ function BookingForm() {
           onMouseEnter={(e) => {
             if (!isSubmitting) {
               e.currentTarget.style.transform = "translateY(-2px)";
-              e.currentTarget.style.boxShadow = "var(--shadow-md)";
+              e.currentTarget.style.opacity = "0.9";
             }
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.transform = "translateY(0)";
-            e.currentTarget.style.boxShadow = "var(--shadow-md)";
+            e.currentTarget.style.opacity = "1";
           }}
         >
           {isSubmitting ?
@@ -778,6 +788,7 @@ function BookingForm() {
                 height="18"
                 viewBox="0 0 24 24"
                 fill="none"
+                style={{ color: "var(--text-3)" }}
               >
                 <circle
                   cx="12"
@@ -799,7 +810,7 @@ function BookingForm() {
 
         <p
           className="text-xs text-center"
-          style={{ color: "var(--text-inv)", lineHeight: 1.8 }}
+          style={{ color: "var(--text-3)", lineHeight: 1.8 }}
         >
           🔒 بياناتك آمنة ومحمية تماماً · لن نشاركها مع أي جهة
         </p>
