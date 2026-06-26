@@ -8,6 +8,7 @@ const withAnalyzer = withBundleAnalyzer({
 const cspHeader = `
 default-src 'self';
 script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.paypal.com https://www.sandbox.paypal.com https://js.stripe.com https://www.gstatic.com https://*.vercel-scripts.com https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://*.google.com https://*.google.com.eg https://*.googlesyndication.com https://*.doubleclick.net;
+script-src-elem 'self' 'unsafe-inline' https://www.paypal.com https://www.sandbox.paypal.com https://js.stripe.com https://www.gstatic.com https://*.vercel-scripts.com https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://*.google.com https://*.google.com.eg https://*.googlesyndication.com https://*.doubleclick.net;
 style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
 img-src 'self' blob: data: https://bwmvrztnbjayktocsdvc.supabase.co https://*.supabase.co https://res.cloudinary.com https://images.unsplash.com https://images.pexels.com https://source.unsplash.com avatars.githubusercontent.com lh3.googleusercontent.com via.placeholder.com placehold.co picsum.photos https://*.picsum.photos https://www.paypalobjects.com https://i.pravatar.cc https://*.google-analytics.com https://*.googletagmanager.com https://www.googleadservices.com https://*.google.com https://*.google.com.eg https://*.googlesyndication.com https://*.doubleclick.net;
 font-src 'self' data: https://fonts.gstatic.com;
@@ -32,7 +33,7 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "via.placeholder.com" },
       { protocol: "https", hostname: "placehold.co" },
       { protocol: "https", hostname: "picsum.photos" },
-      { protocol: "https", hostname: "*.picsum.photos" }, // ✅ يغطي fastly.picsum.photos وأي subdomain تاني
+      { protocol: "https", hostname: "*.picsum.photos" },
       { protocol: "https", hostname: "source.unsplash.com" },
       { protocol: "https", hostname: "i.pravatar.cc" },
       { protocol: "https", hostname: "images.pexels.com" },
