@@ -48,7 +48,7 @@ export default function CartActions({ product }: Props) {
           color: "var(--text-3)",
         }}
       >
-        <span>نفذت الكمية تماماً</span>
+        <span>فصل علي ذوقك بالضغط علي واتساب </span>
       </div>
     );
   }

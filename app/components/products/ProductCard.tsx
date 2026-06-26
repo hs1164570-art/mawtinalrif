@@ -341,7 +341,7 @@ export default function ProductCard({
                   : "rgba(220,50,50,0.1)",
               }}
             >
-              {product.inStock ? "متوفر" : "نفذت الكمية"}
+              {product.inStock ? "متوفر" : "يمكنك الطلب عبر الواتس اب "}
             </span>
           </div>
         </div>

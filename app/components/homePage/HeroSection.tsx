@@ -510,7 +510,10 @@ export default function HeroSection({
 
           {/* أزرار التحكم - الأزرار جنب بعض */}
           {/* أزرار التحكم */}
-          <div className="flex items-center gap-3 flex-wrap">
+          <div
+            className="flex items-center gap-3 flex-wrap  "
+            style={{ justifyContent: "center" }}
+          >
             {/* ① زرار اكتشف المجموعة — زي ما هو، بس arrow اتصلح لـ RTL */}
             <Link
               href={`products/collections/${currentItem.slug}`}
