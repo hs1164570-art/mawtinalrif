@@ -45,8 +45,6 @@ const PRODUCT_SELECT = {
   _count: { select: { comments: true } },
 } as const;
 
-const PRODUCT_WHERE = { inStock: true, countStock: { gt: 0 } } as const;
-
 // 1. هنغير اسم الدالة الأساسية لحاجة داخلية (مثلاً fetchRawHomeData)
 async function fetchRawHomeData(): Promise<HomeData> {
   const [dbMain, dbSub] = await Promise.all([
@@ -68,7 +66,6 @@ async function fetchRawHomeData(): Promise<HomeData> {
         slug: true,
         parent: { select: { name: true, slug: true } },
         products: {
-          where: PRODUCT_WHERE,
           select: PRODUCT_SELECT,
           orderBy: { createdAt: "desc" },
           take: 8,
