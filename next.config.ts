@@ -7,13 +7,13 @@ const withAnalyzer = withBundleAnalyzer({
 
 const cspHeader = `
 default-src 'self';
-script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.paypal.com https://www.sandbox.paypal.com https://js.stripe.com https://www.gstatic.com https://*.vercel-scripts.com https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://*.google.com https://*.google.com.eg https://*.googlesyndication.com https://*.doubleclick.net;
-script-src-elem 'self' 'unsafe-inline' https://www.paypal.com https://www.sandbox.paypal.com https://js.stripe.com https://www.gstatic.com https://*.vercel-scripts.com https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://*.google.com https://*.google.com.eg https://*.googlesyndication.com https://*.doubleclick.net;
+script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.paypal.com https://www.sandbox.paypal.com https://js.stripe.com https://www.gstatic.com https://*.vercel-scripts.com https://*.googletagmanager.com https://www.googleadservices.com https://www.google.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net;
+script-src-elem 'self' 'unsafe-inline' https://www.paypal.com https://www.sandbox.paypal.com https://js.stripe.com https://www.gstatic.com https://*.vercel-scripts.com https://*.googletagmanager.com https://www.googleadservices.com https://www.google.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net;
 style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-img-src 'self' blob: data: https://bwmvrztnbjayktocsdvc.supabase.co https://*.supabase.co https://res.cloudinary.com https://images.unsplash.com https://images.pexels.com https://source.unsplash.com avatars.githubusercontent.com lh3.googleusercontent.com via.placeholder.com placehold.co picsum.photos https://*.picsum.photos https://www.paypalobjects.com https://i.pravatar.cc https://*.google-analytics.com https://*.googletagmanager.com https://www.googleadservices.com https://*.google.com https://*.google.com.eg https://*.googlesyndication.com https://*.doubleclick.net;
+img-src 'self' blob: data: https://bwmvrztnbjayktocsdvc.supabase.co https://*.supabase.co https://res.cloudinary.com https://images.unsplash.com https://images.pexels.com https://source.unsplash.com avatars.githubusercontent.com lh3.googleusercontent.com via.placeholder.com placehold.co picsum.photos https://*.picsum.photos https://www.paypalobjects.com https://i.pravatar.cc https://*.google-analytics.com https://*.googletagmanager.com https://*.g.doubleclick.net https://*.google.com https://*.google.com.eg https://*.google.com.sa https://www.googletagmanager.com https://googleads.g.doubleclick.net https://www.google.com https://pagead2.googlesyndication.com https://www.googleadservices.com https://google.com;
 font-src 'self' data: https://fonts.gstatic.com;
-connect-src 'self' https://bwmvrztnbjayktocsdvc.supabase.co https://*.supabase.co https://res.cloudinary.com https://images.unsplash.com https://images.pexels.com https://source.unsplash.com https://www.mawtinalriyf.com https://*.googleapis.com https://*.firebaseio.com https://api.cloudinary.com https://www.paypal.com https://www.sandbox.paypal.com https://api.apify.com https://*.vercel-analytics.com https://*.vercel-storage.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://*.google.com https://*.google.com.eg https://*.googlesyndication.com https://*.doubleclick.net;
-frame-src 'self' https://www.paypal.com https://www.sandbox.paypal.com https://js.stripe.com https://*.google.com https://*.google.com.eg https://accounts.google.com https://*.doubleclick.net https://googleads.g.doubleclick.net;
+connect-src 'self' https://bwmvrztnbjayktocsdvc.supabase.co https://*.supabase.co https://res.cloudinary.com https://images.unsplash.com https://images.pexels.com https://source.unsplash.com https://www.mawtinalriyf.com https://*.googleapis.com https://*.firebaseio.com https://api.cloudinary.com https://www.paypal.com https://www.sandbox.paypal.com https://api.apify.com https://*.vercel-analytics.com https://*.vercel-storage.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.g.doubleclick.net https://*.google.com https://*.google.com.eg https://*.google.com.sa https://pagead2.googlesyndication.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://ad.doubleclick.net https://google.com https://www.google.com;
+frame-src 'self' https://www.paypal.com https://www.sandbox.paypal.com https://js.stripe.com https://www.googletagmanager.com https://accounts.google.com;
 object-src 'none';
 base-uri 'self';
 form-action 'self' https://www.paypal.com https://www.sandbox.paypal.com;
@@ -47,10 +47,7 @@ const nextConfig: NextConfig = {
       {
         source: "/sitemap.xml",
         headers: [
-          {
-            key: "Content-Type",
-            value: "application/xml; charset=utf-8",
-          },
+          { key: "Content-Type", value: "application/xml; charset=utf-8" },
           {
             key: "Cache-Control",
             value: "public, max-age=3600, s-maxage=3600",
@@ -67,26 +64,14 @@ const nextConfig: NextConfig = {
               .replace(/\s{2,}/g, " ")
               .trim(),
           },
-          {
-            key: "X-DNS-Prefetch-Control",
-            value: "on",
-          },
+          { key: "X-DNS-Prefetch-Control", value: "on" },
           {
             key: "Strict-Transport-Security",
             value: "max-age=63072000; includeSubDomains; preload",
           },
-          {
-            key: "X-Frame-Options",
-            value: "SAMEORIGIN",
-          },
-          {
-            key: "X-Content-Type-Options",
-            value: "nosniff",
-          },
-          {
-            key: "Referrer-Policy",
-            value: "origin-when-cross-origin",
-          },
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "Referrer-Policy", value: "origin-when-cross-origin" },
         ],
       },
     ];
