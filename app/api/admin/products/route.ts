@@ -144,6 +144,7 @@ export const POST = adminGuard(
 
       const product = await prisma.product.create({ data });
       revalidatePath(`/`);
+      revalidatePath("/", "layout");
       revalidateTag("products");
       revalidateTag(`summary`);
       try {
@@ -205,6 +206,7 @@ export const PATCH = adminGuard(
         data: updateData,
       });
       revalidatePath(`/`);
+      revalidatePath("/", "layout");
       revalidateTag("products");
       revalidateTag(`product-${existingProduct.slug}`);
       revalidateTag(`summary`);
@@ -243,6 +245,7 @@ export const DELETE = adminGuard(
       });
 
       revalidatePath(`/`);
+      revalidatePath("/", "layout");
       revalidateTag("products");
       revalidateTag(`summary`);
 

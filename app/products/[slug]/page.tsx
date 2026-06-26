@@ -65,6 +65,7 @@ function serializeJsonLd(data: object): string {
     .replace(/>/g, "\\u003e")
     .replace(/&/g, "\\u0026");
 }
+export const revalidate = 86000;
 
 // ✅ WebSite JSON-LD محذوف من هنا — layout.tsx يوفره على كل صفحة تلقائياً
 // تكراره هنا يخلق duplicate JSON-LD يربك Google ويسبب warnings في Search Console

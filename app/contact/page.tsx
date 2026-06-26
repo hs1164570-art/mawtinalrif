@@ -131,6 +131,7 @@ export const metadata: Metadata = {
     "content-language": "ar-SA",
   },
 };
+export const revalidate = 86000;
 
 // ─── JSON-LD Schemas ──────────────────────────────────────────────────────────
 

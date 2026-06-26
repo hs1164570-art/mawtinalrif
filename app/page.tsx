@@ -29,7 +29,7 @@ const LOGO_URL =
   "https://bwmvrztnbjayktocsdvc.supabase.co/storage/v1/object/public/alrif/logo.png";
 
 // ─── ISR: تجديد الكاش كل دقيقتين بدون re-build ──────────────────────────────
-export const revalidate = 120;
+export const revalidate = 86000;
 
 // ─── JSON-LD Helper ───────────────────────────────────────────────────────────
 function serializeJsonLd(data: object): string {

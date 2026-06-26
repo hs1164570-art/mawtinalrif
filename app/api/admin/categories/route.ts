@@ -7,7 +7,7 @@ import {
   UpdateCategorySchema,
   DeleteCategorySchema,
 } from "../../utils/categoriesSchema"; // تأكد من المسار
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import z from "zod";
 
 /**
@@ -33,6 +33,7 @@ export const POST = adminGuard(
         await AddToExisting(data as AddExistingData);
       }
       revalidateTag(`nav_ctg`);
+      revalidatePath("/", "layout");
       return NextResponse.json(
         { message: "Category structure created successfully" },
         { status: 201 },
@@ -103,7 +104,7 @@ export const PATCH = adminGuard(
       });
 
       revalidateTag(`nav_ctg`);
-
+      revalidatePath("/", "layout");
       return NextResponse.json(
         { message: "Category updated successfully" },
         { status: 200 },
@@ -134,7 +135,7 @@ export const DELETE = adminGuard(
       });
 
       revalidateTag(`nav_ctg`);
-
+      revalidatePath("/", "layout");
       return NextResponse.json(
         { message: "Category deleted successfully" },
         { status: 200 },
