@@ -3,7 +3,8 @@
 import { useState, useRef, useCallback } from "react";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
-import { ChevronDown, Home, Info, LayoutDashboard } from "lucide-react";
+import { ChevronDown, Home, Info } from "lucide-react";
+import { LucideFileText } from "lucide-react";
 import { categoriesQueryOptions } from "@/utils/categories";
 
 interface NavLinksProps {
@@ -72,8 +73,18 @@ export default function NavLinks({
       >
         {/* 1. رابط الرئيسية الثابت */}
         <li role="none" className="flex-shrink-0">
-          <Link href="/" role="menuitem" onClick={onClose} className={linkBase}>
+          <Link href="/" onClick={onClose} className={linkBase}>
             الرئيسية
+          </Link>
+        </li>
+        <li role="none" className="flex-shrink-0">
+          <Link
+            href="/blog"
+            role="article"
+            onClick={onClose}
+            className={linkBase}
+          >
+            المدونة
           </Link>
         </li>
 
@@ -233,6 +244,16 @@ export default function NavLinks({
         >
           <Home className="w-4 h-4 text-[var(--cyan)]" />
           <span>الرئيسية</span>
+        </Link>
+      </li>
+      <li className="border-b border-[var(--border)]">
+        <Link
+          href="/blog"
+          onClick={onClose}
+          className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-[var(--text-1)] hover:bg-[var(--bg-deep)] transition-colors"
+        >
+          <LucideFileText className="w-4 h-4 text-[var(--cyan)]" />
+          <span>المدونة</span>
         </Link>
       </li>
 

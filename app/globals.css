@@ -86,7 +86,10 @@ body {
 button,
 .btn,
 input[type="button"],
-input[type="submit"] {
+input[type="submit"],
+input[type="reset"],
+input[type="radio"],
+input[type="checkbox"] {
   cursor: pointer;
 }
 

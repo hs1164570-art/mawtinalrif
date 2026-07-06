@@ -1,4 +1,3 @@
-// AdminLayout.tsx
 import type { Metadata } from "next";
 import { Cairo } from "next/font/google";
 import { AdminSidebar } from "./_components/AdminSidebar";
@@ -28,7 +27,7 @@ export default function AdminLayout({
   return (
     <div
       dir="rtl"
-      className={`${cairo.variable} font-sans bg-[var(--surface-2)] min-h-screen flex overflow-hidden`}
+      className={`${cairo.variable} font-sans bg-[var(--surface-2)] h-screen flex overflow-hidden`}
       style={{ fontFamily: "var(--font-cairo), 'Segoe UI', sans-serif" }}
     >
       {/* Command Menu - Portal, renders over everything */}
@@ -38,10 +37,18 @@ export default function AdminLayout({
       <AdminSidebar />
 
       {/* Main area */}
-      <div className="flex-1 flex flex-col overflow-hidden min-w-0">
+      <div className="flex-1 flex flex-col min-h-0 min-w-0">
         <AdminHeader />
 
-        <main className="flex-1 overflow-y-auto p-6">{children}</main>
+        {/*
+          مهم: main دلوقتي مجرد "ممرّ" (pass-through) بدون padding وبدون overflow خاص بيه.
+          كل صفحة هي اللي تقرر شكلها:
+            - صفحات عادية (جداول، فورمات، إلخ) لازم تحط بنفسها:
+                <div className="h-full overflow-y-auto p-4 sm:p-6"> ... </div>
+            - صفحات full-bleed زي محرر المقال تاخد h-full مباشرة من غير padding.
+          min-h-0 هنا ضروري عشان الأبناء يقدروا ياخدوا h-full صح جوه flex column.
+        */}
+        <main className="flex-1 min-h-0 overflow-hidden">{children}</main>
       </div>
     </div>
   );

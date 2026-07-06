@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import prisma from "@/lib/db";
 import {
   dehydrate,
@@ -25,7 +26,9 @@ export default async function AppointmentsPage() {
   return (
     <section className="p-6 lg:p-10" dir="rtl">
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <AppointmentsClient />
+        <Suspense fallback={<div>جاري التحميل...</div>}>
+          <AppointmentsClient />
+        </Suspense>
       </HydrationBoundary>
     </section>
   );

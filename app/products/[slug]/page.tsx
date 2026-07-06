@@ -54,7 +54,7 @@ const SITE_NAME = "مفروشات الريف";
 const BRAND_AR = "مفروشات الريف";
 // ✅ LOGO_URL الصحيح — layout يستخدم نفس الرابط لضمان consistency في الـ JSON-LD @graph
 const LOGO_URL =
-  "https://bwmvrztnbjayktocsdvc.supabase.co/storage/v1/object/public/alrif/logo.png";
+  "https://bwmvrztnbjayktocsdvc.supabase.co/storage/v1/object/public/alrif/edit%20logo%20withou%20ground.png";
 
 // ─── SEO Helpers (self-contained, no external imports) ────────────────────────
 
@@ -295,7 +295,7 @@ function buildProductJsonLd({
         ],
         sameAs: [
           "https://www.instagram.com/alreeefl11/",
-          "https://www.tiktok.com/@mafrushatalriyf1",
+          "https://www.tiktok.com/@a_riffoundation",
         ],
       },
     ],
@@ -563,8 +563,8 @@ export async function generateMetadata({
     // ── Twitter / X ───────────────────────────────────────────────────────
     twitter: {
       card: "summary_large_image",
-      site: "@mafrushatalriyf1",
-      creator: "@mafrushatalriyf1",
+      site: "@a_riffoundation",
+      creator: "@a_riffoundation",
       title: seoTitle,
       description: seoDescription,
       images: { url: product.image, alt: product.name },

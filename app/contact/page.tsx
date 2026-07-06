@@ -23,7 +23,7 @@ const PAGE_URL = `${BASE_URL}/consultation`;
 const SITE_NAME = "مفروشات الريف";
 const ORG_NAME = "مؤسسة موطن الريف للتجارة";
 const LOGO_URL =
-  "https://bwmvrztnbjayktocsdvc.supabase.co/storage/v1/object/public/alrif/logo.png";
+  "https://bwmvrztnbjayktocsdvc.supabase.co/storage/v1/object/public/alrif/edit%20logo%20withou%20ground.png";
 
 // ─── JSON-LD Helper ───────────────────────────────────────────────────────────
 function serializeJsonLd(data: object): string {
@@ -100,8 +100,8 @@ export const metadata: Metadata = {
   // ✅ Twitter / X
   twitter: {
     card: "summary_large_image",
-    site: "@mafrushatalriyf1",
-    creator: "@mafrushatalriyf1",
+    site: "@a_riffoundation",
+    creator: "@a_riffoundation",
     title: "استشارة مجانية في الأثاث والتصميم | موطن الريف الرياض",
     description: "احجز استشارتك المجانية مع خبراء الأثاث في الرياض.",
     images: [`${BASE_URL}/og-consultation.jpg`],
@@ -281,7 +281,7 @@ const localBusinessJsonLd = {
   ],
   sameAs: [
     "https://www.instagram.com/alreeefl11/",
-    "https://www.tiktok.com/@mafrushatalriyf1",
+    "https://www.tiktok.com/@a_riffoundation",
     "https://maps.app.goo.gl/ZtJBNuCLczyKCDSo6",
   ],
 };

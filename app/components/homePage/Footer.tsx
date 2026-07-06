@@ -282,7 +282,7 @@ export default function Footer() {
           <div className="flex flex-col gap-10">
             <Link href="/" aria-label="الصفحة الرئيسية — موطن الريف">
               <Image
-                src="https://bwmvrztnbjayktocsdvc.supabase.co/storage/v1/object/public/alrif/logo.png"
+                src="https://bwmvrztnbjayktocsdvc.supabase.co/storage/v1/object/public/alrif/edit%20logo%20withou%20ground.png"
                 alt="شعار موطن الريف"
                 width={155}
                 quality={95}

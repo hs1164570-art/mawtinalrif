@@ -37,7 +37,7 @@ import {
 // ─── Constants ────────────────────────────────────────────────────────────────
 const BASE_URL = "https://mawtinalriyf.com";
 const LOGO_URL =
-  "https://bwmvrztnbjayktocsdvc.supabase.co/storage/v1/object/public/alrif/logo.png";
+  "https://bwmvrztnbjayktocsdvc.supabase.co/storage/v1/object/public/alrif/edit%20logo%20withou%20ground.png";
 
 // ─── JSON-LD helper — XSS-safe (نفس الدالة المستخدمة في باقي الصفحات) ────────
 function serializeJsonLd(data: object): string {
@@ -80,8 +80,8 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    site: "@mafrushatalriyf1",
-    creator: "@mafrushatalriyf1",
+    site: "@a_riffoundation",
+    creator: "@a_riffoundation",
     title: "من نحن | موطن الريف للأثاث الفاخر في الرياض",
     description:
       "تعرّف على موطن الريف، وجهتك الأولى للأثاث الفاخر في الرياض. توصيل وتركيب في جميع مناطق المملكة.",
@@ -178,7 +178,7 @@ const furnitureStoreSchema = {
   ],
   sameAs: [
     "https://www.instagram.com/alreeefl11/",
-    "https://www.tiktok.com/@mafrushatalriyf1",
+    "https://www.tiktok.com/@a_riffoundation",
     "https://maps.app.goo.gl/ZtJBNuCLczyKCDSo6",
   ],
 };

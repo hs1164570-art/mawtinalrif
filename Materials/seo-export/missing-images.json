@@ -1,0 +1,74 @@
+[
+  {
+    "id": "cmqqvqdkb0001l104vta8ui8q",
+    "name": "اسره خشب ",
+    "slug": "modern-bed",
+    "isRoot": false,
+    "parentName": "أسرّة النوم",
+    "fallbackImage": "https://res.cloudinary.com/dddxdcbgk/image/upload/f_auto,q_auto/v1782232695/categories/ij6bulzhachu3rukfllh.webp"
+  },
+  {
+    "id": "cmqpicesu0000l204mag4ta2b",
+    "name": "خزائن ابواب خشب ",
+    "slug": "-wooden-doors-wardrobes",
+    "isRoot": false,
+    "parentName": "خزائن ملابس",
+    "fallbackImage": "https://res.cloudinary.com/dddxdcbgk/image/upload/v1781808739/categories/xflqh393tulcemwjnbkg.webp"
+  },
+  {
+    "id": "cmqjv3uyt0007l104rcj8cssb",
+    "name": "خزائن ملابس ابواب زجاج",
+    "slug": "glass-aluminum-wardrobe",
+    "isRoot": false,
+    "parentName": "خزائن ملابس",
+    "fallbackImage": "https://res.cloudinary.com/dddxdcbgk/image/upload/v1781808739/categories/xflqh393tulcemwjnbkg.webp"
+  },
+  {
+    "id": "cmqqvrnwz0002l804l9uqdm14",
+    "name": "سرير تنجيد ",
+    "slug": "-modern-bed-design",
+    "isRoot": false,
+    "parentName": "أسرّة النوم",
+    "fallbackImage": "https://res.cloudinary.com/dddxdcbgk/image/upload/f_auto,q_auto/v1782232695/categories/ij6bulzhachu3rukfllh.webp"
+  },
+  {
+    "id": "cmqb24vmj000iui0c6yovuvo2",
+    "name": "طاولات طعام",
+    "slug": "dining-tables",
+    "isRoot": false,
+    "parentName": "غرف الطعام",
+    "fallbackImage": "https://bwmvrztnbjayktocsdvc.supabase.co/storage/v1/object/public/Protofolio/cat%20%20food%20room.jpg"
+  },
+  {
+    "id": "cmqpfpuo70002la04w804g913",
+    "name": "طقم غرفة النوم ",
+    "slug": "modern-queen-bedroom-set",
+    "isRoot": false,
+    "parentName": "غرف النوم",
+    "fallbackImage": "https://bwmvrztnbjayktocsdvc.supabase.co/storage/v1/object/public/Protofolio/cat%20%20bed%20room.jpeg"
+  },
+  {
+    "id": "cmqp7id8a0000l404208enmic",
+    "name": "غرف نوم 2 سرير نفر",
+    "slug": "singlebedroom",
+    "isRoot": false,
+    "parentName": "غرف النوم",
+    "fallbackImage": "https://bwmvrztnbjayktocsdvc.supabase.co/storage/v1/object/public/Protofolio/cat%20%20bed%20room.jpeg"
+  },
+  {
+    "id": "cmqb24u3w000dui0clczyaj8v",
+    "name": "غرف نوم كاملة",
+    "slug": "full-bedrooms",
+    "isRoot": false,
+    "parentName": "غرف النوم",
+    "fallbackImage": "https://bwmvrztnbjayktocsdvc.supabase.co/storage/v1/object/public/Protofolio/cat%20%20bed%20room.jpeg"
+  },
+  {
+    "id": "cmqqq0ddn0000gy049r3ha12n",
+    "name": "كمودينوا _ طاولة جانبيه للسرير ",
+    "slug": "custom-bedside-tables",
+    "isRoot": false,
+    "parentName": "غرف النوم",
+    "fallbackImage": "https://bwmvrztnbjayktocsdvc.supabase.co/storage/v1/object/public/Protofolio/cat%20%20bed%20room.jpeg"
+  }
+]

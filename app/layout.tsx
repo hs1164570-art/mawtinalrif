@@ -26,7 +26,6 @@ import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Navbar from "./components/layout/navbar";
 import Footer from "./components/homePage/Footer";
-import { auth } from "@/auth";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { DOMAIN } from "@/lib/constants";
 import redisClient from "@/lib/redisClient";
@@ -43,6 +42,7 @@ import ContactSpeedDial from "./components/homePage/FloatBtn";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import Script from "next/script";
+import NavbarWrapper from "./NavbarWrapper";
 
 // ─── Fonts ────────────────────────────────────────────────────────────────────
 const inter = Inter({
@@ -62,7 +62,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "https://mawtinalriyf.com";
 const SITE_NAME = "مفروشات الريف";
 const ORG_NAME = "مؤسسة موطن الريف للتجارة";
 const LOGO_URL =
-  "https://bwmvrztnbjayktocsdvc.supabase.co/storage/v1/object/public/alrif/logo.png";
+  "https://bwmvrztnbjayktocsdvc.supabase.co/storage/v1/object/public/alrif/edit%20logo%20withou%20ground.png";
 
 // ─── Viewport (Next.js 15 — يجب أن يكون export منفصل) ───────────────────────
 export const viewport: Viewport = {
@@ -146,8 +146,8 @@ export const metadata: Metadata = {
   // ── Twitter / X ────────────────────────────────────────────────────────────
   twitter: {
     card: "summary_large_image",
-    site: "@mafrushatalriyf1",
-    creator: "@mafrushatalriyf1",
+    site: "@a_riffoundation",
+    creator: "@a_riffoundation",
     title: "مفروشات الريف - أفضل أثاث في الرياض",
     description: "أفضل أثاث منزلي في الرياض، السعودية",
     images: [`${BASE_URL}/og-image.jpg`],
@@ -322,7 +322,7 @@ function getOrganizationJsonLd() {
         },
         sameAs: [
           "https://www.instagram.com/alreeefl11/",
-          "https://www.tiktok.com/@mafrushatalriyf1",
+          "https://www.tiktok.com/@a_riffoundation",
           "https://maps.app.goo.gl/ZtJBNuCLczyKCDSo6",
         ],
         foundingDate: "2020",
@@ -380,7 +380,7 @@ function getOrganizationJsonLd() {
         ],
         sameAs: [
           "https://www.instagram.com/alreeefl11/",
-          "https://www.tiktok.com/@mafrushatalriyf1",
+          "https://www.tiktok.com/@a_riffoundation",
           "https://maps.app.goo.gl/ZtJBNuCLczyKCDSo6",
         ],
         parentOrganization: { "@id": `${BASE_URL}/#organization` },
@@ -404,21 +404,6 @@ export default async function RootLayout({
       console.error("Redis incre totalvisits err Error:", e);
     }
   }
-
-  const session = await auth();
-
-  const userData =
-    session?.user ?
-      {
-        name: session.user.name ?? null,
-        email: session.user.email ?? null,
-        image: session.user.image ?? null,
-        id: session.user.id ?? null,
-      }
-    : null;
-
-  const isAdmin =
-    !!session?.user && (session.user as { role?: string }).role === "ADMIN";
 
   // ── Prefetch categories ───────────────────────────────────────────────
   const queryClient = getQueryClient();
@@ -497,7 +482,8 @@ export default async function RootLayout({
 
               <HydrationBoundary state={dehydrate(queryClient)}>
                 <AnnouncementBar />
-                <Navbar user={userData} isAdmin={isAdmin} />
+                <NavbarWrapper />
+
                 <main className="flex-1">{children}</main>
 
                 <ContactSpeedDial />

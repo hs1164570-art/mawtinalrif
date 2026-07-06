@@ -1,0 +1,82 @@
+[
+  {
+    "name": "أسرّة النوم",
+    "slug": "tmp-2y2i4wus",
+    "description": "كل مقالات ونصائح أسرّة النوم — دليلك الشامل من موطن الريف",
+    "color": "#408fb4",
+    "sourceType": "product-category",
+    "sourceCategoryId": "cmqqvd02y0000l1042y2i4wus"
+  },
+  {
+    "name": "خزائن ملابس",
+    "slug": "tmp-zr8ukjv9",
+    "description": "كل مقالات ونصائح خزائن ملابس — دليلك الشامل من موطن الريف",
+    "color": "#408fb4",
+    "sourceType": "product-category",
+    "sourceCategoryId": "cmqjuzdsj0000l204zr8ukjv9"
+  },
+  {
+    "name": "غرف الطعام",
+    "slug": "tmp-a7l826ak",
+    "description": "كل مقالات ونصائح غرف الطعام — دليلك الشامل من موطن الريف",
+    "color": "#408fb4",
+    "sourceType": "product-category",
+    "sourceCategoryId": "cmqb24v4d000gui0ca7l826ak"
+  },
+  {
+    "name": "غرف النوم",
+    "slug": "tmp-zjyao4a6",
+    "description": "كل مقالات ونصائح غرف النوم — دليلك الشامل من موطن الريف",
+    "color": "#408fb4",
+    "sourceType": "product-category",
+    "sourceCategoryId": "cmqb24tla000bui0czjyao4a6"
+  },
+  {
+    "name": "كنب ومجالس ",
+    "slug": "tmp-tfekb84s",
+    "description": "كل مقالات ونصائح كنب ومجالس  — دليلك الشامل من موطن الريف",
+    "color": "#408fb4",
+    "sourceType": "product-category",
+    "sourceCategoryId": "cmqtsxliy0000ky04tfekb84s"
+  },
+  {
+    "name": "دليل الشراء",
+    "description": "دلائل ومقارنات تساعدك تختار صح قبل الشراء",
+    "color": "#c9ba89",
+    "slug": "tmp-ل الشراء",
+    "sourceType": "generic",
+    "sourceCategoryId": null
+  },
+  {
+    "name": "نصائح تصميم داخلي",
+    "description": "أفكار ونصائح لتنسيق وتصميم مساحات بيتك",
+    "color": "#8b7355",
+    "slug": "tmp-يم داخلي",
+    "sourceType": "generic",
+    "sourceCategoryId": null
+  },
+  {
+    "name": "العناية بالأثاث",
+    "description": "طرق تنظيف والحفاظ على الأثاث لأطول فترة ممكنة",
+    "color": "#5a7d7c",
+    "slug": "tmp- بالأثاث",
+    "sourceType": "generic",
+    "sourceCategoryId": null
+  },
+  {
+    "name": "اتجاهات الديكور",
+    "description": "أحدث صيحات الديكور والأثاث في السعودية والخليج",
+    "color": "#a0522d",
+    "slug": "tmp- الديكور",
+    "sourceType": "generic",
+    "sourceCategoryId": null
+  },
+  {
+    "name": "أفكار المساحات الصغيرة",
+    "description": "حلول عملية لتأثيث الشقق والمساحات المحدودة",
+    "color": "#6b8e6b",
+    "slug": "tmp- الصغيرة",
+    "sourceType": "generic",
+    "sourceCategoryId": null
+  }
+]

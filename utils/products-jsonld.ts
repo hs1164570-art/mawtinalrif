@@ -11,7 +11,7 @@ import {
   CategoryData,
 } from "@/utils/products";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://alrif.sa";
+const SITE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "https://alrif.sa";
 const SITE_NAME = "مؤسسة الريف للأثاث";
 
 // ─── 1. BreadcrumbList ────────────────────────────────────────────────────────

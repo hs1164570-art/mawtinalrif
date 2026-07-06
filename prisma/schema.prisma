@@ -62,6 +62,25 @@ enum appointmentStatus {
   READ
   UNREAD
 }
+
+
+enum BlogPostStatus {
+  DRAFT
+  PUBLISHED
+  SCHEDULED
+  ARCHIVED
+}
+
+enum BlogActivityAction {
+  CREATED
+  UPDATED
+  PUBLISHED
+  ARCHIVED
+  DELETED
+  STATUS_CHANGED
+}
+
+
 model Account {
   id                 String  @id @default(cuid())
   userId             String  @map("user_id")
@@ -100,6 +119,7 @@ model User {
   usedCoupons UserCoupon[] 
   chatBotMessage chatBotMessage[]
   comments      Comment[]
+  blogPosts BlogPost[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   mediatorAT  DateTime @default(now())
@@ -314,6 +334,80 @@ model Cart {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
+
+// -----------------blog------------------------------
+
+
+model BlogPost {
+  id              String    @id @default(cuid())
+  title           String                          // ✅ مستخدم
+  slug            String    @unique               // ✅ مستخدم
+  content         Json                             // ❌ مش مستخدم (عمدًا — أمان: منعرضش الـ Tiptap JSON الخام للعامة)
+  contentHtml     String?   @db.Text               // ✅ مستخدم (single post فقط)
+  excerpt         String?                          // ✅ مستخدم
+  coverImage      String?                          // ✅ مستخدم
+  metaTitle       String?                          // ✅ مستخدم
+  metaDescription String?                          // ✅ مستخدم
+  keywords        String[]                         // ✅ مستخدم
+  status          BlogPostStatus @default(DRAFT)   // ✅ مستخدم (فلتر PUBLISHED بس)
+  publishedAt     DateTime?                        // ✅ مستخدم
+  scheduledFor    DateTime?                        // ❌ مش مستخدم في كود الـ public (الفلترة بتعتمد على publishedAt + status بس)
+  viewCount       Int       @default(0)            // ✅ مستخدم (single post فقط، عبر incrementViewCount)
+  readingTime     Int       @default(0)            // ✅ مستخدم
+  seoScore        Int?                             // ❌ مش مستخدم (إداري بحت، مش معروض للعامة)
+  authorId        String                           // ❌ مش متاختار صراحةً (بس بنعمل join عبره)
+  author          User      @relation(fields: [authorId], references: [id])  // ✅ مستخدم (.name, .image بس)
+  categoryId      String?                          // ✅ مستخدم (single post فقط — للـ related posts)
+  category        BlogCategory? @relation(fields: [categoryId], references: [id]) // ✅ مستخدم (.name, .slug, .color)
+  tags            BlogTag[]                        // ✅ مستخدم (.name, .slug)
+  activityLogs    PostActivityLog[]                // ❌ مش مستخدم في كود الـ public (أدمن بس)
+  createdAt       DateTime  @default(now())        // ❌ مش مستخدم
+  updatedAt       DateTime  @updatedAt              // ✅ مستخدم (single post فقط — dateModified)
+
+  @@index([status, publishedAt(sort: Desc)])
+  @@index([categoryId])
+  @@index([authorId])
+}
+
+model BlogCategory {
+  id          String   @id @default(cuid())
+  name        String                                // ✅ مستخدم
+  slug        String   @unique                       // ✅ مستخدم
+  description String?                                // ✅ مستخدم
+  color       String   @default("#408fb4")           // ✅ مستخدم (badge على الكروت)
+  posts       BlogPost[]                              // ✅ مستخدم (relation فلتر بس)
+  createdAt   DateTime @default(now())                // ❌ مش مستخدم
+  updatedAt   DateTime @updatedAt                      // ✅ مستخدم (sitemap.ts بس — lastModified)
+}
+
+model BlogTag {
+  id        String   @id @default(cuid())
+  name      String                                    // ✅ مستخدم
+  slug      String   @unique                           // ✅ مستخدم
+  posts     BlogPost[]                                  // ✅ مستخدم (relation فلتر بس)
+  createdAt DateTime @default(now())                    // ✅ مستخدم (sitemap.ts بس — lastModified)
+}
+
+model PostActivityLog {
+  id        String   @id @default(cuid())              // ❌ مش مستخدم في كود الـ public
+  postId    String
+  post      BlogPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  action    BlogActivityAction
+  userId    String
+  metadata  Json?
+  createdAt DateTime @default(now())
+
+  @@index([postId, createdAt(sort: Desc)])
+}
+
+
+
+
+
+
+
+
+
 
 model Analytics {
   id                Int      @id @default(1) 

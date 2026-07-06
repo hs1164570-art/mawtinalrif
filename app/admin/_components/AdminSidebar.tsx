@@ -21,6 +21,9 @@ import {
   Activity,
   FileText,
   MonitorSmartphone,
+  BookOpen,
+  PenLine,
+  Tags,
 } from "lucide-react";
 
 const NAV_ITEMS = [
@@ -30,6 +33,18 @@ const NAV_ITEMS = [
   { href: "/admin/orders", label: "الطلبات", icon: ShoppingBag },
   { href: "/admin/users", label: "المستخدمون", icon: Users },
   { href: "/admin/announcement-bar", label: "الاشعارات والعروض ", icon: Bell },
+
+  // ─── المدونة ──────────────────────────────────────────────────────────────
+  {
+    label: "المدونة",
+    icon: BookOpen,
+    isSubmenu: true,
+    children: [
+      { href: "/admin/blog", label: "المقالات", icon: PenLine },
+      { href: "/admin/blog/categories", label: "التصنيفات", icon: FolderTree },
+      { href: "/admin/blog/tags", label: "الوسوم", icon: Tags },
+    ],
+  },
 
   // قائمة الإحصائيات العامة
   {
@@ -98,12 +113,21 @@ export function AdminSidebar() {
       setOpenMenu("تحليلات جوجل GA4");
     } else if (pathname.startsWith("/admin/statistics")) {
       setOpenMenu("الإحصائيات");
+    } else if (pathname.startsWith("/admin/blog")) {
+      setOpenMenu("المدونة");
     }
     setMobileOpen(false);
   }, [pathname]);
 
   const isActive = (href: string, exact?: boolean) => {
     if (exact) return pathname === href;
+    // لصفحة /admin/blog نفسها نستخدم exact match عشان متتعارضش مع /admin/blog/categories و /admin/blog/tags
+    if (href === "/admin/blog")
+      return (
+        pathname === "/admin/blog" ||
+        pathname.startsWith("/admin/blog/new") ||
+        pathname.match(/^\/admin\/blog\/[^/]+\/edit/) !== null
+      );
     return pathname.startsWith(href);
   };
 

@@ -29,7 +29,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "https://mawtinalriyf.com";
 const SITE_NAME = "مفروشات الريف";
 const BRAND_AR = "مفروشات الريف";
 const LOGO_URL =
-  "https://bwmvrztnbjayktocsdvc.supabase.co/storage/v1/object/public/alrif/logo.png";
+  "https://bwmvrztnbjayktocsdvc.supabase.co/storage/v1/object/public/alrif/edit%20logo%20withou%20ground.png";
 
 const DEFAULT_BG = `https://bwmvrztnbjayktocsdvc.supabase.co/storage/v1/object/sign/alrif/productBacground.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9hNzkzMzE5NS0xOGUwLTRkOTMtYTRiMC0xNjczMTVlOTUyMGUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJhbHJpZi9wcm9kdWN0QmFjZ3JvdW5kLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODEwOTc1OTEsImV4cCI6Mjk1MDEyNDE1OTF9.4ObB39B7KzW9kHij2anpwn8-U0ukXNDG7Bq0nAHMKPQ`;
 
@@ -181,7 +181,7 @@ function getLocalBusinessJsonLd() {
     ],
     sameAs: [
       "https://www.instagram.com/alreeefl11/",
-      "https://www.tiktok.com/@mafrushatalriyf1",
+      "https://www.tiktok.com/@a_riffoundation",
     ],
   };
 }
@@ -322,8 +322,8 @@ export async function generateMetadata({
     // ── Twitter / X ───────────────────────────────────────────────────────
     twitter: {
       card: "summary_large_image",
-      site: "@mafrushatalriyf1",
-      creator: "@mafrushatalriyf1",
+      site: "@a_riffoundation",
+      creator: "@a_riffoundation",
       title,
       description,
       images: [{ url: heroImage, alt: `${category.name} — ${SITE_NAME}` }],

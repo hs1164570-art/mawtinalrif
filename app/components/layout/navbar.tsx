@@ -21,14 +21,15 @@ export interface NavUserData {
 interface NavbarProps {
   user: NavUserData | null;
   isAdmin: boolean;
+  loading?: boolean;
 }
 
 // ── Constants ──────────────────────────────────────────────────────────────────
 const LOGO_URL =
-  "https://bwmvrztnbjayktocsdvc.supabase.co/storage/v1/object/sign/alrif/logo.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9hNzkzMzE5NS0xOGUwLTRkOTMtYTRiMC0xNjczMTVlOTUyMGUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJhbHJpZi9sb2dvLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODEwOTE3MjMsImV4cCI6Mjg1NjA1MDkxNzIzfQ.OUJVVv1wX0EZz3B6G056NI_Xv2qnUVxaa6hqsvFwlt4";
+  "https://bwmvrztnbjayktocsdvc.supabase.co/storage/v1/object/public/alrif/edit%20logo%20withou%20ground.png";
 
 // ── Component ──────────────────────────────────────────────────────────────────
-export default function Navbar({ user, isAdmin }: NavbarProps) {
+export default function Navbar({ user, isAdmin, loading }: NavbarProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { totalItems } = useCart();
@@ -96,9 +97,9 @@ export default function Navbar({ user, isAdmin }: NavbarProps) {
                     quality={95}
                     src={LOGO_URL}
                     alt="موطن الريف للأثاث"
-                    width={130}
-                    height={48}
-                    className="h-11 w-auto object-contain"
+                    width={170}
+                    height={90}
+                    className="h-19 w-auto object-contain"
                     priority
                   />
                 </Link>
@@ -126,7 +127,9 @@ export default function Navbar({ user, isAdmin }: NavbarProps) {
                   </button>
                 </CartDrawer>
 
-                <ProfileBtn user={user} />
+                {loading ?
+                  <div className="w-10 h-10 rounded-full bg-[var(--bg-deep)] border border-[var(--border)] animate-pulse" />
+                : <ProfileBtn user={user} />}
               </div>
             </div>
 
@@ -142,9 +145,9 @@ export default function Navbar({ user, isAdmin }: NavbarProps) {
               <Image
                 src={LOGO_URL}
                 alt="موطن الريف للأثاث"
-                width={120}
-                height={44}
-                className="h-10 w-auto object-contain"
+                width={170}
+                height={90}
+                className="h-19 w-auto object-contain"
                 priority
               />
             </Link>
@@ -161,7 +164,9 @@ export default function Navbar({ user, isAdmin }: NavbarProps) {
                 </button>
               </CartDrawer>
 
-              <ProfileBtn user={user} />
+              {loading ?
+                <div className="w-10 h-10 mx-1 rounded-full bg-[var(--bg-deep)] border border-[var(--border)] animate-pulse" />
+              : <ProfileBtn user={user} />}
 
               <button
                 onClick={() => setMobileOpen((o) => !o)}

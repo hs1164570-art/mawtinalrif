@@ -26,7 +26,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "https://mawtinalriyf.com";
 const SITE_NAME = "مفروشات  موطن الريف";
 const ORG_NAME = "مؤسسة موطن الريف للتجارة";
 const LOGO_URL =
-  "https://bwmvrztnbjayktocsdvc.supabase.co/storage/v1/object/public/alrif/logo.png";
+  "https://bwmvrztnbjayktocsdvc.supabase.co/storage/v1/object/public/alrif/edit%20logo%20withou%20ground.png";
 
 // ─── ISR: تجديد الكاش كل دقيقتين بدون re-build ──────────────────────────────
 export const revalidate = 86000;
@@ -117,8 +117,8 @@ export const metadata: Metadata = {
   // ── Twitter / X ────────────────────────────────────────────────────────────
   twitter: {
     card: "summary_large_image",
-    site: "@mafrushatalriyf1",
-    creator: "@mafrushatalriyf1",
+    site: "@a_riffoundation",
+    creator: "@a_riffoundation",
     title: "مفروشات الريف - أفضل أثاث في الرياض",
     description:
       "أفضل تشكيلات الأثاث المنزلي في الرياض. توصيل سريع وأسعار تنافسية.",
@@ -271,7 +271,7 @@ export default async function HomePage() {
       }),
     sameAs: [
       "https://www.instagram.com/alreeefl11/",
-      "https://www.tiktok.com/@mafrushatalriyf1",
+      "https://www.tiktok.com/@a_riffoundation",
       "https://maps.app.goo.gl/ZtJBNuCLczyKCDSo6",
     ],
   };
