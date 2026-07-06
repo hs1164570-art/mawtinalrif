@@ -41,14 +41,14 @@ export default function AdminLayout({
         <AdminHeader />
 
         {/*
-          مهم: main دلوقتي مجرد "ممرّ" (pass-through) بدون padding وبدون overflow خاص بيه.
-          كل صفحة هي اللي تقرر شكلها:
-            - صفحات عادية (جداول، فورمات، إلخ) لازم تحط بنفسها:
-                <div className="h-full overflow-y-auto p-4 sm:p-6"> ... </div>
-            - صفحات full-bleed زي محرر المقال تاخد h-full مباشرة من غير padding.
-          min-h-0 هنا ضروري عشان الأبناء يقدروا ياخدوا h-full صح جوه flex column.
+          main دلوقتي هو المسؤول عن الـ scroll بشكل عام.
+          كل الصفحات هتاخد سكرول تلقائي من غير ما تحتاج تعمل wrapper بنفسها.
+          لو صفحة معينة (زي محرر المقال full-bleed) محتاجة تتحكم في السكرول بنفسها،
+          نقدر نستثنيها لاحقًا بإضافة class أو layout خاص بيها.
         */}
-        <main className="flex-1 min-h-0 overflow-hidden">{children}</main>
+        <main className="flex-1 min-h-0 overflow-y-auto p-4 sm:p-6">
+          {children}
+        </main>
       </div>
     </div>
   );
