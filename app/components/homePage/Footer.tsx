@@ -35,6 +35,7 @@ const INFO_LINKS: { label: string; href: string }[] = [
   { label: "عن المؤسسة", href: "/about#about" },
   { label: "الشحن والتوصيل", href: "/about#shipping" },
   { label: "تواصل معنا", href: "/contact" },
+  { label: "سياسة الارجاع ", href: "/return-policy" },
   { label: "احجز استشارتك المجانية الان ", href: "/contact" },
   { label: "ماذا يقول عملائنا", href: "/#testimonials-section" },
 ];
@@ -45,6 +46,15 @@ const CONTACT = {
   whatsapp: "966557211359",
   whatsappDisplay: "+966 55 721 1359",
   email: "info@mawtinalriyf.com",
+};
+
+// ── Official business/legal details (from commercial registration docs) ─────
+const BUSINESS_INFO = {
+  legalName: "مؤسسة موطن الريف للتجارة",
+  crNumber: "451115770740", // رقم الرخصة التجارية الموحد (بلدي)
+  vatNumber: "300844962400003", // الرقم الضريبي (VAT)
+  shortAddress: "RQJA7773", // العنوان الوطني المختصر
+  fullAddress: "حي الجزيرة، شارع رقم 3، الرياض 14261، المملكة العربية السعودية",
 };
 
 // ── Inline SVGs (Contact & Payment icons) ─────────────────────────────────────────
@@ -595,6 +605,33 @@ export default function Footer() {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Legal / Business Registration bar ────────────────────────────── */}
+      <div style={{ borderTop: "1px solid var(--border)" }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-4">
+          <div
+            className="flex flex-wrap items-center justify-center sm:justify-start gap-x-6 gap-y-2 text-[11px]"
+            style={{ color: "var(--text-3)" }}
+          >
+            <span>{BUSINESS_INFO.legalName}</span>
+            <span className="flex items-center gap-1.5">
+              <span style={{ color: "var(--text-2)" }}>س.ت:</span>
+              <span dir="ltr">{BUSINESS_INFO.crNumber}</span>
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span style={{ color: "var(--text-2)" }}>الرقم الضريبي:</span>
+              <span dir="ltr">{BUSINESS_INFO.vatNumber}</span>
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span style={{ color: "var(--text-2)" }}>العنوان الوطني:</span>
+              <span dir="ltr">{BUSINESS_INFO.shortAddress}</span>
+            </span>
+            <span className="hidden sm:inline">
+              {BUSINESS_INFO.fullAddress}
+            </span>
           </div>
         </div>
       </div>
