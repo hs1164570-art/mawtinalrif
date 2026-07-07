@@ -610,6 +610,7 @@ export default function Footer() {
       </div>
 
       {/* ── Legal / Business Registration bar ────────────────────────────── */}
+      {/* ── Legal / Business Registration bar ────────────────────────────── */}
       <div style={{ borderTop: "1px solid var(--border)" }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-4">
           <div
@@ -632,6 +633,23 @@ export default function Footer() {
             <span className="hidden sm:inline">
               {BUSINESS_INFO.fullAddress}
             </span>
+            <a
+              href="https://bwmvrztnbjayktocsdvc.supabase.co/storage/v1/object/public/alrif/Tax%20Registration%20Certificate.jpeg"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="عرض شهادة
+            التسجيل الضريبي"
+              className="flex items-center transition-opacity
+            duration-200 hover:opacity-70"
+            >
+              <Image
+                src="https://bwmvrztnbjayktocsdvc.supabase.co/storage/v1/object/public/alrif/tax%20logo.png"
+                alt="شعار التسجيل الضريبي"
+                width={40}
+                height={40}
+                className="object-contain shrink-0"
+              />
+            </a>
           </div>
         </div>
       </div>
@@ -652,14 +670,14 @@ export default function Footer() {
             </p>
             <div className="flex items-center gap-4">
               <Link
-                href="/about#privacy"
+                href="/privacy-policy"
                 className="transition-opacity duration-200 hover:opacity-60"
               >
                 سياسة الخصوصية
               </Link>
               <span aria-hidden="true">·</span>
               <Link
-                href="/about#terms"
+                href="/terms"
                 className="transition-opacity duration-200 hover:opacity-60"
               >
                 الشروط والأحكام

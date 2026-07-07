@@ -108,8 +108,7 @@ export default async function middleware(
 // الـ Matcher لتحديد المسارات التي يطبق عليها الـ Middleware
 export const config = {
   matcher: [
-    // يطبق على كل المسارات عدا الملفات الداخلية والصور الثابتة والـ APIs العادية (غير الأدمن)
-    "/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|api/(?!admin)).*)",
+    "/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|product-feed.xml|api/(?!admin)).*)",
   ],
 };
 
@@ -225,7 +224,6 @@ export const config = {
 // // الـ Matcher لتحديد المسارات التي يطبق عليها الـ Middleware
 // export const config = {
 //   matcher: [
-//     // يطبق على كل المسارات عدا الملفات الداخلية والصور الثابتة والـ APIs العادية (غير الأدمن)
-//     "/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|api/(?!admin)).*)",
+//     "/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|product-feed.xml|api/(?!admin)).*)",
 //   ],
 // };

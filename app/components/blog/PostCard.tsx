@@ -71,17 +71,6 @@ export function PostCard({ post, priority = false }: PostCardProps) {
               {post.excerpt}
             </p>
           )}
-
-          {/* Meta row */}
-          <div className="mt-auto pt-3 flex items-center gap-3 text-xs text-[var(--text-3)]">
-            {post.publishedAt && (
-              <time dateTime={new Date(post.publishedAt).toISOString()}>
-                {formatDateAr(post.publishedAt)}
-              </time>
-            )}
-            <span aria-hidden="true">•</span>
-            <span>{formatReadingTime(post.readingTime)}</span>
-          </div>
         </div>
       </Link>
     </article>
