@@ -515,7 +515,7 @@ export default function ReturnPolicyPage() {
                   className="underline underline-offset-4"
                   style={{ color: "var(--cyan)" }}
                 >
-                  الاستشارة المجانية
+                  اتصل بنا
                 </Link>
                 .
               </p>
