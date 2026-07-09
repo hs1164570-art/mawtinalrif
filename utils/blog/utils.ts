@@ -169,10 +169,10 @@ export function calcReadingTime(html: string, wpm = 200): number {
  *       5 → "5 دقائق"
  */
 export function formatReadingTime(minutes: number): string {
-  if (minutes === 1) return "دقيقة واحدة";
-  if (minutes === 2) return "دقيقتان";
-  if (minutes <= 10) return `${minutes} دقائق`;
-  return `${minutes} دقيقة`;
+  if (minutes === 1) return "دقيقة واحدة للقراءة";
+  if (minutes === 2) return "دقيقتان للقراءة";
+  if (minutes <= 10) return `${minutes} دقائق للقراءة`;
+  return `${minutes} دقيقة للقراءة`;
 }
 
 // ─── Date formatting (Arabic) ─────────────────────────────────────────────────

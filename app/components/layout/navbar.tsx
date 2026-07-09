@@ -86,7 +86,7 @@ export default function Navbar({ user, isAdmin, loading }: NavbarProps) {
         >
           {/* الحاوية الرئيسية للشاشات الكبيرة والتابلت */}
           <div className="hidden md:flex flex-col py-3 overflow-visible w-full">
-            <div className="flex items-center justify-between w-full overflow-visible relative z-10">
+            <div className="flex items-center justify-between w-full overflow-visible relative z-10 gap-4">
               {/* اللوجو في أقصى اليمين */}
               <div className="flex-shrink-0">
                 <Link
@@ -103,15 +103,6 @@ export default function Navbar({ user, isAdmin, loading }: NavbarProps) {
                     priority
                   />
                 </Link>
-              </div>
-
-              {/* الروابط في المنتصف تماماً (تظهر هنا فقط في الشاشات الكبيرة جداً التي تستوعبها) */}
-              <div className="hidden xl:flex flex-wrap items-center justify-center gap-x-4 gap-y-1 overflow-visible mx-4">
-                <NavLinks
-                  isAdmin={isAdmin}
-                  isDesktop={true}
-                  onClose={() => {}}
-                />
               </div>
 
               {/* الأزرار في أقصى اليسار متناسقة ومقابلة للوجو دائماً */}
@@ -133,8 +124,8 @@ export default function Navbar({ user, isAdmin, loading }: NavbarProps) {
               </div>
             </div>
 
-            {/* السطر السفلي للروابط لشاشات التابلت والشاشات المتوسطة لحماية الهيدر من الانفجار */}
-            <div className="flex xl:hidden flex-wrap items-center justify-center gap-x-4 gap-y-1 overflow-visible w-full border-t border-[var(--border)] pt-2 mt-2">
+            {/* صف الروابط: يلف تلقائيًا حسب المساحة الفعلية المتاحة، مهما زاد عدد الأقسام مستقبلاً */}
+            <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 overflow-visible w-full border-t border-[var(--border)] pt-2 mt-2">
               <NavLinks isAdmin={isAdmin} isDesktop={true} onClose={() => {}} />
             </div>
           </div>

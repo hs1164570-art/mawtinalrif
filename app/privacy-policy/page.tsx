@@ -548,36 +548,11 @@ export default function PrivacyPolicyPage() {
                 </p>
 
                 <h3 className="text-base font-semibold text-[var(--text-1)]">
-                  5. الحق في طلب الإتلاف
-                </h3>
-                <p>
-                  طلب إتلاف بياناتك التي انتهت الحاجة إليها، وفقاً للحالات
-                  والقيود التي يحددها النظام.
-                </p>
-
-                <h3 className="text-base font-semibold text-[var(--text-1)]">
-                  6. الحق في سحب موافقتك
-                </h3>
-                <p>
-                  الرجوع عن موافقتك على معالجة بياناتك في أي وقت، بما في ذلك
-                  موافقتك على استخدامها لأغراض التسويق والتحليلات، ما لم تكن
-                  هناك مسوغات نظامية أخرى تتطلب استمرار المعالجة.
-                </p>
-
-                <h3 className="text-base font-semibold text-[var(--text-1)]">
-                  7. الحق في تقديم شكوى
+                  5. الحق في تقديم شكوى
                 </h3>
                 <p>
                   تقديم شكوى بشأن أي مخالفة لأحكام النظام إلى الجهة المختصة
                   (سدايا).
-                </p>
-
-                <h3 className="text-base font-semibold text-[var(--text-1)]">
-                  8. الحق في طلب التعويض
-                </h3>
-                <p>
-                  المطالبة بالتعويض عن أي ضرر مادي أو معنوي يلحق بك نتيجة مخالفة
-                  لأحكام النظام أو لائحته التنفيذية.
                 </p>
 
                 <p className="pt-2">
@@ -604,7 +579,6 @@ export default function PrivacyPolicyPage() {
                   مقابل ذلك إلا فيما استثناه النظام صراحة.
                 </p>
               </LegalSection>
-
               <LegalSection
                 id="complaints"
                 eyebrow="تاسعاً"
