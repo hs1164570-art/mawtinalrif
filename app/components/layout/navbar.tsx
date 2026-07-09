@@ -1,347 +1,224 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import Image from "next/image";
 import Link from "next/link";
-import { useQuery } from "@tanstack/react-query";
-import { ChevronDown, Home, Info } from "lucide-react";
-import { LucideFileText } from "lucide-react";
-import { categoriesQueryOptions } from "@/utils/categories";
+import { useState, useEffect } from "react";
+import { Menu, X, LayoutDashboard, ShoppingBag } from "lucide-react";
+import { usePathname } from "next/navigation";
+import NavLinks from "./navbar/links";
+import ProfileBtn from "./navbar/profile-btn";
+import { useCart } from "@/hook/use-cart";
+import CartDrawer from "./navbar/cart-drawer";
 
-interface NavLinksProps {
-  isDesktop: boolean;
-  isAdmin: boolean;
-  onClose: () => void;
+// ── Types ──────────────────────────────────────────────────────────────────────
+export interface NavUserData {
+  name: string | null;
+  email: string | null;
+  image: string | null;
+  id: string | null;
 }
 
-/* 🎨 الألوان الأساسية معتمدة كلياً على الـ CSS Variables الجديدة */
-const linkBase =
-  "block px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 " +
-  "text-[var(--text-1)] hover:text-[var(--text-1)] hover:bg-[var(--bg-deep)] " +
-  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--cyan)]";
+interface NavbarProps {
+  user: NavUserData | null;
+  isAdmin: boolean;
+  loading?: boolean;
+}
 
-const subLinkBase =
-  "block px-4 py-2.5 rounded-lg text-sm font-semibold transition-all duration-150 " +
-  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--cyan)]";
+// ── Constants ──────────────────────────────────────────────────────────────────
+const LOGO_URL =
+  "https://bwmvrztnbjayktocsdvc.supabase.co/storage/v1/object/public/alrif/edit%20logo%20withou%20ground.png";
 
-export default function NavLinks({
-  isDesktop,
-  isAdmin,
-  onClose,
-}: NavLinksProps) {
-  const { data: categories = [], isLoading } = useQuery(categoriesQueryOptions);
-  const [openId, setOpenId] = useState<string | null>(null);
-  const hoverTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+// ── Component ──────────────────────────────────────────────────────────────────
+export default function Navbar({ user, isAdmin, loading }: NavbarProps) {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const { totalItems } = useCart();
+  const pathname = usePathname();
 
-  const handleMouseEnter = useCallback((id: string) => {
-    if (hoverTimeout.current) clearTimeout(hoverTimeout.current);
-    setOpenId(id);
+  // Close mobile menu on navigation
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [pathname]);
+
+  // Scroll shadow
+  useEffect(() => {
+    const handler = () => setScrolled(window.scrollY > 8);
+    window.addEventListener("scroll", handler, { passive: true });
+    return () => window.removeEventListener("scroll", handler);
   }, []);
 
-  const handleMouseLeave = useCallback(() => {
-    hoverTimeout.current = setTimeout(() => setOpenId(null), 200);
+  // Close mobile menu on desktop resize
+  useEffect(() => {
+    const handler = () => {
+      if (window.innerWidth >= 768) setMobileOpen(false);
+    };
+    window.addEventListener("resize", handler, { passive: true });
+    return () => window.removeEventListener("resize", handler);
   }, []);
 
-  const handleTriggerClick = useCallback((e: React.MouseEvent, id: string) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setOpenId((prev) => (prev === id ? null : id));
-  }, []);
+  // Body scroll lock
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileOpen]);
 
-  if (isLoading) {
-    return isDesktop ?
-        <div className="flex items-center gap-2" aria-hidden="true">
-          {[90, 80, 100, 75, 85].map((w) => (
-            <div
-              key={w}
-              style={{ width: w }}
-              className="h-8 rounded-xl bg-[var(--bg-deep)] animate-pulse"
-            />
-          ))}
-        </div>
-      : null;
-  }
-
-  // ══════════════════════════════════════════════════════════════════════════
-  // نسخة الديسكتوب (Desktop & Tablet Row)
-  // ══════════════════════════════════════════════════════════════════════════
-  if (isDesktop) {
-    return (
-      <ul
-        role="menubar"
-        aria-label="الأقسام الرئيسية"
-        className="flex flex-wrap items-center justify-center gap-1 py-2 overflow-visible"
+  return (
+    <>
+      {/* ── Header ─────────────────────────────────────────────────────── */}
+      <header
+        dir="rtl"
+        role="banner"
+        className={[
+          "sticky inset-x-0 top-0 z-50 transition-all duration-300 overflow-visible",
+          scrolled ?
+            "bg-[var(--bg)] shadow-[0_4px_32px_rgba(33,37,41,0.05)] border-b border-[var(--border)]"
+          : "bg-[var(--bg)]",
+        ].join(" ")}
       >
-        {/* 1. رابط الرئيسية الثابت */}
-        <li role="none" className="flex-shrink-0">
-          <Link href="/" onClick={onClose} className={linkBase}>
-            الرئيسية
-          </Link>
-        </li>
-        <li role="none" className="flex-shrink-0">
-          <Link
-            href="/blog"
-            role="article"
-            onClick={onClose}
-            className={linkBase}
-          >
-            المدونة
-          </Link>
-        </li>
+        {/* خط ذهبي ناعم تحت الهيدر مستوحى من الهوية الاستايلش */}
+        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[var(--gold-bright)]/30 to-transparent pointer-events-none" />
 
-        {/* 2. رندرة الأقسام الديناميكية القادمة من السيرفر */}
-        {categories.map((cat) => {
-          const hasChildren = cat.children && cat.children.length > 0;
-          const isOpen = openId === cat.id;
-
-          return (
-            <li
-              key={cat.id}
-              role="none"
-              className="relative flex-shrink-0 overflow-visible"
-              {...(hasChildren ?
-                {
-                  onMouseEnter: () => handleMouseEnter(cat.id),
-                  onMouseLeave: handleMouseLeave,
-                }
-              : {})}
-            >
-              {hasChildren ?
-                <>
-                  <button
-                    role="menuitem"
-                    aria-haspopup="menu"
-                    aria-expanded={isOpen}
-                    onClick={(e) => handleTriggerClick(e, cat.id)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Escape") setOpenId(null);
-                    }}
-                    className={[
-                      "flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-bold border",
-                      "transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--cyan)]",
-                      isOpen ?
-                        "bg-[var(--bg-deep)] text-[var(--text-1)] border-[var(--border-strong)] shadow-[var(--shadow-sm)]"
-                      : "text-[var(--text-1)] bg-transparent border-transparent hover:bg-[var(--bg-deep)] hover:text-[var(--text-1)]",
-                    ].join(" ")}
-                  >
-                    <span>{cat.name}</span>
-                    <ChevronDown
-                      className={[
-                        "w-4 h-4 text-[var(--text-2)] transition-transform duration-300",
-                        isOpen ? "rotate-180" : "",
-                      ].join(" ")}
-                      aria-hidden="true"
-                    />
-                  </button>
-
-                  {/* الـ Dropdown Panel */}
-                  <div
-                    role="menu"
-                    aria-label={`قائمة قسم ${cat.name}`}
-                    className={[
-                      "absolute top-full start-0 z-[99999] pointer-events-auto pt-2",
-                      "min-w-[240px]",
-                      "transition-all duration-200 origin-top-start",
-                      isOpen ?
-                        "opacity-100 scale-100 translate-y-0 visible"
-                      : "opacity-0 scale-95 -translate-y-2 pointer-events-none invisible",
-                    ].join(" ")}
-                  >
-                    <div className="p-2 space-y-0.5 bg-[var(--surface)] rounded-2xl border border-[var(--border-md)] shadow-[var(--shadow-md)]">
-                      <Link
-                        href={`/products/collections/${cat.slug}`}
-                        role="menuitem"
-                        onClick={() => {
-                          setOpenId(null);
-                          onClose();
-                        }}
-                        className={[
-                          subLinkBase,
-                          "block text-[var(--cyan)] font-bold border-b border-[var(--border)] pb-2 mb-1.5 rounded-b-none bg-[var(--cyan-bg)] hover:bg-[var(--bg-deep)]",
-                        ].join(" ")}
-                      >
-                        عرض كل {cat.name}
-                      </Link>
-
-                      {cat.children.map((sub) => (
-                        <Link
-                          key={sub.id}
-                          href={`/products/${cat.slug}/${sub.slug}`}
-                          role="menuitem"
-                          onClick={() => {
-                            setOpenId(null);
-                            onClose();
-                          }}
-                          className={[
-                            subLinkBase,
-                            "block text-[var(--text-2)] hover:text-[var(--text-1)] hover:bg-[var(--bg-deep)]",
-                          ].join(" ")}
-                        >
-                          {sub.name}
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                </>
-              : <Link
-                  href={`/products/${cat.slug}`}
-                  role="menuitem"
-                  onClick={() => {
-                    setOpenId(null);
-                    onClose();
-                  }}
-                  className={linkBase}
+        <nav
+          aria-label="التنقل الرئيسي"
+          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 overflow-visible"
+        >
+          {/* الحاوية الرئيسية للشاشات الكبيرة والتابلت */}
+          <div className="hidden md:flex flex-col py-3 overflow-visible w-full">
+            <div className="flex items-center justify-between w-full overflow-visible relative z-10 gap-4">
+              {/* اللوجو في أقصى اليمين */}
+              <div className="flex-shrink-0">
+                <Link
+                  href="/"
+                  className="flex-shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold-mid)]/50 rounded-lg"
                 >
-                  {cat.name}
+                  <Image
+                    quality={95}
+                    src={LOGO_URL}
+                    alt="موطن الريف للأثاث"
+                    width={170}
+                    height={90}
+                    className="h-19 w-auto object-contain"
+                    priority
+                  />
                 </Link>
-              }
-            </li>
-          );
-        })}
+              </div>
 
-        {/* 3. رابط عن الشركة (About) الثابت */}
-        <li role="none" className="flex-shrink-0">
-          <Link
-            href="/about"
-            role="menuitem"
-            onClick={onClose}
-            className={linkBase}
-          >
-            من نحن
-          </Link>
-        </li>
+              {/* الأزرار في أقصى اليسار متناسقة ومقابلة للوجو دائماً */}
+              <div className="flex items-center gap-1 flex-shrink-0">
+                <CartDrawer>
+                  <button className="relative p-2.5 rounded-xl text-[var(--text-2)] hover:text-[var(--text-1)] hover:bg-[var(--bg-deep)] transition-all duration-200">
+                    <ShoppingBag className="w-[21px] h-[21px]" />
+                    {totalItems > 0 && (
+                      <span className="absolute top-1.5 left-1.5 min-w-[17px] h-[17px] px-0.5 text-[9px] font-bold rounded-full bg-[var(--gold)] text-[var(--text-inv)] flex items-center justify-center leading-none">
+                        {totalItems > 9 ? "9+" : totalItems}
+                      </span>
+                    )}
+                  </button>
+                </CartDrawer>
 
-        {/* 4. رابط لوحة التحكم للمسؤول (Admin Dashboard) الثابت */}
-        {isAdmin && (
-          <li role="none" className="flex-shrink-0">
+                {loading ?
+                  <div className="w-10 h-10 rounded-full bg-[var(--bg-deep)] border border-[var(--border)] animate-pulse" />
+                : <ProfileBtn user={user} />}
+              </div>
+            </div>
+
+            {/* صف الروابط: يلف تلقائيًا حسب المساحة الفعلية المتاحة، مهما زاد عدد الأقسام مستقبلاً */}
+            <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 overflow-visible w-full border-t border-[var(--border)] pt-2 mt-2">
+              <NavLinks isAdmin={isAdmin} isDesktop={true} onClose={() => {}} />
+            </div>
+          </div>
+
+          {/* ── وضع الموبايل للشاشات الصغيرة ────────────────── */}
+          <div className="flex md:hidden items-center justify-between h-[64px]">
+            <Link href="/" className="flex-shrink-0">
+              <Image
+                src={LOGO_URL}
+                alt="موطن الريف للأثاث"
+                width={170}
+                height={90}
+                className="h-19 w-auto object-contain"
+                priority
+              />
+            </Link>
+
+            <div className="flex items-center gap-0.5">
+              <CartDrawer>
+                <button className="relative p-2.5 rounded-xl text-[var(--text-2)] hover:text-[var(--text-1)]">
+                  <ShoppingBag className="w-[21px] h-[21px]" />
+                  {totalItems > 0 && (
+                    <span className="absolute top-1.5 left-1.5 min-w-[17px] h-[17px] px-0.5 text-[9px] font-bold rounded-full bg-[var(--gold)] text-[var(--text-inv)] flex items-center justify-center leading-none">
+                      {totalItems > 9 ? "9+" : totalItems}
+                    </span>
+                  )}
+                </button>
+              </CartDrawer>
+
+              {loading ?
+                <div className="w-10 h-10 mx-1 rounded-full bg-[var(--bg-deep)] border border-[var(--border)] animate-pulse" />
+              : <ProfileBtn user={user} />}
+
+              <button
+                onClick={() => setMobileOpen((o) => !o)}
+                aria-expanded={mobileOpen}
+                aria-controls="mobile-menu"
+                aria-label={mobileOpen ? "إغلاق القائمة" : "فتح القائمة"}
+                className="p-2.5 rounded-xl text-[var(--text-2)] hover:text-[var(--text-1)]"
+              >
+                {mobileOpen ?
+                  <X className="w-5 h-5" />
+                : <Menu className="w-5 h-5" />}
+              </button>
+            </div>
+          </div>
+        </nav>
+      </header>
+
+      {/* ── Mobile menu panel (للموبايل فقط) ──────────────── */}
+      <div
+        id="mobile-menu"
+        role="navigation"
+        aria-label="قائمة التنقل للموبايل"
+        aria-hidden={!mobileOpen}
+        className={[
+          "fixed top-[64px] inset-x-0 z-50 md:hidden border-t border-[var(--border)] bg-[var(--bg)]",
+          "transition-[max-height,opacity] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden motion-reduce:transition-none",
+          mobileOpen ?
+            "max-h-[calc(100dvh-64px)] opacity-100 shadow-xl"
+          : "max-h-0 opacity-0 pointer-events-none",
+        ].join(" ")}
+      >
+        <div className="overflow-y-auto max-h-[calc(100dvh-64px)] px-4 pt-3 pb-8 space-y-1">
+          {isAdmin && (
             <Link
               href="/admin"
-              role="menuitem"
-              onClick={onClose}
-              className={[
-                linkBase,
-                "text-[var(--gold-bright)] hover:bg-[var(--bg-deep)] hover:text-[var(--gold)]",
-              ].join(" ")}
+              onClick={() => setMobileOpen(false)}
+              className="flex items-center gap-2.5 px-4 py-3 rounded-xl mb-2 text-sm font-semibold text-[var(--gold-mid)] border border-[var(--gold-bright)]/20 bg-[var(--gold-bright)]/[0.03]"
             >
-              لوحة تحكم الأدمن
+              <LayoutDashboard className="w-4 h-4" />
+              لوحة التحكم
             </Link>
-          </li>
-        )}
-      </ul>
-    );
-  }
+          )}
+          <NavLinks
+            isAdmin={isAdmin}
+            isDesktop={false}
+            onClose={() => setMobileOpen(false)}
+          />
+        </div>
+      </div>
 
-  // ══════════════════════════════════════════════════════════════════════════
-  // نسخة الموبايل والتابلت (Accordion Mobile Sidebar Menu)
-  // ══════════════════════════════════════════════════════════════════════════
-  return (
-    <ul className="space-y-1">
-      {/* 1. الرئيسية للموبايل */}
-      <li className="border-b border-[var(--border)]">
-        <Link
-          href="/"
-          onClick={onClose}
-          className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-[var(--text-1)] hover:bg-[var(--bg-deep)] transition-colors"
-        >
-          <Home className="w-4 h-4 text-[var(--cyan)]" />
-          <span>الرئيسية</span>
-        </Link>
-      </li>
-      <li className="border-b border-[var(--border)]">
-        <Link
-          href="/blog"
-          onClick={onClose}
-          className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-[var(--text-1)] hover:bg-[var(--bg-deep)] transition-colors"
-        >
-          <LucideFileText className="w-4 h-4 text-[var(--cyan)]" />
-          <span>المدونة</span>
-        </Link>
-      </li>
-
-      {/* 2. رندرة الأقسام الديناميكية */}
-      {categories.map((cat) => {
-        const hasChildren = cat.children && cat.children.length > 0;
-        const isOpen = openId === cat.id;
-
-        return (
-          <li key={cat.id} className="border-b border-[var(--border)]">
-            {hasChildren ?
-              <div className="py-0.5">
-                <button
-                  aria-expanded={isOpen}
-                  aria-controls={`mob-sub-${cat.id}`}
-                  onClick={() => setOpenId(isOpen ? null : cat.id)}
-                  className="w-full flex items-center justify-between px-4 py-3
-                    rounded-xl text-sm font-bold text-[var(--text-1)]
-                    hover:bg-[var(--bg-deep)] transition-colors
-                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--cyan)]"
-                >
-                  <span>{cat.name}</span>
-                  <ChevronDown
-                    className={[
-                      "w-4 h-4 text-[var(--text-2)] transition-transform duration-200",
-                      isOpen ? "rotate-180" : "",
-                    ].join(" ")}
-                    aria-hidden="true"
-                  />
-                </button>
-
-                <div
-                  id={`mob-sub-${cat.id}`}
-                  className={[
-                    "overflow-hidden transition-all duration-300 ease-in-out",
-                    isOpen ?
-                      "max-h-[500px] opacity-100 mt-1"
-                    : "max-h-0 opacity-0",
-                  ].join(" ")}
-                >
-                  <div className="pe-2 ps-6 pb-2 pt-1 space-y-1 bg-[var(--surface-2)] rounded-xl border border-[var(--border-md)]">
-                    <Link
-                      href={`/products/collections/${cat.slug}`}
-                      onClick={onClose}
-                      className="block px-4 py-2.5 text-sm rounded-lg
-                        text-[var(--cyan)] font-bold bg-[var(--cyan-bg)] hover:bg-[var(--bg-deep)] transition-colors
-                        border-b border-[var(--border)] mb-1"
-                    >
-                      عرض الكل
-                    </Link>
-                    {cat.children.map((sub) => (
-                      <Link
-                        key={sub.id}
-                        href={`/products/${cat.slug}/${sub.slug}`}
-                        onClick={onClose}
-                        className="block px-4 py-2 text-sm rounded-lg
-                          text-[var(--text-2)] hover:text-[var(--text-1)] hover:bg-[var(--bg-deep)] transition-colors"
-                      >
-                        {sub.name}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            : <Link
-                href={`/products/collections/${cat.slug}`}
-                onClick={onClose}
-                className="block px-4 py-3 rounded-xl text-sm font-bold
-                  text-[var(--text-1)] hover:text-[var(--text-1)] hover:bg-[var(--bg-deep)] transition-colors"
-              >
-                {cat.name}
-              </Link>
-            }
-          </li>
-        );
-      })}
-
-      {/* 3. رابط عن الشركة (من نحن) للموبايل */}
-      <li className="border-b border-[var(--border)] last:border-0">
-        <Link
-          href="/about"
-          onClick={onClose}
-          className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-[var(--text-1)] hover:bg-[var(--bg-deep)] transition-colors"
-        >
-          <Info className="w-4 h-4 text-[var(--cyan)]" />
-          <span>من نحن</span>
-        </Link>
-      </li>
-    </ul>
+      {/* ── Mobile backdrop ─────────────────────────────────────────────── */}
+      <div
+        aria-hidden="true"
+        onClick={() => setMobileOpen(false)}
+        className={[
+          "fixed inset-0 z-40 md:hidden",
+          "bg-black/25 backdrop-blur-[1px]",
+          "transition-opacity duration-300 ease-in-out motion-reduce:transition-none",
+          mobileOpen ? "opacity-100" : "opacity-0 pointer-events-none",
+        ].join(" ")}
+      />
+    </>
   );
 }

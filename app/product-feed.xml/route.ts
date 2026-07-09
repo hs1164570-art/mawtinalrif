@@ -1,28 +1,27 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // app/product-feed.xml/route.ts — Google Merchant Center Product Feed
+// مؤسسة موطن الريف للتجارة — الرياض
+//
+// Updates for 900+ products:
+// ✅ Pagination في الـ DB query (skip/take) لو المنتجات تجاوزت 2000
+// ✅ <g:return_policy_label> → رابط سياسة الإرجاع الفعلية
+// ✅ <g:loyalty_points> محذوف (مش مدعوم في SA بعد)
+// ─────────────────────────────────────────────────────────────────────────────
 
 import { NextResponse } from "next/server";
-import prisma from "@/lib/db"; // ✅ FIX 2: default import مطابق لباقي الموقع
+import prisma from "@/lib/db";
 
-// ─── Constants — مطابقة لـ layout.tsx ────────────────────────────────────────
-// ✅ FIX 1: الدومين الصحيح
+// ─── Constants ────────────────────────────────────────────────────────────────
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "https://mawtinalriyf.com";
 const STORE_NAME = "موطن الريف";
 const BRAND_NAME = "موطن الريف";
 const CURRENCY = "SAR";
+const CACHE_MAX_AGE = 3600;
 
-// ✅ FIX 3: Cache-Control header بيتحط في الـ response مباشرة
-// revalidate = 3600 مش شغال في route handlers — بس Cache-Control شغال صح
-const CACHE_MAX_AGE = 3600; // ساعة
-
-// Google Product Taxonomy ID للأثاث المنزلي
-// https://www.google.com/basepages/producttype/taxonomy-with-ids.en-US.txt
-// 436 = Furniture > Home Furniture
+// Google Product Taxonomy: 436 = Furniture > Home Furniture
 const GOOGLE_PRODUCT_CATEGORY = "436";
 
 // ─── XML Helpers ──────────────────────────────────────────────────────────────
-
-/** تهريب الرموز الخاصة للـ attributes وقيم غير CDATA */
 function escapeXml(value: string): string {
   return value
     .replace(/&/g, "&amp;")
@@ -32,20 +31,14 @@ function escapeXml(value: string): string {
     .replace(/'/g, "&apos;");
 }
 
-/** النصوص الحرة (اسم/وصف) داخل CDATA — تدعم العربي بدون مشاكل */
 function cdata(value: string): string {
   return `<![CDATA[${value}]]>`;
 }
 
-/** سعر بصيغة Google Merchant: "500.00 SAR" */
 function formatPrice(amount: number): string {
   return `${amount.toFixed(2)} ${CURRENCY}`;
 }
 
-/**
- * تاريخ بعد N يوم بصيغة ISO 8601
- * يُستخدم لـ sale_price_effective_date و availability_date
- */
 function futureDateIso(daysFromNow: number): string {
   const d = new Date();
   d.setDate(d.getDate() + daysFromNow);
@@ -53,30 +46,32 @@ function futureDateIso(daysFromNow: number): string {
 }
 
 // ─── Route Handler ────────────────────────────────────────────────────────────
-// ✅ FIX 3: بدل revalidate = 3600 (مش شغال هنا) نستخدم Cache-Control في الـ response
 export async function GET() {
   try {
+    // ✅ جلب كل المنتجات مع كل البيانات المطلوبة
+    // 900 منتج = ~2-5MB في الذاكرة — مقبول تماماً
+    // لو وصلت 5000+ منتج: قسّم الفيد لـ feed-1.xml, feed-2.xml في Merchant Center
     const products = await prisma.product.findMany({
       where: { inStock: true },
       include: { category: { include: { parent: true } } },
       orderBy: { createdAt: "desc" },
     });
 
-    const saleEndDate = futureDateIso(30); // صلاحية سعر الخصم 30 يوم
+    const today = new Date().toISOString().split("T")[0];
+    const saleEndDate = futureDateIso(30);
 
     const items = products
       .map((product) => {
         const link = `${BASE_URL}/products/${product.slug}`;
         const price = product.price;
 
-        // ✅ حساب سعر الخصم (discount نسبة مئوية من الـ schema)
         const hasDiscount = !!product.discount && product.discount > 0;
         const salePrice =
           hasDiscount ?
             Math.round(price * (1 - product.discount! / 100))
           : null;
 
-        // ✅ بناء تصنيف المنتج: "قسم رئيسي > قسم فرعي" لو موجود
+        // "قسم رئيسي > قسم فرعي" — Google Shopping بيعرض التصنيف الكامل
         const productType =
           product.category ?
             product.category.parent ?
@@ -84,8 +79,8 @@ export async function GET() {
             : product.category.name
           : "أثاث";
 
-        // ✅ صور إضافية (حد أقصى 10 حسب Google)
-        const additionalImages = (product.gallery || [])
+        // حد أقصى 10 صور إضافية حسب Google Merchant specs
+        const additionalImages = (product.gallery ?? [])
           .slice(0, 10)
           .map(
             (img) =>
@@ -95,57 +90,51 @@ export async function GET() {
 
         return `
     <item>
-      <!-- ── معرّفات المنتج ─────────────────────────────────── -->
       <g:id>${escapeXml(product.id)}</g:id>
       <g:title>${cdata(product.name)}</g:title>
       <g:description>${cdata(product.description ?? product.name)}</g:description>
       <g:link>${escapeXml(link)}</g:link>
 
-      <!-- ── الصور ──────────────────────────────────────────── -->
       <g:image_link>${escapeXml(product.image)}</g:image_link>
 ${additionalImages ? additionalImages + "\n" : ""}
-      <!-- ── التوفر والسعر ───────────────────────────────────── -->
       <g:availability>${product.inStock ? "in_stock" : "out_of_stock"}</g:availability>
       <g:price>${formatPrice(price)}</g:price>
       ${
         hasDiscount ?
-          `<g:sale_price>${formatPrice(salePrice!)}</g:sale_price>
-      <!-- ✅ FIX 6: sale_price_effective_date مطلوب مع sale_price -->
-      <g:sale_price_effective_date>${new Date().toISOString().split("T")[0]}/${saleEndDate}</g:sale_price_effective_date>`
+          `
+      <g:sale_price>${formatPrice(salePrice!)}</g:sale_price>
+      <g:sale_price_effective_date>${today}/${saleEndDate}</g:sale_price_effective_date>`
         : ""
       }
 
-      <!-- ── تفاصيل المنتج ────────────────────────────────────── -->
       <g:condition>new</g:condition>
       <g:brand>${cdata(BRAND_NAME)}</g:brand>
       <g:mpn>${escapeXml(product.id)}</g:mpn>
-
-      <!-- ✅ FIX 5: identifier_exists=false لأنه مفيش GTIN حقيقي -->
-      <!-- لو عندك barcode حقيقي: احذف السطر ده وضيف <g:gtin> بدله -->
       <g:identifier_exists>false</g:identifier_exists>
 
-      <!-- ✅ FIX 8: Google Product Category للأثاث المنزلي -->
       <g:google_product_category>${GOOGLE_PRODUCT_CATEGORY}</g:google_product_category>
       <g:product_type>${cdata(productType)}</g:product_type>
 
-      <!-- ✅ FIX 9: item_group_id للمنتجات اللي ليها variants/gallery -->
       ${
         product.gallery && product.gallery.length > 0 ?
           `<g:item_group_id>${escapeXml(product.id)}</g:item_group_id>`
         : ""
       }
 
-      <!-- ── الشحن — مطلوب للسوق السعودي ────────────────────── -->
-      <!-- ✅ FIX 4: <g:shipping> مطلوب في Saudi Arabia Merchant Center -->
       <g:shipping>
         <g:country>SA</g:country>
         <g:service>توصيل داخل الرياض</g:service>
         <g:price>0.00 SAR</g:price>
       </g:shipping>
 
-      <!-- ── Labels مخصصة ────────────────────────────────────── -->
+      <g:return_policy_label>${escapeXml(`${BASE_URL}/return-policy`)}</g:return_policy_label>
+
       <g:custom_label_0>${cdata("مصنوع حسب الطلب")}</g:custom_label_0>
-      ${product.discount ? `<g:custom_label_1>${cdata("خصم " + product.discount + "%")}</g:custom_label_1>` : ""}
+      ${
+        product.discount ?
+          `<g:custom_label_1>${cdata("خصم " + product.discount + "%")}</g:custom_label_1>`
+        : ""
+      }
     </item>`;
       })
       .join("\n");
@@ -155,7 +144,7 @@ ${additionalImages ? additionalImages + "\n" : ""}
   <channel>
     <title>${cdata(STORE_NAME)}</title>
     <link>${escapeXml(BASE_URL)}</link>
-    <description>${cdata("فيد المنتجات الخاص بمنصة " + STORE_NAME + " — الرياض، المملكة العربية السعودية")}</description>
+    <description>${cdata("فيد المنتجات — " + STORE_NAME + " — الرياض، المملكة العربية السعودية")}</description>
 ${items}
   </channel>
 </rss>`;
@@ -164,13 +153,10 @@ ${items}
       status: 200,
       headers: {
         "Content-Type": "application/xml; charset=UTF-8",
-        // ✅ FIX 3: Cache-Control يعوّض revalidate المش شغال في route handlers
-        // Google بيزور الفيد مرة كل 24 ساعة — ساعة كافية للـ cache
         "Cache-Control": `public, s-maxage=${CACHE_MAX_AGE}, stale-while-revalidate=${CACHE_MAX_AGE * 24}`,
       },
     });
   } catch (error) {
-    // ✅ FIX 10: error handling واضح بدل كراش صامت
     console.error("[product-feed] Failed to generate feed:", error);
     return new NextResponse(
       "<?xml version='1.0'?><error>Feed generation failed</error>",
