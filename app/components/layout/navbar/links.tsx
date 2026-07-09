@@ -69,7 +69,7 @@ export default function NavLinks({
       <ul
         role="menubar"
         aria-label="الأقسام الرئيسية"
-        className="flex items-center gap-1 flex-nowrap py-2 overflow-visible"
+        className="flex items-center gap-1 flex-wrap justify-center py-2 overflow-visible"
       >
         {/* 1. رابط الرئيسية الثابت */}
         <li role="none" className="flex-shrink-0">
